@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Usuarios; 
+use Illuminate\Support\Facades\DB ;
 
 class UsuariosTableSeeder extends Seeder
 {
