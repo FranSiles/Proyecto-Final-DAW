@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Valoraciones extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'codUsuario',
+        'codJuego',
+        'puntuacion',
+    ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuarios::class, 'codUsuario');
+    }
+
+    public function juego()
+    {
+        return $this->belongsTo(Juegos::class, 'codJuego');
+    }
+}
