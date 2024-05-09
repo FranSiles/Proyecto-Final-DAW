@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.main-content {
+  display: flex;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("rokeli.jpg");
+  background-size: cover;
+  color: #000000;
+  padding: 77px;
+}
+
+.stars {
+  color: yellow;
+}
+
+.game-info h1 {
+  font-size: 90px;
+  color: white;
+}
+
+.description {
+  color: white;
+}
+
+.rating {
+  font-size: 60px;
+}
+
+/* Estilos para la columna izquierda */
+.left-column {
+  flex: 0 0 25%; /* La columna izquierda tomará el 50% del ancho del contenedor principal */
+  padding-right: 20px; /* Espacio entre columnas */
+}
+
+/* Estilos para la columna derecha */
+.right-column {
+  flex: 1; /* La columna derecha tomará el 50% del ancho del contenedor principal */
+  padding-left: 400px; /* Espacio entre columnas */
+}
+/*# sourceMappingURL=main-content.css.map */
