@@ -8,6 +8,10 @@ import { RegistroComponent } from './registro/registro.component';
 import { PaginanoencontradaComponent } from './paginanoencontrada/paginanoencontrada.component';
 import { PaginaPrincipalComponent } from './pagina-principal/pagina-principal.component';
 import { ProfileComponent } from './pagina-principal/profile/profile.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { VistaJuegoComponent } from './vista-juego/vista-juego.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +20,15 @@ import { ProfileComponent } from './pagina-principal/profile/profile.component';
     RegistroComponent,
     PaginanoencontradaComponent,
     PaginaPrincipalComponent,
-    ProfileComponent
+    ProfileComponent,
+    VistaJuegoComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
