@@ -19,7 +19,7 @@ class Comentarios extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuarios::class, 'codUsuario');
+        return $this->belongsTo(User::class, 'codUsuario');
     }
 
     public function juego()

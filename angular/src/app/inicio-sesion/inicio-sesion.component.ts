@@ -25,9 +25,9 @@ export class InicioSesionComponent {
     }
   }
 
-  envioUsuario():void{
-    console.log("Desde 'agregar producto' envio",this.usuario);
-    this.paginaservice.anadirUsuario(this.usuario);
+  loginUsuario():void{
+    console.log("Desde 'agregar usuario' envio",this.usuario);
+    this.paginaservice.verificarUsuario(this.usuario);
     this.usuario={email: '', password: ''};
   }
 }

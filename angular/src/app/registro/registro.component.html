@@ -18,30 +18,31 @@
         
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
-                    <form>
+                    <form (ngSubmit)="registroUsuario()">
                         <!-- Casilla de email -->
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="email" id="form3Example3" class="form-control" placeholder="Correo electronico"/>
+                            <input type="email" name="email" class="form-control" placeholder="Correo electronico" [(ngModel)]="usuario.email"/>
                         </div>
                         <!-- Casilla de usuario -->
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="text" id="form3Example3" class="form-control" placeholder="nombre usuario"/>
+                            <input type="text" name="nombre" class="form-control" placeholder="nombre usuario" [(ngModel)]="usuario.nombre"/>
                         </div>
                     <!-- casilla de contraseña -->
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="password" id="form3Example4" class="form-control" placeholder="Contraseña"/>
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña" [(ngModel)]="usuario.password"/>
                     </div>
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="file" accept="image/*" id="form3Example4" class="form-control"/>
+                        <input type="file" name="foto" accept="image/*" class="form-control" [(ngModel)]="usuario.foto"/>
                     </div>
                     <!-- Submit button -->
                     <div class="d-grid gap-2">
-                        <button class="btn" type="button" [routerLink]="['/registro']" routerLinkActive="router-link-active" >Crear cuenta</button>
+                        <input class="btn" type="submit" value="Registrarse">
                     </div>
+                    </form>
                     <div class="d-grid gap-2">
                         <a [routerLink]="['/inicio-sesion']">¿Ya tienes una cuenta?</a>
                     </div>
-                    </form>
+                    
                 </div>
                 </div>
             </div>

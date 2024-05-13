@@ -17,10 +17,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+     protected $table="usuarios";
+
+    protected $primaryKey = "codUsuario";
+
     protected $fillable = [
-        'name',
+        'codUsuario',
+        'nomUsuario',
         'email',
         'password',
+        'foto'
     ];
 
     /**
@@ -42,4 +49,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function comentarios(){
+        return $this->hasMany(Comentarios::class,"codUsuario")->get();
+    }
+    public function valoraciones(){
+        return $this->hasMany(Valoraciones::class,"codUsuario")->get();
+    }
 }

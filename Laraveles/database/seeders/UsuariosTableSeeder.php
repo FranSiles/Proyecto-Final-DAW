@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Usuarios; 
 use Illuminate\Support\Facades\DB ;
@@ -16,17 +17,17 @@ class UsuariosTableSeeder extends Seeder
     public function run()
     {
         // Creamos algunos usuarios ficticios
-        Usuarios::create([
+        User::create([
             'nomUsuario' => 'Usuario1',
-            'correo' => 'usuario1@example.com',
-            'contraseña' => bcrypt('password123'), // Asegúrate de cifrar la contraseña
+            'email' => 'usuario1@example.com',
+            'password' => bcrypt('password123'), // Asegúrate de cifrar la contraseña
             // Agrega otros campos según tu tabla
         ]);
 
-        Usuarios::create([
+        User::create([
             'nomUsuario' => 'Usuario2',
-            'correo' => 'usuario2@example.com',
-            'contraseña' => bcrypt('password123'),
+            'email' => 'usuario2@example.com',
+            'password' => bcrypt('password123'),
             // Agrega otros campos según tu tabla
         ]);
 

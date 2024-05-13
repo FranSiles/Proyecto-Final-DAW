@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuarios;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
    
     public function index()
     {
-        $usuarios = Usuarios::all();
+        $usuarios = User::all();
         return response()->json($usuarios);
     }
     public function create()
@@ -31,7 +33,7 @@ class UsuariosController extends Controller
         $request->validate($rules);
     
         // Crear un nuevo objeto Usuarios con los datos del formulario
-        $usuario = new Usuarios([
+        $usuario = new User([
             'codUsuario' => $request->input('codUsuario'),
             'nomUsuario' => $request->input('nomUsuario'),
             'correo' => $request->input('correo'),
@@ -52,15 +54,15 @@ class UsuariosController extends Controller
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'Usuario creado correctamente'], 201);
     }
-    public function show(Usuarios $usuarios)
+    public function show(User $usuarios)
     {
         return response()->json($usuarios);
     }  
-    public function edit(Usuarios $usuarios)
+    public function edit(User $usuarios)
     {
         //// Retorna la vista para editar un usuario (si es una aplicación web)
     }
-    public function update(Request $request, Usuarios $usuarios)
+    public function update(Request $request, User $usuarios)
 {
     // Validar los datos del formulario
     $rules = [
@@ -93,12 +95,32 @@ class UsuariosController extends Controller
     // Retornar una respuesta de éxito
     return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
 }
-    public function destroy(Usuarios $usuarios)
+    public function destroy(User $usuarios)
     {
         // Eliminar el usuario de la base de datos
         $usuarios->delete();
     
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
+    }
+    public function login(Request $request){
+        $email=$request->input('email');
+        $password=$request->input('password');
+        if (Auth::attempt(['email' => $email, 'password' => $password])):
+            /*dd(Auth::user());*/
+            return response()->json(Auth::user(),200);
+        else:
+            echo "hola";
+        endif;
+    }
+    public function registro(Request $request){
+        $email=$request->input('email');
+        $password=$request->input('password');
+        $nomUsuario=$request->input('nombre');
+        $foto=$request->input('foto');
+        User::create(['nomUsuario' => $nomUsuario,
+                            'email' => $email,
+                            'password' => Hash::make($password),
+                            'foto'=>$foto]);
     }
 }

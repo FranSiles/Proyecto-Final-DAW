@@ -12,6 +12,9 @@ export class LaravelService {
   constructor(private http: HttpClient) { }
 
   login(usuario:Usuario):Observable<Usuario>{
-    return this.http.post<Usuario>(`${this.url}/anadir`, usuario);
+    return this.http.post<Usuario>(`${this.url}/login`, usuario);
+  }
+  registro(usuario:Usuario):Observable<void>{
+    return this.http.post<void>(`${this.url}/registro`,usuario)
   }
 }

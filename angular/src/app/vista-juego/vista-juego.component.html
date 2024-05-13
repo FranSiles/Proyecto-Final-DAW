@@ -11,8 +11,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
 </head>
 <body>
     <!-- Navbar -->
@@ -36,7 +34,7 @@
                 <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>4,2
             </div>
             <div class="pegi">
-            <img src="./img/PEGI_6.svg.png" alt="PEGI" width="100px">
+            <img [src]="rutaImagen" alt="PEGI" width="100px">
             </div>
         </div>
     </div>
@@ -63,7 +61,7 @@
     <div class="caja-contenedor-comentarios">
         <div class="caja">
             <div class="usuario">
-                <img src="./img/omen.jpg" alt="">
+                <img [src]="rutaPerfil" alt="">
                 <div class="info-usuario">
                     <p>Pedro</p>
                     <div class="stars">
