@@ -32,8 +32,12 @@
   color: #1a1a1a; /* Cambia el color del texto al pasar el mouse */
 }
 
+@font-face {
+  font-family: Source Sans3;
+  src: url(../SourceSans3-Italic-VariableFont_wght.ttf);
+}
 body {
-  font-family: "Source Sans", sans-serif;
+  font-family: "Source Sans3";
   margin: 0;
 }
 

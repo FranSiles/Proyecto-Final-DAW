@@ -1,7 +1,11 @@
 // Estilos para el contenido principal
 @import 'variables';
+@font-face {
+  font-family: Source Sans3;
+  src: url(../SourceSans3-Italic-VariableFont_wght.ttf);
+}
 body {
-    font-family: 'Source Sans', sans-serif;
+    font-family: 'Source Sans3';
     margin: 0;
 }
 
@@ -147,3 +151,6 @@ h1, h2, h3 {
 .comment-textarea button:hover {
   background-color: #0056b3; /* Color de fondo del botón al pasar el ratón */
 }
+
+
+
