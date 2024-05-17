@@ -18,7 +18,7 @@
         
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
-                    <form (ngSubmit)="registroUsuario()">
+                    <form (ngSubmit)="registroUsuario()" method="POST" enctype="multipart/form-data">
                         <!-- Casilla de email -->
                         <div data-mdb-input-init class="form-outline mb-4">
                             <input type="email" name="email" class="form-control" placeholder="Correo electronico" [(ngModel)]="usuario.email"/>
@@ -32,7 +32,7 @@
                         <input type="password" name="password" class="form-control" placeholder="Contraseña" [(ngModel)]="usuario.password"/>
                     </div>
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="file" name="foto" accept="image/*" class="form-control" [(ngModel)]="usuario.foto"/>
+                        <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/><!-- Aqui es donde esta el error de la imagen ver como hacerlo mañana -->
                     </div>
                     <!-- Submit button -->
                     <div class="d-grid gap-2">

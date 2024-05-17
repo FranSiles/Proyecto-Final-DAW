@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interface/usuario';
-import{HttpClient} from '@angular/common/http'
+import{HttpClient, HttpHeaders} from '@angular/common/http'
 
 
 @Injectable({
@@ -15,6 +15,12 @@ export class LaravelService {
     return this.http.post<Usuario>(`${this.url}/login`, usuario);
   }
   registro(usuario:Usuario):Observable<void>{
-    return this.http.post<void>(`${this.url}/registro`,usuario)
+    console.log("mi usuario que enivo: ",usuario);
+    const formData = new FormData();
+    formData.append('email', usuario.email);
+    formData.append('nombre', usuario.nombre || '');
+    formData.append('password', usuario.password);
+    formData.append('foto', usuario.foto || '');
+    return this.http.post<void>(`${this.url}/registro`,formData)
   }
 }

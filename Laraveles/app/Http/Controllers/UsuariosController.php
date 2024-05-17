@@ -117,10 +117,22 @@ class UsuariosController extends Controller
         $email=$request->input('email');
         $password=$request->input('password');
         $nomUsuario=$request->input('nombre');
-        $foto=$request->input('foto');
-        User::create(['nomUsuario' => $nomUsuario,
-                            'email' => $email,
-                            'password' => Hash::make($password),
-                            'foto'=>$foto]);
+        $foto=$request->file('foto');
+        if($foto){
+            $imagen = $foto;
+            $ruta = $imagen->store('public');
+            User::create([
+                'nomUsuario' => $nomUsuario,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'foto' => $ruta 
+            ]);
+        }else{
+            User::create([
+                'nomUsuario' => $nomUsuario,
+                'email' => $email,
+                'password' => Hash::make($password)]);
+        }
+        
     }
 }

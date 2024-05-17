@@ -3,6 +3,6 @@ export interface Usuario {
     nombre?: string;
     email: string;
     password: string;
-    foto?: string;
+    foto?: File|null;
 
 }

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./paginanoencontrada.component.css']
 })
 export class PaginanoencontradaComponent {
-
+  rutaScript: string = 'assets/script.js';
 }
