@@ -15,6 +15,20 @@ anime({
     ],
     loop: true
   });
+
+  // Obtener el elemento <path> por su ID
+var path = document.getElementById('ojos2');
+
+// Obtener el rectángulo delimitador del <path>
+var bbox = path.getBBox();
+
+// Calcular el punto central
+var centerX = bbox.x + bbox.width / 2;
+var centerY = bbox.y + bbox.height / 2;
+
+console.log("Punto central X:", centerX);
+console.log("Punto central Y:", centerY);
+
 anime({
     targets: '#ojos',
   rotate: {
@@ -23,8 +37,8 @@ anime({
     easing: 'linear',
     },loop: true
   });
-
-
+  
+  
 anime({
     targets: '#ojos2',
   rotate: {

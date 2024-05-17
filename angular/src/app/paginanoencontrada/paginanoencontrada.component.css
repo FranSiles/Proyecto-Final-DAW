@@ -1,25 +1,35 @@
-<<<<<<< HEAD
-=======
+body {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+   background-color: rgb(106, 136, 220);
+}
+.content {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+}
 
->>>>>>> 5435564445d0cb3ccdf056aa63139a64542886e0
-body{
-    margin-top: 100px;
-    margin-left: 55px;
-    text-align: center;
-<<<<<<< HEAD
-=======
-    background-color: beige;
->>>>>>> 5435564445d0cb3ccdf056aa63139a64542886e0
- }
+.svg-container {
+   width: 100%;
+   max-width: 500px; /* Adjust as needed */
+   height: auto;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+svg {
+   width: 100%;
+   height: auto;
+   display: block;
+}
 
- #ojos{
-    transform-origin: 266.8933563232422px 209.9154052734375px;
- }
-
- #ojos2{
-    transform-origin: 183.60666656494144px 216.1077117919922px;
-<<<<<<< HEAD
- }
-=======
- }
->>>>>>> 5435564445d0cb3ccdf056aa63139a64542886e0
+#ojos {
+   transform-origin: 266.8933563232422px 209.9154052734375px;
+}
+#ojos2 {
+   transform-origin: 183.60666656494144px 216.1077117919922px;
+}
