@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('imagen');
             $table->integer('pegi');
-            $table->string('generoPrincipal')->nullable();
+            $table->string('generoPrincipal');
             $table->string('generoSecundario')->nullable();
             $table->string('trailer')->nullable();
             $table->string('desarrollador');

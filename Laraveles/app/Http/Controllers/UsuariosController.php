@@ -120,7 +120,8 @@ class UsuariosController extends Controller
         $foto=$request->file('foto');
         if($foto){
             $imagen = $foto;
-            $ruta = $imagen->store('public');
+            $ruta=$imagen->store('public');
+            $ruta = 'storage/' . str_replace('public/', '', $ruta);
             User::create([
                 'nomUsuario' => $nomUsuario,
                 'email' => $email,

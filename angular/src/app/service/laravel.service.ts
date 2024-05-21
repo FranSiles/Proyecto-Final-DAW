@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interface/usuario';
 import{HttpClient, HttpHeaders} from '@angular/common/http'
+import { Juego } from '../interface/juego';
 
 
 @Injectable({
@@ -22,5 +23,11 @@ export class LaravelService {
     formData.append('password', usuario.password);
     formData.append('foto', usuario.foto || '');
     return this.http.post<void>(`${this.url}/registro`,formData)
+  }
+  obtenerJuegos(): Observable<Juego[]>{
+    return this.http.get<Juego[]>(`${this.url}/juegos`);
+  }
+  obtenerJuego(id:number):Observable<Juego>{
+    return this.http.post<Juego>(`${this.url}/juego`,{codJuego:id});
   }
 }

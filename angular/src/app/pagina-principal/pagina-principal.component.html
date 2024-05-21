@@ -43,13 +43,31 @@
           </div>
         </div>
       </nav>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+      <!-- <div class="col">
+      <div class="row row-cols-1 row-cols-md-3 g-4" >
+    <div *ngFor="let juego of juegos;" id="cartas" class="card">
+        <img [src]="'http://localhost:80/'+juego.imagen" id="imagenes" class="card-img-top">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title">{{juego.nombre}}</h5>
+          <p class="card-text">{{juego.descripcion}}</p>
+          <a href="" class="btn btn-primary">ver mas</a>
         </div>
       </div>
+      </div>
+    </div> -->
+    <div class="container">
+      <div class="row">
+        <div *ngFor="let juego of juegos" style="width: 20rem;" class="col-md-4 mb-4">
+          <div class="card h-100">
+            <img [src]="'http://localhost:80/' + juego.imagen" id="imagenes" class="card-img-top" alt="{{juego.nombre}}">
+            <div class="card-body">
+              <h5 class="card-title">{{juego.nombre}}</h5>
+              <p class="card-text">{{juego.descripcion}}</p>
+              <button (click)="enviarId(juego.codJuego!)"  class="btn btn-primary">ver más</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

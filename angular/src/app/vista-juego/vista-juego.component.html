@@ -4,13 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nombre del Juego</title>
-    <link rel="stylesheet" href="./css/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <!-- Navbar -->
@@ -28,8 +22,10 @@
 
         <!-- Información del juego -->
         <div class="game-info"> 
-            <h1 style="display: block; text-align: left;">Rocket league</h1>
-            <h2>Accion,Deportes</h2>
+            <h1 style="display: block; text-align: left;">{{ juego.nombre }}</h1>
+            <h2>Desarrollador: {{juego.desarrollador}}</h2>
+            <h2 *ngIf="!juego.generoSecundario">Genero:{{juego.generoPrincipal}}</h2>
+            <h2 *ngIf="juego.generoSecundario">Genero:{{juego.generoPrincipal}},{{juego.generoSecundario}}</h2>
             <div class="rating">
                 <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>4,2
             </div>
@@ -40,12 +36,13 @@
     </div>
     <div class="right-column">
             <div class="trailer">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/KE07hpCDllU" frameborder="0" allowfullscreen></iframe>
+                <img *ngIf="!safeTrailerUrl" [src]="'http://localhost:80/' + juego.imagen" width="560" height="315">
+                <iframe *ngIf="safeTrailerUrl" width="560" height="315" [src]="safeTrailerUrl" frameborder="0" allowfullscreen></iframe>
             </div>
             <!-- Descripción del juego -->
             <div class="description">
                 <h2>Descripción del Juego</h2>
-                <p>Lorem iquia modi asdasdasdadasdasdasdalibero? Enim quia possimus fuga magnam harum veritatis optio facere nulla aspernatur! Repellendus maiores dolorum voluptatum eaque consequuntur. Molestias odio expedita eveniet officia, minima fugit eius ducimus.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum nunc vitae nisi ultricies, vitae accumsan libero eleifend. Nullam id aliquam mauris.</p>
+                <p>{{juego.descripcion}}</p>
             </div>
     </div>  
 </div>
@@ -95,11 +92,11 @@
 <section class="carrousel" id="carousel-section">
     <h1 class="heading-pasarela">JUEGOS EN TENDENCIA</h1>
 <div class="caja-carrousel">
-    <input type="radio" name="position" class="control-carrousel" checked />
-<input type="radio" name="position" class="control-carrousel" />
-<input type="radio" name="position" class="control-carrousel" />
-<input type="radio" name="position" class="control-carrousel" />
-<input type="radio" name="position" class="control-carrousel" />
+    <input type="radio" name="position" class="control-carrousel" checked>
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
     <main id="carousel">
         <div class="item">
             <img src="./img/valo.png" alt="Videojuego 1">
@@ -158,10 +155,9 @@
     <li class="menu__item"><a class="menu__link" href="#">Contact</a></li>
 
     </ul>
-    <p>&copy;2021 Nadine Coelho | All Rights Reserved</p>
 </footer>
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
 
 </body>
 </html>

@@ -13,7 +13,7 @@ class JuegosController extends Controller
     public function index()
     {
         $juegos = Juegos::all();
-        return response()->json($juegos);
+        return response()->json($juegos,200);
     }
 
     public function store(Request $request)
@@ -112,5 +112,10 @@ public function destroy(Juegos $juego)
 
     // Retornar una respuesta de éxito
     return response()->json(['message' => 'Juego eliminado correctamente'], 200);
+}
+public function obtenerJuego(Request $request){
+    $id=$request->input("codJuego");
+    $juego=juegos::find($id);
+    return response()->json($juego,200);
 }
 }

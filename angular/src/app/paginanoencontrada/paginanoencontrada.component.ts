@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { CargarScriptsService } from '../service/cargar-scripts.service'; // Ajusta la ruta según sea necesario
 
 @Component({
