@@ -1,3 +1,4 @@
+<!--  -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,11 +16,10 @@
             <li><a href="#">Contacto</a></li>
         </ul>
     </nav>
-
+   
     <!-- Contenido principal -->
     <div class="main-content">
         <div class="left-column">
-
         <!-- Información del juego -->
         <div class="game-info"> 
             <h1 style="display: block; text-align: left;">{{ juego.nombre }}</h1>
@@ -47,47 +47,42 @@
     </div>  
 </div>
 
-<!-- Antes de la sección de comentarios -->
+ <!-- Comentarios y Valoraciones -->
 <div class="comment-textarea">
-    <textarea placeholder="Deja tu comentario aquí"></textarea>
-    <button type="submit">Enviar</button>
+    <textarea placeholder="Deja tu comentario aquí" [(ngModel)]="comentarios.texto"></textarea>
+    <div class="star-wrapper">
+        <a [routerLink]="['/juego']" routerLinkActive="router-link-active"  
+           class="fas fa-star" 
+           *ngFor="let star of stars; let i = index" 
+           [class.selected]="valoracion.puntuacion > i" 
+           (click)="selectRating(i + 1)">
+        </a>
+    </div>
+    <button type="submit" (click)="enviarComentario()">Enviar</button>
 </div>
 
 <section class="comentarios" id="comentarios">
     <h1 class="heading-comentarios">COMENTARIOS</h1>
     <div class="caja-contenedor-comentarios">
-        <div class="caja">
-            <div class="usuario">
-                <img [src]="rutaPerfil" alt="">
-                <div class="info-usuario">
-                    <p>Pedro</p>
-                    <div class="stars">
-                        4,3 <div class="fas fa-star"></div>
-                    </div>
-                </div>
+      <div *ngFor="let comment of comments" class="caja">
+        <div class="usuario">
+          <img [src]="'http://localhost:80/'+ comment.usuario.foto" alt=""> <!-- Utiliza la propiedad 'foto' del objeto 'usuario' dentro de 'comment' -->
+          <div class="info-usuario">
+            <p>{{ comment.usuario.nomUsuario }}</p> <!-- Utiliza la propiedad 'nomUsuario' del objeto 'usuario' dentro de 'comment' -->
+            <div class="valoracion">
+              <p>Puntuación: {{ comment.valoracion }}</p> <!-- Muestra la puntuación del comentario -->
             </div>
-            <div class="comentario">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
-            </div>
+          </div>
         </div>
-        <div class="caja">
-            <div class="usuario">
-                <img src="./img/omen.jpg" alt="">
-                <div class="info-usuario">
-                    <p>Pedro</p>
-                    <div class="stars">
-                        4,3 <div class="fas fa-star"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="comentario">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
-            </div>
+        <div class="comentario">
+          <p>{{ comment.texto }}</p> <!-- Muestra el texto del comentario -->
         </div>
+      </div>
     </div>
-    
-</section>
+  </section>
+  
+  
+  
 
 <section class="carrousel" id="carousel-section">
     <h1 class="heading-pasarela">JUEGOS EN TENDENCIA</h1>
@@ -156,8 +151,13 @@
 
     </ul>
 </footer>
+
 <!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
 
 </body>
+<script src="https://kit.fontawesome.com/5ea815c1d0.js"></script>
+      <div class="wraper">
+        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="gitlabBilal" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff"></script>
+      </div>
 </html>

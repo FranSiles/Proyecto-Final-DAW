@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comentarios', function (Blueprint $table) {
             $table->increments('codComentario');
             $table->unsignedInteger('codUsuario');
-            $table->unsignedInteger('codJuego')->nullable();
+            $table->unsignedInteger('codJuego');
             $table->text('texto');
             $table->integer('likes')->nullable();
             $table->integer('dislike')->nullable();

@@ -10,15 +10,15 @@ import { Juego } from '../interface/juego';
 })
 export class PaginaPrincipalComponent {
   public juegos:Juego[]=[];
+  public usuario: string | null = localStorage.getItem('usuario');
   private suscripcion: Subscription | null = null;
-  constructor(private paginaservice: PaginaService){ 
-    this.paginaservice.cargarJuegos();
-  }
+  constructor(private paginaservice: PaginaService){}
   ngOnInit() {
     this.suscripcion = this.paginaservice.juegos$.subscribe(
       juegosNuevos => {
         this.juegos = juegosNuevos;
       });
+      this.paginaservice.cargarJuegos();
   }
 
   ngOnDestroy() {
@@ -27,9 +27,17 @@ export class PaginaPrincipalComponent {
     } 
   }
 
-  enviarId(id:number){
-    console.log("recibo el id numero: ", id)
-    this.paginaservice.obtenerJuego(id);
+  enviarId(codJuego:number){
+    console.log("recibo el codJuego numero: ", codJuego)
+    this.paginaservice.obtenerJuego(codJuego);
+  }
+  logout():void{
+          this.paginaservice.logout();
+  }
+  enviarIdperfil(){
+    const usuario=JSON.parse(this.usuario||"");
+    console.log("recibo el id de mi usuario: ",usuario.data.codUsuario);
+    this.paginaservice.cargarusuario(usuario.data.codUsuario);
   }
 
 }

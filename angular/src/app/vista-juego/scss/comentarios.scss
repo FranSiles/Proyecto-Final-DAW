@@ -1,4 +1,3 @@
-@import 'variables';
 .comentarios h1{
   text-align: center;
 }
@@ -70,4 +69,36 @@
     .comentarios .caja-contenedor-comentarios .caja .usuario {
         margin-bottom: 1rem;
     }
+  }
+
+  .star-wrapper {
+    top: 50%;
+    left: 50%;
+    direction: rtl;
+  }
+  .star-wrapper a {
+    font-size: 3em;
+    color: #000000;
+    text-decoration: none;
+    transition: all 0.5s;
+    margin: 4px;
+  }
+  .star-wrapper a:hover {
+    color: gold;
+    transform: scale(1.3);
+  }
+  .s1:hover ~ a {
+    color: gold;
+  }
+  .s2:hover ~ a {
+    color: gold;
+  }
+  .s3:hover ~ a {
+    color: gold;
+  }
+  .s4:hover ~ a {
+    color: gold;
+  }
+  .s5:hover ~ a {
+    color: gold;
   }

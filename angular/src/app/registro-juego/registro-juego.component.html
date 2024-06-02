@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <form id="formulario" (ngSubmit)="registroJuego()" method="POST" enctype="multipart/form-data">
+        <!-- monbre juego input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" name="nombre" class="form-control" placeholder="nombre del juego" [(ngModel)]="juego.nombre"/>
+        </div>
+        <!-- genero principal input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" name="generoPrincipal" class="form-control" placeholder="genero principal" [(ngModel)]="juego.generoPrincipal"/>
+        </div>
+        <!-- genero secundario input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" name="generoSecundario" class="form-control" placeholder="genero secundario" [(ngModel)]="juego.generoSecundario"/>
+        </div>
+        <div class="form-outline mb-4">
+            <select class="form-control" name="pegi" [(ngModel)]="juego.pegi" placeholder="pegi">
+                <option value="3">3</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+            </select>
+        </div>
+        <!-- trailer input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" name="trailer" class="form-control" placeholder="trailer" [(ngModel)]="juego.trailer"/>
+        </div>
+        <!-- desarrollador input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" name="desarrollador" class="form-control" placeholder="desarrollador" [(ngModel)]="juego.desarrollador"/>
+        </div>
+        <!-- imagen input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="file" name="imagen" accept="image/*" class="form-control" (change)="onFileSelected($event)"/>
+        </div>
+        <!-- descripcion input -->
+        <div data-mdb-input-init class="form-outline mb-4">
+            <textarea class="form-control" name="descripcion" rows="4" placeholder="descripcion" [(ngModel)]="juego.descripcion"></textarea>
+        </div>
+        <!-- Submit button -->
+        <input type="submit" class="btn btn-primary btn-block mb-4" value="Enviar">
+        </form>
+</body>
+</html>

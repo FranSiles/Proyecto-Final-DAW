@@ -54,9 +54,10 @@ class UsuariosController extends Controller
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'Usuario creado correctamente'], 201);
     }
-    public function show(User $usuarios)
+    public function show($codUsuario)
     {
-        return response()->json($usuarios);
+        $usuario=User::find($codUsuario);
+        return response()->json($usuario);
     }  
     public function edit(User $usuarios)
     {
@@ -95,23 +96,12 @@ class UsuariosController extends Controller
     // Retornar una respuesta de éxito
     return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
 }
-    public function destroy(User $usuarios)
-    {
-        // Eliminar el usuario de la base de datos
-        $usuarios->delete();
-    
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Usuario eliminado correctamente'], 200);
-    }
-    public function login(Request $request){
-        $email=$request->input('email');
-        $password=$request->input('password');
-        if (Auth::attempt(['email' => $email, 'password' => $password])):
-            /*dd(Auth::user());*/
-            return response()->json(Auth::user(),200);
-        else:
-            echo "hola";
-        endif;
+    public function destroy($id,Request $request){
+        $usuario = User::where('codUsuario', $id)->first();
+        $usuarioeliminotoken = $request->user();
+        $usuarioeliminotoken->currentAccessToken()->delete();
+        $usuario->delete();
+        /* return response()->json(['message' => 'Usuario eliminado correctamente'], 200); */
     }
     public function registro(Request $request){
         $email=$request->input('email');

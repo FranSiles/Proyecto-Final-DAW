@@ -18,7 +18,7 @@ class JuegosController extends Controller
 
     public function store(Request $request)
     {
-        // Validar los datos del formulario
+        /* // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required',
             'descripcion' => 'required',
@@ -53,13 +53,33 @@ class JuegosController extends Controller
         $juego->save();
 
         // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Juego creado correctamente'], 201);
+        return response()->json(['message' => 'Juego creado correctamente'], 201); */
+        $nombre=$request->input('nombre');
+        $descripcion=$request->input('descripcion');
+        $pegi=$request->input('pegi');
+        $imagen=$request->file('imagen');
+        $generoPrincipal=$request->input('generoPrincipal');
+        $generoSecundario=$request->input('generoSecundario');
+        $trailer=$request->input('trailer');
+        $desarrollador=$request->input('desarrollador');
+        $ruta=$imagen->store('public');
+        $ruta = 'storage/' . str_replace('public/', '', $ruta);
+        $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+        juegos::create(['nombre'=>$nombre,
+                        'descripcion'=>$descripcion,
+                        'imagen'=>$ruta,
+                        'pegi'=>$pegi,
+                        'generoPrincipal'=>$generoPrincipal,
+                        'generoSecundario'=>$generoSecundario,
+                        'trailer'=>$trailer,
+                        'desarrollador'=>$desarrollador
+        ]);
     }
 
-    public function show(Juegos $juego)
+    public function show($codJuego)
 {
-    // Retorna los detalles del juego en formato JSON
-    return response()->json($juego);
+    $juego=juegos::find($codJuego);
+    return response()->json($juego,200);
 }
 
 public function edit(Juegos $juego)
@@ -117,5 +137,28 @@ public function obtenerJuego(Request $request){
     $id=$request->input("codJuego");
     $juego=juegos::find($id);
     return response()->json($juego,200);
+}
+public function anadirJuego(Request $request){
+    $nombre=$request->input('nombre');
+    $descripcion=$request->input('descripcion');
+    $pegi=$request->input('pegi');
+    $imagen=$request->file('imagen');
+    $generoPrincipal=$request->input('generoPrincipal');
+    $generoSecundario=$request->input('generoSecundario');
+    $trailer=$request->input('trailer');
+    $desarrollador=$request->input('desarrollador');
+    $ruta=$imagen->store('public');
+    $ruta = 'storage/' . str_replace('public/', '', $ruta);
+    $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+    juegos::create(['nombre'=>$nombre,
+                    'descripcion'=>$descripcion,
+                    'imagen'=>$ruta,
+                    'pegi'=>$pegi,
+                    'generoPrincipal'=>$generoPrincipal,
+                    'generoSecundario'=>$generoSecundario,
+                    'trailer'=>$trailer,
+                    'desarrollador'=>$desarrollador
+    ]);
+    /* 'codJuego','nombre','descripcion','imagen','pegi','generoPrincipal','generoSecundario','trailer','desarrollador' */
 }
 }

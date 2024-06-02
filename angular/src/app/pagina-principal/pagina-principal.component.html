@@ -32,8 +32,14 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+              <li class="nav-item" *ngIf="usuario">
+                <a [routerLink]="['/registrojuego']" class="nav-link">Registrar juego</a>
+              </li>
+              <li class="nav-item" *ngIf="usuario">
+                <a [routerLink]="['/paginaprincipal']" class="nav-link" (click)="enviarIdperfil()">perfil</a>
+              </li>
+              <li class="nav-item" *ngIf="usuario">
+                <a [routerLink]="['/paginaprincipal']" class="nav-link" (click)="logout()">Cerrar Sesion</a>
               </li>
             </ul>
             <form class="d-flex" role="search">
@@ -55,13 +61,14 @@
       </div>
       </div>
     </div> -->
-    <div class="container">
+    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100">
       <div class="row">
         <div *ngFor="let juego of juegos" style="width: 20rem;" class="col-md-4 mb-4">
           <div class="card h-100">
             <img [src]="'http://localhost:80/' + juego.imagen" id="imagenes" class="card-img-top" alt="{{juego.nombre}}">
             <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
+              <h6 class="card-title">desarrollador:{{juego.desarrollador}}</h6>
               <p class="card-text">{{juego.descripcion}}</p>
               <button (click)="enviarId(juego.codJuego!)"  class="btn btn-primary">ver más</button>
             </div>

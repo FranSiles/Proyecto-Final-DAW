@@ -25,14 +25,14 @@
                         </div>
                         <!-- Casilla de usuario -->
                         <div data-mdb-input-init class="form-outline mb-4">
-                            <input type="text" name="nombre" class="form-control" placeholder="nombre usuario" [(ngModel)]="usuario.nombre"/>
+                            <input type="text" name="nombre" class="form-control" placeholder="nombre usuario" [(ngModel)]="usuario.nomUsuario"/>
                         </div>
                     <!-- casilla de contraseña -->
                     <div data-mdb-input-init class="form-outline mb-4">
                         <input type="password" name="password" class="form-control" placeholder="Contraseña" [(ngModel)]="usuario.password"/>
                     </div>
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/><!-- Aqui es donde esta el error de la imagen ver como hacerlo mañana -->
+                        <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/>
                     </div>
                     <!-- Submit button -->
                     <div class="d-grid gap-2">
@@ -40,7 +40,7 @@
                     </div>
                     </form>
                     <div class="d-grid gap-2">
-                        <a [routerLink]="['/inicio-sesion']">¿Ya tienes una cuenta?</a>
+                        <a [routerLink]="['/iniciosesion']">¿Ya tienes una cuenta?</a>
                     </div>
                     
                 </div>

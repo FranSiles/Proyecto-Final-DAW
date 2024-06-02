@@ -4,18 +4,21 @@ import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
 import { RegistroComponent } from './registro/registro.component';
 import { PaginanoencontradaComponent } from './paginanoencontrada/paginanoencontrada.component';
 import { PaginaPrincipalComponent } from './pagina-principal/pagina-principal.component';
-import { ProfileComponent } from './pagina-principal/profile/profile.component';
+import { ProfileComponent } from './profile/profile.component';
 import { VistaJuegoComponent } from './vista-juego/vista-juego.component';
+import { RegistroJuegoComponent } from './registro-juego/registro-juego.component';
+import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
+import { CambiarContrasenaComponent } from './cambiar-contrasena/cambiar-contrasena.component';
 
 const routes: Routes = [
   {
-    path: 'inicio-sesion', component: InicioSesionComponent
+    path: 'iniciosesion', component: InicioSesionComponent
   },
   {
     path: 'registro', component: RegistroComponent
   },
   {
-    path: 'pagina-principal', component: PaginaPrincipalComponent
+    path: 'paginaprincipal', component: PaginaPrincipalComponent
   },
   {
     path: 'perfil',component: ProfileComponent
@@ -24,8 +27,17 @@ const routes: Routes = [
     path: 'juego', component: VistaJuegoComponent
   },
   {
+    path: 'registrojuego', component:RegistroJuegoComponent
+  },
+  {
+    path:'modificarusuario',component:ModificarUsuarioComponent
+  },
+  {
+    path:'cambiarcontraseña',component:CambiarContrasenaComponent
+  },
+  {
     path: '',
-    redirectTo: 'inicio-sesion',
+    redirectTo: 'iniciosesion',
     pathMatch: 'full'
   },
   {

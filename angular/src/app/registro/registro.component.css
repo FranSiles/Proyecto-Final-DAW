@@ -42,6 +42,10 @@
     background-color: purple;
     color: white;
   }
+  .btn:hover{
+    background-color: purple;
+    color: white;
+  }
   section{
     height: 100vh;
   }

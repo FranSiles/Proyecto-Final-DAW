@@ -5,13 +5,15 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import {LaravelService} from './laravel.service'
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Comentarios } from '../interface/comentario';
+import { Valoracion } from '../interface/valoracion';
 @Injectable({
   providedIn: 'root'
 })
 export class PaginaService {
     private _juegos: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
     private _juego = new BehaviorSubject<Juego>({nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: ''});
-    private _usuario = new Subject<Usuario>();
+    private _usuario = new Subject<Usuario>();/*subject funciona perfecto ahi que probar a hacer subject con los juegos*/
     usuario$=this._usuario.asObservable();
     juegos$ = this._juegos.asObservable();
     juego$=this._juego.asObservable();
@@ -21,8 +23,8 @@ export class PaginaService {
       this.laravelservice.login(usuario).subscribe({
         next: (usuarioLogueado: Usuario)=>{
           console.log("Usuario logueado:", usuarioLogueado);
-          this._usuario.next(usuarioLogueado);
-          this.router.navigate(['/pagina-principal']);
+          localStorage.setItem('usuario',JSON.stringify(usuarioLogueado));
+          this.router.navigate(['/paginaprincipal']);
         },
         error: (error: any) => {
           console.error("Error al registro de usuario:", error);
@@ -33,7 +35,7 @@ export class PaginaService {
       console.log("añado: ",usuario)
       this.laravelservice.registro(usuario).subscribe({
         next: ()=>{
-          this.router.navigate(['/inicio-sesion']);
+          this.router.navigate(['/iniciosesion']);
         },
         error: (error: any) => {
           console.error("Error al registro de usuario:", error);
@@ -49,8 +51,8 @@ export class PaginaService {
       ).subscribe();
       
     }
-    obtenerJuego(id:number){
-      this.laravelservice.obtenerJuego(id).subscribe({
+    obtenerJuego(codJuego:number){
+      this.laravelservice.obtenerJuego(codJuego).subscribe({
         next:(juego:Juego)=>{
           this._juego.next(juego);
           console.log("el juego recibido es ",this._juego);
@@ -61,5 +63,78 @@ export class PaginaService {
           console.error("Error al obtener juego:", error);
         }
       })
+    }
+    anadirJuego(juego:Juego){
+      this.laravelservice.anadirJuego(juego).subscribe({
+        next: ()=>{
+          this.router.navigate(['/paginaprincipal']);
+        },
+        error: (error: any) => {
+          console.error("error registro juego:", error);
+        }
+      })
+    }
+    logout(){
+      this.laravelservice.logout().subscribe({
+        next: ()=>{
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('juego');
+          this.router.navigate(['/iniciosesion']);
+        },
+        error: (error: any) => {
+          console.error("error al cerrar sesion:", error);
+        }
+      });
+    }
+    cargarusuario(codUsuario:number){
+      this.laravelservice.obtenerusuario(codUsuario).subscribe({
+        next:(usuario:Usuario)=>{
+          localStorage.setItem('usuarioperfil',JSON.stringify(usuario));
+          this.router.navigate(['/perfil']);
+        },
+        error: (error: any) => {
+          console.error("error al cargar usuario:", error);
+        }
+      });
+    }
+    eliminarUsuario(codUsuario:number){
+      console.log("El codigo que llega a pagina servcie es: ",codUsuario);
+      this.laravelservice.eliminarUsuario(codUsuario).subscribe({
+        next:()=>{
+          localStorage.removeItem('usuariorespuesta');
+          localStorage.removeItem('juego');
+          localStorage.removeItem('usuariorespuesta');
+          this.router.navigate(['/iniciosesion']);
+        },error: (error: any) => {
+          console.error("error al cargar usuario:", error);
+        }
+      });
+    }
+    anadircomentario(comentario:Comentarios,valoracion:Valoracion){
+      console.log("hola recibo a homelo chino: ",comentario);
+      console.log("puntuacion GOOOOOOOOOOOOOOOOOOOOOD: ",valoracion);
+      this.laravelservice.submitComment(comentario).subscribe({
+        next: ()=>{
+          this.router.navigate(['/paginaprincipal']);
+        },
+        error: (error: any) => {
+          console.error("Error al registro de comentrario:", error);
+        }
+      })
+      this.laravelservice.submitRating(valoracion).subscribe({
+        next: ()=>{
+          this.router.navigate(['/paginaprincipal']);
+        },
+        error: (error: any) => {
+          console.error("Error al registro de valoracion:", error);
+        }
+      })
+    }
+
+    obtenerComentarios(codJuego:number){//¿Es mejor usar observable?
+      return this.laravelservice.obtenerComentarios(codJuego);
+    }
+    obtenerRating(codJuego:number){//¿Es mejor usar observable?
+      return this.laravelservice.obtenerValoraciones(codJuego);
     }
 }

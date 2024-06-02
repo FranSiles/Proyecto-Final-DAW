@@ -10,7 +10,7 @@
     <div>
         
     <section id="seccion" style="background-color: blue;">
-            <button type="button" [routerLink]="['/pagina-principal']" class="btn btn-primary">
+            <button type="button" (click)="volver()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
         <div class="container py-5">
@@ -18,9 +18,8 @@
                 <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                        class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">John Smith</h5>
+                        <img [src]="'http://localhost:80/' + usuario.foto" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">{{usuario.nomUsuario!}}</h5>
                     </div>
                 </div>
                 </div>
@@ -29,19 +28,10 @@
                     <div class="card-body">
                     <div class="row">
                     <div class="col-sm-3">
-                        <p class="mb-0">Nombre</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">Johnatan Smith</p>
-                    </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                    <div class="col-sm-3">
                         <p class="mb-0">Email</p>
                     </div>
                     <div class="col-sm-9">
-                        <p class="text-muted mb-0">example@example.com</p>
+                        <p class="text-muted mb-0">{{usuario.email!}}</p>
                     </div>
                     </div>
                     <hr>
@@ -50,7 +40,7 @@
                         <p class="mb-0">Nombre usuario</p>
                     </div>
                     <div class="col-sm-9">
-                        <p class="text-muted mb-0">John05</p>
+                        <p class="text-muted mb-0">{{usuario.nomUsuario!}}</p>
                     </div>
                     </div>
                     <hr>
@@ -58,10 +48,28 @@
                     <div class="col-sm-3">
                         <p class="mb-0">contraseña</p>
                     </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">**********</p>
+                    <div id="editable" class="col-sm-9">
+                        <button id="boton" class="btn btn-primary" [routerLink]="['/cambiarcontraseña']">cambiar contraseña</button>
                     </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Eliminar usuario</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <button  class="btn btn-danger" (click)="eliminarId(usuario.codUsuario!)">Eliminar usuario</button>
+                        </div>
+                        </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">modificar usuario</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <button  class="btn btn-primary" [routerLink]="['/modificarusuario']">modificar usuario</button>
+                        </div>
+                        </div>
                 </div>
                 </div>
             </div>

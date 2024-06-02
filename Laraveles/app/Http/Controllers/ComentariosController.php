@@ -13,20 +13,28 @@ class ComentariosController extends Controller
         return response()->json($comentarios);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        // Validar los datos de entrada si es necesario
         $request->validate([
-            'codUsuario' => 'required|exists:usuarios,codUsuario',
-            'codJuego' => 'nullable|exists:juegos,codJuego',
-            'texto' => 'required',
-            'likes' => 'nullable|integer',
-            'dislike' => 'nullable|integer',
+            'texto' => 'required|string',
+            'codUsuario' => 'required|integer',
+            'codJuego' => 'required|integer',
         ]);
-
-        $comentario = Comentarios::create($request->all());
-
-        return response()->json(['message' => 'Comentario creado correctamente'], 201);
+        
+        // Crear el comentario usando asignación en masa
+        $comentario = new Comentarios([
+            'texto' => $request->input('texto'),
+            'codUsuario' => $request->input('codUsuario'),
+            'codJuego' => $request->input('codJuego'),
+            'likes' => 0, // Inicializamos likes a 0
+            'dislike' => 0, // Inicializamos dislikes a 0
+        ]);
+    
+        $comentario->save(); // Guarda el comentario en la base de datos
+    
+        return response()->json(['message' => 'Comentario creado exitosamente']);
     }
+    
 
     public function show(Comentarios $comentario)
     {
@@ -52,5 +60,20 @@ class ComentariosController extends Controller
         $comentario->delete();
 
         return response()->json(['message' => 'Comentario eliminado correctamente'], 200);
+    }
+
+    public function getComentarios($id)
+    {
+        $comentarios = Comentarios::where('codJuego', $id)
+            ->with(['usuario' => function ($query) {
+                $query->select('codUsuario', 'foto','nomUsuario'); // Asumiendo que 'fotoPerfil' es el nombre de la columna en la tabla 'usuarios'
+            }])
+            ->get(['codComentario', 'codUsuario', 'codJuego', 'texto', 'likes', 'dislike']);
+    
+        if ($comentarios->isEmpty()) {
+            return response()->json(['message' => 'No comments found'], 404);
+        }
+    
+        return response()->json($comentarios);
     }
 }

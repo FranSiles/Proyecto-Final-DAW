@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('valoraciones', function (Blueprint $table) {
             $table->increments('codValoracion');
             $table->unsignedInteger('codUsuario');
-            $table->unsignedInteger('codJuego')->nullable();
+            $table->unsignedInteger('codJuego');
             $table->integer('puntuacion');
             $table->timestamps();
 

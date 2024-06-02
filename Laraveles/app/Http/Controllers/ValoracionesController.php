@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Valoraciones;
 use Illuminate\Http\Request;
 
+
 class ValoracionesController extends Controller
 {
     public function index()
@@ -16,14 +17,21 @@ class ValoracionesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'codUsuario' => 'required|exists:usuarios,codUsuario',
-            'codJuego' => 'nullable|exists:juegos,codJuego',
             'puntuacion' => 'required|integer|min:1|max:5',
+            'codUsuario' => 'required|exists:usuarios,codUsuario',
+            'codJuego' => 'required|exists:juegos,codJuego'
         ]);
 
-        $valoracion = Valoraciones::create($request->all());
+        // Crear la valoración usando asignación en masa
+        $valoracion = new Valoraciones([
+            'puntuacion' => $request->input('puntuacion'),
+            'codUsuario' => $request->input('codUsuario'),
+            'codJuego' => $request->input('codJuego')
+        ]);
 
-        return response()->json(['message' => 'Valoración creada correctamente'], 201);
+        $valoracion->save(); // Guarda la valoración en la base de datos
+
+        return response()->json(['message' => 'Valoración guardada con éxito'], 201);
     }
 
     public function show(Valoraciones $valoracion)
@@ -50,5 +58,19 @@ class ValoracionesController extends Controller
 
         return response()->json(['message' => 'Valoración eliminada correctamente'], 200);
     }
+
+    public function getValoraciones($id)
+{
+    $valoraciones = Valoraciones::where('codJuego', $id)
+        ->with(['usuario' => function ($query) {
+            $query->select('codUsuario', 'foto', 'nomUsuario'); // Asumiendo que 'foto' y 'nomUsuario' son nombres de columnas en la tabla 'usuarios'
+        }])
+        ->get(['codValoracion', 'codUsuario', 'codJuego', 'puntuacion']);
+
+    if ($valoraciones->isEmpty()) {
+        return response()->json(['message' => 'No ratings found'], 404);
+    }
+
+    return response()->json($valoraciones);
 }
-        
+}

@@ -1,8 +1,9 @@
 export interface Usuario {
-    id?: number;
-    nombre?: string;
-    email: string;
-    password: string;
+    codUsuario?: number;
+    nomUsuario?: string;
+    token?: string;
+    email?: string;
+    password?: string;
     foto?: File|null;
 
 }

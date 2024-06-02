@@ -42,6 +42,10 @@
   background-color: purple;
   color: white;
 }
+.btn:hover{
+  background-color: purple;
+  color: white;
+}
 section{/*mirar porque no funciona para movil*/
   height: 100vh;
 }
