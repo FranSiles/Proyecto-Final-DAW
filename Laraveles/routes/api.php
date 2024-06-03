@@ -40,3 +40,4 @@ Route::post('/subircomentarios', [ComentariosController::class, 'store']);
 Route::get('/comentarios/{id}', [ComentariosController::class, 'getComentarios']);
 Route::post('/subirvaloraciones', [ValoracionesController::class, 'store']);
 Route::get('/valoraciones/{id}', [ValoracionesController::class, 'getValoraciones']);
+Route::get('/valoracionesgrafica', [ValoracionesController::class, 'obtenerValoracionesJuego']);

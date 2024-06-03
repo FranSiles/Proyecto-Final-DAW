@@ -73,4 +73,17 @@ class ValoracionesController extends Controller
 
     return response()->json($valoraciones);
 }
+
+public function obtenerValoracionesJuego($codJuego)
+{
+    $valoraciones = Valoraciones::where('codJuego', $codJuego)->get();
+
+    $counts = [0, 0, 0, 0, 0];
+    foreach ($valoraciones as $valoracion) {
+        $counts[$valoracion->puntuacion - 1]++;
+    }
+
+    return response()->json(['counts' => $counts]);
+
+}
 }
