@@ -98,6 +98,7 @@ h1, h2, h3 {
 }
 
 /* Estilos para el área de texto de comentarios */
+/* Estilos para el área de texto de comentarios */
 .comment-textarea {
   text-align: center; /* Centra el textarea */
   margin-bottom: 20px; /* Espacio entre el textarea y la sección de comentarios */
@@ -120,22 +121,23 @@ h1, h2, h3 {
 
 .comment-textarea textarea::placeholder {
   color: #999; /* Color del texto de marcador de posición */
-  opacity: 0.8; /* Opacidad del texto de marcador de posición */
 }
 
-.comment-textarea {
-  text-align: center; /* Centra el contenido */
+.comment-textarea .star-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
-.comment-textarea textarea {
-  width: 80%; /* Ancho del textarea */
-  height: 150px; /* Altura del textarea */
-  padding: 10px; /* Espaciado interno */
-  border: 1px solid #ccc; /* Borde */
-  border-radius: 5px; /* Bordes redondeados */
-  resize: none; /* Evita que el textarea sea redimensionable */
-  font-family: 'Source Sans Pro', sans-serif; /* Fuente */
-  font-size: 16px; /* Tamaño de fuente */
-  outline: none; /* Quita el contorno al hacer clic */
+
+.comment-textarea .fas.fa-star {
+  font-size: 44px;
+  color: #000000; /* Color de las estrellas no seleccionadas */
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.comment-textarea .fas.fa-star.selected {
+  color: #FFD700; /* Color de las estrellas seleccionadas */
 }
 
 .comment-textarea button {
@@ -149,8 +151,10 @@ h1, h2, h3 {
 }
 
 .comment-textarea button:hover {
-  background-color: #0056b3; /* Color de fondo del botón al pasar el ratón */
+  background-color: #365575; /* Color de fondo del botón al pasar el ratón */
 }
 
-
-
+.chart-container {
+  width: 100%;
+  height: 400px; /* Ajusta la altura según tus necesidades */
+}

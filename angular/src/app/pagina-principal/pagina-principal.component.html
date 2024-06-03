@@ -65,7 +65,7 @@
       <div class="row">
         <div *ngFor="let juego of juegos" style="width: 20rem;" class="col-md-4 mb-4">
           <div class="card h-100">
-            <img [src]="'http://localhost:80/' + juego.imagen" id="imagenes" class="card-img-top" alt="{{juego.nombre}}">
+            <img [src]="'http://127.0.0.1:8000' + juego.imagen" id="imagenes" class="card-img-top" alt="{{juego.nombre}}">
             <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
               <h6 class="card-title">desarrollador:{{juego.desarrollador}}</h6>

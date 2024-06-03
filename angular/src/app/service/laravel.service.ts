@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
   providedIn: 'root'
 })
 export class LaravelService {
-  private url= "http://localhost:80/api"
+  private url= "http://127.0.0.1:8000/api"
   constructor(private http: HttpClient) { }
 
   login(usuario:Usuario):Observable<Usuario>{
@@ -47,7 +47,7 @@ export class LaravelService {
     formData.append('trailer', juego.trailer || '');
     formData.append('desarrollador', juego.desarrollador);
     console.log("juego que envio: ",formData);
-    const usuariorespuesta = localStorage.getItem('usuariorespuesta');
+    const usuariorespuesta = localStorage.getItem('usuario');
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
@@ -58,7 +58,7 @@ export class LaravelService {
     return this.http.post<void>(`${this.url}/registrojuego`,formData,{ headers });
   }
   logout(): Observable<void>{
-    const usuariorespuesta = localStorage.getItem('usuariorespuesta');
+    const usuariorespuesta = localStorage.getItem('usuario');
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
@@ -69,7 +69,7 @@ export class LaravelService {
     return this.http.post<void>(`${this.url}/logout`, null, { headers });
   }
   obtenerusuario(codUsuario:number):Observable<Usuario>{
-    const usuariorespuesta = localStorage.getItem('usuariorespuesta');
+    const usuariorespuesta = localStorage.getItem('usuario');
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
@@ -80,7 +80,7 @@ export class LaravelService {
     return this.http.get<Usuario>(`${this.url}/usuarios/${codUsuario}`,{ headers });
   }
   eliminarUsuario(codUsuario:number):Observable<any>{
-    const usuariorespuesta = localStorage.getItem('usuariorespuesta');
+    const usuariorespuesta = localStorage.getItem('usuario');
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
@@ -111,5 +111,9 @@ export class LaravelService {
   }
   obtenerValoraciones(codJuego:number): Observable<Comentarios[]> {
     return this.http.get<Comentarios[]>(`${this.url}/valoraciones/${codJuego}`);
+  }
+
+  obtenerTodasValoraciones(): Observable<Valoracion[]> {
+    return this.http.get<Valoracion[]>(`${this.url}/valoracionesgrafica`);
   }
 }
