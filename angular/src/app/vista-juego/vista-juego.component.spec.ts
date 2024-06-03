@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VistaJuegoComponent } from './vista-juego.component';
-
 describe('VistaJuegoComponent', () => {
   let component: VistaJuegoComponent;
   let fixture: ComponentFixture<VistaJuegoComponent>;

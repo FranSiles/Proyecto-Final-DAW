@@ -1,11 +1,10 @@
-<!--  -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nombre del Juego</title>
-    
+
 </head>
 <body>
     <!-- Navbar -->
@@ -46,32 +45,34 @@
             </div>
     </div>  
 </div>
+<div id="chart_div"  class="chart-container"></div>
 
- <!-- Comentarios y Valoraciones -->
 <div class="comment-textarea">
     <textarea placeholder="Deja tu comentario aquí" [(ngModel)]="comentarios.texto"></textarea>
     <div class="star-wrapper">
-        <a [routerLink]="['/juego']" routerLinkActive="router-link-active"  
-           class="fas fa-star" 
-           *ngFor="let star of stars; let i = index" 
-           [class.selected]="valoracion.puntuacion > i" 
-           (click)="selectRating(i + 1)">
-        </a>
+      <a [routerLink]="['/juego']" routerLinkActive="router-link-active"
+         class="fas fa-star"
+         *ngFor="let star of reversedStars; let i = index"
+         [class.selected]="valoracion.puntuacion > (stars.length - 1 - i)"
+         (click)="selectRating(stars.length - i)">
+      </a>
     </div>
     <button type="submit" (click)="enviarComentario()">Enviar</button>
-</div>
+  </div>
+  
 
-<section class="comentarios" id="comentarios">
+  <section class="comentarios" id="comentarios">
     <h1 class="heading-comentarios">COMENTARIOS</h1>
     <div class="caja-contenedor-comentarios">
       <div *ngFor="let comment of comments" class="caja">
         <div class="usuario">
-          <img [src]="'http://localhost:80/'+ comment.usuario.foto" alt=""> <!-- Utiliza la propiedad 'foto' del objeto 'usuario' dentro de 'comment' -->
+          <img [src]="comment.usuario.foto" alt=""> <!-- Utiliza la propiedad 'foto' del objeto 'usuario' dentro de 'comment' -->
           <div class="info-usuario">
             <p>{{ comment.usuario.nomUsuario }}</p> <!-- Utiliza la propiedad 'nomUsuario' del objeto 'usuario' dentro de 'comment' -->
             <div class="valoracion">
               <p>Puntuación: {{ comment.valoracion }}</p> <!-- Muestra la puntuación del comentario -->
             </div>
+            <button class="like-button">Me gusta</button>
           </div>
         </div>
         <div class="comentario">
@@ -80,6 +81,7 @@
       </div>
     </div>
   </section>
+  
   
   
   
