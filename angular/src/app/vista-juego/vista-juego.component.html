@@ -66,21 +66,28 @@
     <div class="caja-contenedor-comentarios">
       <div *ngFor="let comment of comments" class="caja">
         <div class="usuario">
-          <img [src]="comment.usuario.foto" alt=""> <!-- Utiliza la propiedad 'foto' del objeto 'usuario' dentro de 'comment' -->
+          <img [src]="comment.usuario.foto" alt="">
           <div class="info-usuario">
-            <p>{{ comment.usuario.nomUsuario }}</p> <!-- Utiliza la propiedad 'nomUsuario' del objeto 'usuario' dentro de 'comment' -->
+            <p>{{ comment.usuario.nomUsuario }}</p>
             <div class="valoracion">
-              <p>Puntuación: {{ comment.valoracion }}</p> <!-- Muestra la puntuación del comentario -->
+              <p>{{ comment.valoracion }}</p>
+              <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
             </div>
-            <button class="like-button">Me gusta</button>
           </div>
         </div>
         <div class="comentario">
-          <p>{{ comment.texto }}</p> <!-- Muestra el texto del comentario -->
+          <p>{{ comment.texto }}</p>
         </div>
+        <button class="like-button"> <!-- aqui manda la funcion -->
+          <i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
+        </button>
       </div>
     </div>
   </section>
+  
+  
+  
+  
   
   
   

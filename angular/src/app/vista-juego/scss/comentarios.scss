@@ -1,127 +1,155 @@
-.comentarios h1{
+.comentarios h1 {
   text-align: center;
 }
+
 .comentarios .caja-contenedor-comentarios {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Ajustamos la justificación al centro */
-    flex-wrap: wrap;
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja {
-    background: rgba(18, 33, 74, 1);
-    text-align: center;
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 60px;
-    position: relative;
-    border: .1rem solid rgb(0, 191, 255);
-    box-shadow: 0 .5rem 1rem rgb(129, 129, 129);
-    display: flex;
-    flex-direction: row; /* Ajustamos la dirección a horizontal */
-    align-items: center; /* Alineamos los elementos verticalmente */
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .usuario {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem; /* Espacio entre la imagen y el nombre */
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .usuario img {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 80%;
-    object-fit: cover;
-    margin: 10px;
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .info-usuario {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Ajustamos la alineación a la izquierda */
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .info-usuario p {
-    color: $color-titulo;
-    margin: 0; /* Quitamos el margen */
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .comentario {
-    flex: 1; /* Hacemos que el comentario ocupe el espacio restante */
-    text-align: center; /* Centramos el texto del comentario */
-  }
-  
-  .comentarios .caja-contenedor-comentarios .caja .comentario p {
-    color: $color-titulo;
-  }
-  
-  @media only screen and (max-width: 946px) {
-    .comentarios .caja-contenedor-comentarios {
-        justify-content: flex-start;
-    }
-  
-    .comentarios .caja-contenedor-comentarios .caja {
-        flex-direction: column;
-        align-items: center;
-    }
-  
-    .comentarios .caja-contenedor-comentarios .caja .usuario {
-        margin-bottom: 1rem;
-    }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
-  .star-wrapper {
-    top: 50%;
-    left: 50%;
-    direction: rtl;
-  }
-  .star-wrapper a {
-    font-size: 3em;
-    color: #000000;
-    text-decoration: none;
-    transition: all 0.5s;
-    margin: 4px;
-  }
-  .star-wrapper a:hover {
-    color: gold;
-    transform: scale(1.3);
-  }
-  .s1:hover ~ a {
-    color: gold;
-  }
-  .s2:hover ~ a {
-    color: gold;
-  }
-  .s3:hover ~ a {
-    color: gold;
-  }
-  .s4:hover ~ a {
-    color: gold;
-  }
-  .s5:hover ~ a {
-    color: gold;
-  }
+.comentarios .caja-contenedor-comentarios .caja {
+  background: rgba(18, 33, 74, 1);
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 60px;
+  position: relative;
+  border: .1rem solid rgb(0, 191, 255);
+  box-shadow: 0 .5rem 1rem rgb(129, 129, 129);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-  .comentarios .caja-contenedor-comentarios .caja .valoracion button {
-  margin: 0 5px;
-  padding: 5px 10px;
+.comentarios .caja-contenedor-comentarios .caja .usuario {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .usuario img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 80%;
+  object-fit: cover;
+  margin: 10px;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .info-usuario {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .info-usuario p {
+  color: $color-titulo;
+  margin: 0;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .comentario {
+  flex: 1;
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .comentario p {
+  color: $color-titulo;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .like-button {
+  margin-left: auto;
+  padding: 10px;
   border: none;
-  background-color: #3498db; /* Color de fondo del botón Me gusta */
-  color: #fff; /* Color del texto del botón */
+  background-color: #3498db;
+  color: #fff;
   cursor: pointer;
-  border-radius: 5px; /* Borde redondeado */
-  transition: background-color 0.3s; /* Efecto de transición al pasar el cursor */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .valoracion button:hover {
-  background-color: #2980b9; /* Color de fondo del botón Me gusta al pasar el cursor */
+.comentarios .caja-contenedor-comentarios .caja .like-button:hover {
+  background-color: #2980b9;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .valoracion .dislike-button {
-  background-color: #e74c3c; /* Color de fondo del botón No me gusta */
+.comentarios .caja-contenedor-comentarios .caja .like-button i {
+  margin: 0;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .valoracion .dislike-button:hover {
-  background-color: #c0392b; /* Color de fondo del botón No me gusta al pasar el cursor */
+.comentarios .caja-contenedor-comentarios .caja .valoracion {
+  display: flex;
+  align-items: center;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .valoracion p {
+  margin: 0 5px 0 0;
+  color: $color-titulo;
+}
+
+@media only screen and (max-width: 946px) {
+  .comentarios .caja-contenedor-comentarios {
+    justify-content: flex-start;
+  }
+
+  .comentarios .caja-contenedor-comentarios .caja {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comentarios .caja-contenedor-comentarios .caja .usuario {
+    margin-bottom: 1rem;
+  }
+
+  .comentarios .caja-contenedor-comentarios .caja .comentario {
+    margin-right: 0;
+  }
+
+  .comentarios .caja-contenedor-comentarios .caja .like-button {
+    margin-left: 0;
+  }
+}
+
+.star-wrapper {
+  top: 50%;
+  left: 50%;
+  direction: rtl;
+}
+
+.star-wrapper a {
+  font-size: 3em;
+  color: #000000;
+  text-decoration: none;
+  transition: all 0.5s;
+  margin: 4px;
+}
+
+.star-wrapper a:hover {
+  color: gold;
+  transform: scale(1.3);
+}
+
+.s1:hover ~ a {
+  color: gold;
+}
+
+.s2:hover ~ a {
+  color: gold;
+}
+
+.s3:hover ~ a {
+  color: gold;
+}
+
+.s4:hover ~ a {
+  color: gold;
+}
+
+.s5:hover ~ a {
+  color: gold;
 }
