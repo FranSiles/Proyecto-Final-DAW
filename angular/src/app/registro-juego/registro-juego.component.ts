@@ -8,7 +8,7 @@ import { Juego } from '../interface/juego';
   styleUrls: ['./registro-juego.component.css']
 })
 export class RegistroJuegoComponent {
-  public juego: Juego = { nombre: '', descripcion: '', imagen:null, pegi:0, generoPrincipal:'', generoSecundario:'', trailer:'', desarrollador:'' };
+  public juego: Juego = { nombre: '', descripcion: '', imagen:null, pegi:'', generoPrincipal:'', generoSecundario:'', trailer:'', desarrollador:'' };
   constructor(private paginaservice: PaginaService){ }
   onFileSelected(event: Event): void {
     const inputElement = event.target as HTMLInputElement;

@@ -16,9 +16,13 @@ declare var google: any;
   styleUrls: ['./css/main.css']
 })
 export class VistaJuegoComponent implements OnInit, OnDestroy {
-  rutaImagen: string = 'assets/img/PEGI_6.svg.png';
-  rutaPerfil: string = 'assets/img/omen.jpg';
-  rutaFondo: string = 'assets/img/rokeli.jpg';
+  rutaImagen1: string = 'assets/img/pegi3.png';
+  rutaImagen2: string = 'assets/img/pegi7.png';
+  rutaImagen3: string = 'assets/img/pegi12.png';
+  rutaImagen4: string = 'assets/img/pegi16.png';
+  rutaImagen5: string = 'assets/img/pegi18.png';
+  public juegos:Juego[]=[];
+  public usuario: string | null = localStorage.getItem('usuario');
   public juego: Juego = { nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: '' };
   public comentarios: Comentarios = { texto: '', codUsuario: 0, codJuego: 0 }
   public valoracion: Valoracion = { puntuacion: 0, codUsuario: 0, codJuego: 0 }
@@ -63,13 +67,18 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     }
     if (this.juego.codJuego) {
       this.cargarComentariosYValoraciones(this.juego.codJuego);
+      this.paginaservice.cargarJuegosAleatorios(this.juego.codJuego);
     } else {
       console.error('No codJuego found in the juego object.');
     }
-
     this.cargarGrafica();
     console.log('Contenido de comments:', this.comments);
-  console.log('Contenido de ratings:', this.ratings);
+    console.log('Contenido de ratings:', this.ratings);
+    this.suscripcion = this.paginaservice.juegosaleatorios$.subscribe(
+      juegosNuevos => {
+        this.juegos = juegosNuevos;
+      });
+      console.log("mis juegos aleatorios",this.juegos);
   }
 
   ngOnDestroy() {
@@ -158,5 +167,17 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     console.log("Aqui esta mi objeto comentario: ", this.comentarios);
     console.log("aqui esta mi objeto puntuacion: ", this.valoracion);
     this.paginaservice.anadircomentario(this.comentarios, this.valoracion);
+  }
+  enviarId(codJuego:number){
+    console.log("recibo el codJuego numero: ", codJuego)
+    this.paginaservice.obtenerJuego(codJuego);
+  }
+  logout():void{
+          this.paginaservice.logout();
+  }
+  enviarIdperfil(){
+    const usuario=JSON.parse(this.usuario||"");
+    console.log("recibo el id de mi usuario: ",usuario.data.codUsuario);
+    this.paginaservice.cargarusuario(usuario.data.codUsuario);
   }
 }

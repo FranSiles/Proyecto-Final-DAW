@@ -16,19 +16,20 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" >Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Inicio Sesion </a>
+            <a [routerLink]="['/registrojuego']" class="nav-link" *ngIf="usuario">Registrar juego</a>
           </li>
           <a class="navbar-brand d-none d-md-block">
             <img src="../../assets/img/logocontrol.svg" alt="">
           </a>
           <li class="nav-item">
-            <a class="nav-link" href="#">Desconectar</a>
+            <a class="nav-link" *ngIf="!usuario">Inicio Sesion </a>
+            <a class="nav-link"*ngIf="usuario" [routerLink]="['/paginaprincipal']" (click)="logout()">Desconectar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Perfil</a>
+            <a class="nav-link" [routerLink]="['/paginaprincipal']" (click)="enviarIdperfil()">Perfil</a>
           </li>
         </ul>
       </div>
@@ -50,14 +51,12 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor="let juego of juegos">
           <div class="card h-100 shadow">
-<!--             <img [src]="'http://127.0.0.1:8000' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}">
- -->            
-              <img src="../../assets/img/valo.png" alt="">
+              <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}" style="width: 415px; height: 300px;">           
               <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
               <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
-              <button (click)="enviarId(juego.codJuego!)">Comentar</button>
+              <button class="btn btn-primary" (click)="enviarId(juego.codJuego!)">ver más</button>
             </div>
           </div>
         </div>

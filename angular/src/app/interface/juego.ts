@@ -3,7 +3,7 @@ export interface Juego{
     nombre: string,
     descripcion: string,
     imagen: File|null|string,
-    pegi: number,
+    pegi: number|string,
     generoPrincipal: string,
     generoSecundario?: string,
     trailer?: string,

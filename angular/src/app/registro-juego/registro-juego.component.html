@@ -22,9 +22,10 @@
             <input type="text" name="generoSecundario" class="form-control" placeholder="genero secundario" [(ngModel)]="juego.generoSecundario"/>
         </div>
         <div class="form-outline mb-4">
-            <select class="form-control" name="pegi" [(ngModel)]="juego.pegi" placeholder="pegi">
+            <select class="form-control" name="pegi" [(ngModel)]="juego.pegi">
+                <option value="" disabled selected>Seleccione PEGI</option>
                 <option value="3">3</option>
-                <option value="6">6</option>
+                <option value="6">7</option>
                 <option value="12">12</option>
                 <option value="16">16</option>
                 <option value="18">18</option>

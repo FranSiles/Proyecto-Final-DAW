@@ -12,11 +12,13 @@ import { Valoracion } from '../interface/valoracion';
 })
 export class PaginaService {
     private _juegos: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
+    private _juegosaleatorios: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
     private _juego = new BehaviorSubject<Juego>({nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: ''});
     private _usuario = new Subject<Usuario>();/*subject funciona perfecto ahi que probar a hacer subject con los juegos*/
     usuario$=this._usuario.asObservable();
     juegos$ = this._juegos.asObservable();
     juego$=this._juego.asObservable();
+    juegosaleatorios$=this._juegosaleatorios.asObservable();
     constructor(private router: Router,private laravelservice:LaravelService){}
     verificarUsuario(usuario:Usuario){
       console.log("hola recibo: ",usuario)
@@ -136,5 +138,40 @@ export class PaginaService {
     }
     obtenerRating(codJuego:number){//¿Es mejor usar observable?
       return this.laravelservice.obtenerValoraciones(codJuego);
+    }
+    modificarusuario(usuario:Usuario,codUsuario:number){
+      console.log("hola recibo usuario",usuario);
+      console.log("Hola este es mi codUsuario",codUsuario);
+      this.laravelservice.cambiarusuario(usuario,codUsuario).subscribe({
+        next:()=>{
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('juego');
+          localStorage.removeItem('usuarioperfil');
+          this.router.navigate(['/iniciosesion']);
+        },error: (error: any) => {
+          console.error("error al cargar usuario:", error);
+        }
+      })
+    }
+    cambiarfoto(foto:File){
+      console.log("mi foto nueva es: ",foto);
+      this.laravelservice.cambiarfoto(foto).subscribe({
+        next:()=>{
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('juego');
+          localStorage.removeItem('usuarioperfil');
+          this.router.navigate(['/iniciosesion']);
+        },error: (error: any)=>{
+          console.error("error al subir la foto",error);
+        }
+      })
+    }
+    cargarJuegosAleatorios(codJuego:number){
+      this.laravelservice.cargarJuegosAleatorios(codJuego).pipe(
+        tap((juegos: Juego[]) => {
+          this._juegosaleatorios.next(juegos);
+          console.log("La Consulta a la BD devuelve: ", this._juegosaleatorios);
+        })
+      ).subscribe();
     }
 }

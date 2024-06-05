@@ -7,12 +7,11 @@
     <title>cambiar contraseña</title>
 </head>
 <body>
-    <!-- <div class="centered-form"> -->
-        <div class="form-container">
+        <div class="form-container" (ngsubmit)="cambiocontrasena()">
             <form>
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form1Example1" class="form-control" placeholder="antigua contraseña"/>
+                    <input type="text" id="form1Example1" class="form-control" placeholder="antigua contraseña"/>
                 </div>
                 
                 <!-- Password input -->
@@ -24,6 +23,5 @@
                 <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">cambiar contraseña</button>
             </form>
         </div>
-    <!-- </div> -->
 </body>
 </html>

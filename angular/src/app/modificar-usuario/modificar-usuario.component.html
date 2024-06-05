@@ -7,6 +7,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div class="form-container">
+        <form (ngSubmit)="cambiousuario(usuario.codUsuario!)" enctype="multipart/form-data">
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" name="email" class="form-control" placeholder="email" value="{{usuario.email!}}" [(ngModel)]="usuario.email"  readonly/>
+            </div>
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" name="nomUsuario" class="form-control" placeholder="nombre usuario" value="{{usuario.nomUsuario!}}" [(ngModel)]="usuario.nomUsuario"/>
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" name="password" class="form-control" placeholder="nueva contraseña" [(ngModel)]="usuario.password"/>
+            </div>
+            <!-- Submit button -->
+            <input data-mdb-ripple-init type="submit" class="btn btn-primary btn-block" value="modificar usuario">
+        </form>
+    </div>
 </body>
 </html>

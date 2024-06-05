@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class InicioSesionComponent {
   public usuario: Usuario = { email: '', password: '' };
-  private usuariorespuesta: string | null = localStorage.getItem('usuariorespuesta');
+  private usuariorespuesta: string | null = localStorage.getItem('usuario');
   private suscripcion: Subscription | null = null;
   constructor(private paginaservice: PaginaService,private router: Router){
     if(this.usuariorespuesta){

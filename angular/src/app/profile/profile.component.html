@@ -9,7 +9,7 @@
 <body>
     <div>
         
-    <section id="seccion" style="background-color: blue;">
+    <section id="seccion">
             <button type="button" (click)="volver()" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
@@ -20,6 +20,14 @@
                     <div class="card-body text-center">
                         <img [src]="'http://localhost:80/' + usuario.foto" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                         <h5 class="my-3">{{usuario.nomUsuario!}}</h5>
+                        <hr>
+                        <h5>subir nueva imagen</h5>
+                        <form (ngSubmit)="cambiarfoto()" method="POST" enctype="multipart/form-data">
+                            <div data-mdb-input-init class="form-control-sm">
+                                <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="subir">
+                        </form>
                     </div>
                 </div>
                 </div>
@@ -45,15 +53,6 @@
                     </div>
                     <hr>
                     <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">contraseña</p>
-                    </div>
-                    <div id="editable" class="col-sm-9">
-                        <button id="boton" class="btn btn-primary" [routerLink]="['/cambiarcontraseña']">cambiar contraseña</button>
-                    </div>
-                    </div>
-                    <hr>
-                    <div class="row">
                         <div class="col-sm-3">
                             <p class="mb-0">Eliminar usuario</p>
                         </div>
@@ -74,6 +73,17 @@
                 </div>
             </div>
             </div>
+        </div>
+        </section>
+        <section>
+            <h1 class="text-center">Tus comentarios</h1>
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="card w-50 mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    </div>
+                </div>
         </div>
         </section>
         <footer id="pie_de_pagina" style="background-color: aqua; text-align: center;">

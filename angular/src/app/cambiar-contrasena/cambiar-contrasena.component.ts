@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PaginaService } from '../service/pagina-service';
 
 @Component({
   selector: 'app-cambiar-contrasena',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./cambiar-contrasena.component.css']
 })
 export class CambiarContrasenaComponent {
+  constructor(private paginaservice: PaginaService){}
+
+cambiocontrasena(){
+
+}
 
 }
