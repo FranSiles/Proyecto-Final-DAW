@@ -47,7 +47,6 @@ class ComentariosController extends Controller
             'codUsuario' => 'exists:usuarios,codUsuario',
             'codJuego' => 'nullable|exists:juegos,codJuego',
             'likes' => 'nullable|integer',
-            'dislike' => 'nullable|integer',
         ]);
 
         $comentario->update($request->all());
@@ -68,7 +67,7 @@ class ComentariosController extends Controller
             ->with(['usuario' => function ($query) {
                 $query->select('codUsuario', 'foto','nomUsuario'); // Asumiendo que 'fotoPerfil' es el nombre de la columna en la tabla 'usuarios'
             }])
-            ->get(['codComentario', 'codUsuario', 'codJuego', 'texto', 'likes', 'dislike']);
+            ->get(['codComentario', 'codUsuario', 'codJuego', 'texto', 'likes']);
     
         if ($comentarios->isEmpty()) {
             return response()->json(['message' => 'No comments found'], 404);

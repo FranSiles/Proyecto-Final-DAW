@@ -64,7 +64,9 @@ class JuegosController extends Controller
         $desarrollador=$request->input('desarrollador');
         $ruta=$imagen->store('public');
         $ruta = 'storage/' . str_replace('public/', '', $ruta);
-        $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+        if($trailer){
+            $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+        }
         juegos::create(['nombre'=>$nombre,
                         'descripcion'=>$descripcion,
                         'imagen'=>$ruta,
@@ -78,8 +80,13 @@ class JuegosController extends Controller
 
     public function show($codJuego)
 {
-    $juego=juegos::find($codJuego);
-    return response()->json($juego,200);
+    $juego=juegos::find($codJuego); 
+    $juegousuario = juegos::where('codJuego', $codJuego)->with('usuarios')->first(); 
+    return response()->json([
+        'juego' => $juego,
+        'usuario'=>$juegousuario->usuarios->nomUsuario
+    ],200);
+    /* return response()->json($juego,200); */
 }
 
 public function edit(Juegos $juego)
@@ -160,5 +167,13 @@ public function anadirJuego(Request $request){
                     'desarrollador'=>$desarrollador
     ]);
     /* 'codJuego','nombre','descripcion','imagen','pegi','generoPrincipal','generoSecundario','trailer','desarrollador' */
+}
+public function juegosaleatorios($codJuego){
+    $juegos = juegos::where('codJuego', '!=', $codJuego)->inRandomOrder()->take(5)->get();
+    return response()->json($juegos,200);
+}
+public function juegosusuario($codUsuario){
+    $juegos= juegos::where('codUsuario',$codUsuario)->get();
+    return response()->json($juegos,200);
 }
 }

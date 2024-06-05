@@ -9,7 +9,12 @@ class Valoraciones extends Model
 {
     use HasFactory;
 
+    protected $table="valoraciones";
+
+    protected $primaryKey = "codValoracion";
+
     protected $fillable = [
+        'codValoracion',
         'codUsuario',
         'codJuego',
         'puntuacion',

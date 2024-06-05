@@ -27,17 +27,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('users',[UsuariosController::class,'index']);
 Route::delete('usuarios/{id}',[UsuariosController::class,'destroy'])->middleware("auth:sanctum");
 Route::get('usuarios/{id}',[UsuariosController::class,'show'])->middleware("auth:sanctum");
+Route::put('usuarios/{id}',[UsuariosController::class,'update'])->middleware("auth:sanctum");
+Route::post('/usuarios', [UsuariosController::class,'cambiarfoto'])->middleware("auth:sanctum");
+Route::get('usuariojuegos/{id}', [JuegosController::class,'juegosusuario']);
 Route::post('login', [ApiAuthenticationController::class, 'login']);
+Route::post('logout', [ApiAuthenticationController::class, "logout"])->middleware("auth:sanctum");
 Route::post('registro', [UsuariosController::class, 'registro']);
 /* Route::get('juegos',[JuegosController::class,'index']); */
 Route::get('/juegos', [JuegosController::class, 'index']); // Obtener todos los juegos
+Route::get('/juegosaleatorios/{id}',[JuegosController::class,'juegosaleatorios']);
 Route::get('/juegos/{id}', [JuegosController::class, 'show']); // Obtener un juego especifico
 Route::post('/juegos', [JuegosController::class, 'store'])->middleware("auth:sanctum");
 /* Route::post('juego',[JuegosController::class,'obtenerJuego']); */
 /* Route::post('registrojuego',[JuegosController::class,'anadirJuego'])->middleware("auth:sanctum"); */
-Route::post('logout', [ApiAuthenticationController::class, "logout"])->middleware("auth:sanctum");
 Route::post('/subircomentarios', [ComentariosController::class, 'store']);
 Route::get('/comentarios/{id}', [ComentariosController::class, 'getComentarios']);
 Route::post('/subirvaloraciones', [ValoracionesController::class, 'store']);
 Route::get('/valoraciones/{id}', [ValoracionesController::class, 'getValoraciones']);
 Route::get('/valoracionesgrafica', [ValoracionesController::class, 'obtenerValoracionesJuego']);
+Route::get('/comentariosyvaloracines',[UsuariosController::class,'obtenerComentariosYValoraciones']);

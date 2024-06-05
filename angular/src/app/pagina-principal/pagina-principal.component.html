@@ -25,7 +25,7 @@
             <img src="../../assets/img/logocontrol.svg" alt="">
           </a>
           <li class="nav-item">
-            <a class="nav-link" *ngIf="!usuario">Inicio Sesion </a>
+            <a class="nav-link" *ngIf="!usuario" [routerLink]="['/iniciosesion']">Inicio Sesion </a>
             <a class="nav-link"*ngIf="usuario" [routerLink]="['/paginaprincipal']" (click)="logout()">Desconectar</a>
           </li>
           <li class="nav-item">
@@ -51,7 +51,7 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor="let juego of juegos">
           <div class="card h-100 shadow">
-              <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}" style="width: 415px; height: 300px;">           
+              <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">           
               <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>

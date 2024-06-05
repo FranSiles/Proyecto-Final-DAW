@@ -9,12 +9,16 @@ class Comentarios extends Model
 {
     use HasFactory;
 
+    protected $table="comentarios";
+
+    protected $primaryKey = "codComentario";
+    
     protected $fillable = [
+        'codComentario',
         'codUsuario',
         'codJuego',
         'texto',
         'likes',
-        'dislike',
     ];
 
     public function usuario()

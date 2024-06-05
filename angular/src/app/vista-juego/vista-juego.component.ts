@@ -8,6 +8,7 @@ import { Comentarios } from '../interface/comentario';
 import { Valoracion } from '../interface/valoracion';
 import { forkJoin } from 'rxjs';
 import { GoogleChartsService } from '../service/google-charts.service';
+import { Usuario } from '../interface/usuario';
 declare var google: any;
 
 @Component({
@@ -23,6 +24,7 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   rutaImagen5: string = 'assets/img/pegi18.png';
   public juegos:Juego[]=[];
   public usuario: string | null = localStorage.getItem('usuario');
+  public nomusuario: Usuario={nomUsuario:''};
   public juego: Juego = { nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: '' };
   public comentarios: Comentarios = { texto: '', codUsuario: 0, codJuego: 0 }
   public valoracion: Valoracion = { puntuacion: 0, codUsuario: 0, codJuego: 0 }
@@ -58,7 +60,10 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.reversedStars = this.stars.slice().reverse();
     const juego = localStorage.getItem('juego');
-    this.juego = JSON.parse(juego || "");
+    const array= JSON.parse(juego || "");
+    this.juego=array.juego;
+    this.nomusuario=array.usuario
+    console.log("nombre:",this.nomusuario);
     console.log('ID del juego guardado en localStorage: ', localStorage.getItem('juego'));
     if (this.juego.trailer) {
       this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.juego.trailer || '');

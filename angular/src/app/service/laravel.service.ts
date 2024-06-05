@@ -73,7 +73,7 @@ export class LaravelService {
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
-    const tokenSinId = token.substring(3)
+    const tokenSinId = token.substring(2)
     console.log("desde mi laravel service Token desde localStorage:", token);
     console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
     const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);

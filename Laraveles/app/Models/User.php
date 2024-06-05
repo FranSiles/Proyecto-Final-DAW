@@ -53,6 +53,9 @@ class User extends Authenticatable
         return $this->hasMany(Comentarios::class,"codUsuario")->get();
     }
     public function valoraciones(){
-        return $this->hasMany(Valoraciones::class,"codUsuario")->get();
+        return $this->hasOne(valoraciones::class);
+    }
+    public function juegos(){
+        return $this->hasMany(Juegos::class,"codUsuario")->get();
     }
 }

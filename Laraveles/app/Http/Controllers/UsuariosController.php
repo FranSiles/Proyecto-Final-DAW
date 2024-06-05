@@ -63,37 +63,16 @@ class UsuariosController extends Controller
     {
         //// Retorna la vista para editar un usuario (si es una aplicación web)
     }
-    public function update(Request $request, User $usuarios)
-{
-    // Validar los datos del formulario
-    $rules = [
-        'codUsuario' => 'required',
-        'nomUsuario' => 'required',
-        'correo' => 'required|email|unique:usuarios,correo,'.$usuarios->id,
-        'contraseña' => 'required',
-        'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Ejemplo de validación para una imagen
-    ];
-
-    $request->validate($rules);
-
-    // Actualizar los datos del usuario con los datos del formulario
-    $usuarios->update([
-        'codUsuario' => $request->input('codUsuario'),
-        'nomUsuario' => $request->input('nomUsuario'),
-        'correo' => $request->input('correo'),
-        'contraseña' => bcrypt($request->input('contraseña')), // Hashear la contraseña antes de guardarla
-    ]);
-
-    // Procesar la imagen si se ha cargado
-    if ($request->hasFile('foto')) {
-        $image = $request->file('foto');
-        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
-        $usuarios->foto = $imageName;
-        $usuarios->save();
-    }
-
+    public function update(Request $request, $codUsuario){
+    $email=$request->input('email');
+    $nomUsuario=$request->input('nomUsuario');
+    $password=$request->input('password');
+    User::where('codUsuario' , $codUsuario)->update(['email'=>$email,
+                                                        'nomUsuario'=>$nomUsuario,
+                                                        'password'=>Hash::make($password)]);
     // Retornar una respuesta de éxito
+    $usuarioeliminotoken = $request->user();
+    $usuarioeliminotoken->currentAccessToken()->delete();
     return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
 }
     public function destroy($id,Request $request){
@@ -119,11 +98,33 @@ class UsuariosController extends Controller
                 'foto' => $ruta 
             ]);
         }else{
+            $ruta="storage/fotoperfil.webp";
             User::create([
                 'nomUsuario' => $nomUsuario,
                 'email' => $email,
-                'password' => Hash::make($password)]);
+                'password' => Hash::make($password),
+                'foto'=> $ruta]);
         }
         
     }
+    public function cambiarfoto(Request $request){
+        $foto=$request->file('foto');
+        $ruta=$foto->store('public');
+        $ruta = 'storage/' . str_replace('public/', '', $ruta);
+        User::where('codUsuario',Auth::user()->codUsuario)->update(['foto'=>$ruta]);
+        return response()->json(['message' => 'Foto de usuario actualizada correctamente'], 200);
+    }
+    public function obtenerComentariosYValoraciones()
+    {
+        $codUsuario=12;
+        $usuario = User::with(['comentarios', 'valoraciones'])->find($codUsuario);
+        
+        $comentariosYValoraciones = $usuario->comentarios->merge($usuario->valoraciones);
+        dd($comentariosYValoraciones);
+        // Ordenar por fecha o cualquier otro criterio si es necesario
+        $comentariosYValoraciones = $comentariosYValoraciones->sortByDesc('created_at');
+        
+        /* return response()->json($comentariosYValoraciones); */
+    }
+
 }

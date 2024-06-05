@@ -17,11 +17,9 @@ return new class extends Migration
             $table->unsignedInteger('codJuego');
             $table->text('texto');
             $table->integer('likes')->nullable();
-            $table->integer('dislike')->nullable();
             $table->timestamps();
-
             $table->foreign('codUsuario')->references('codUsuario')->on('usuarios')->onDelete('cascade');
-            $table->foreign('codJuego')->references('codJuego')->on('juegos')->onDelete('set null');
+            $table->foreign('codJuego')->references('codJuego')->on('juegos')->onDelete('cascade');
         });
     }
 

@@ -17,4 +17,7 @@ class juegos extends Model
     public function valoraciones(){
         return $this->hasMany(Valoraciones::class,"codJuego")->get();
     }
+    public function usuarios(){
+        return $this->belongsTo(User::class, 'codUsuario');
+    }
 }

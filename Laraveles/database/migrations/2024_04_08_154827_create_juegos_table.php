@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('juegos', function (Blueprint $table) {
             $table->increments('codJuego');
+            $table->unsignedInteger('codUsuario');
             $table->string('nombre');
             $table->text('descripcion');
             $table->string('imagen');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('trailer')->nullable();
             $table->string('desarrollador');
             $table->timestamps();
+            $table->foreign('codUsuario')->references('codUsuario')->on('usuarios')->onDelete('cascade');
         });
     }
 
