@@ -1,33 +1,89 @@
-@import 'variables';
-
-/* Estilos para la barra de navegación */
 .navbar {
-    background-color: $color-fondo;
-    color: $color-texto;
-    text-align: center; /* Centra los enlaces de la barra de navegación */
-    padding: 5px 0; /* Añade espacio alrededor de la barra de navegación */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
 }
 
-.navbar ul {
-    list-style-type: none;
+.navbar .logo {
+    text-align: center;
+}
+
+.navbar .nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
     padding: 0;
+    flex: 1;
+    justify-content: space-around;
 }
 
-.navbar li {
-    display: inline-block;
-    margin-right: 20px;
+.navbar .nav-links li {
+    text-align: center;
 }
 
-.navbar li:last-child {
-    margin-right: 0;
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
 }
 
-.navbar a {
-    text-decoration: none; /* Elimina el subrayado de los enlaces */
-    color: inherit; /* Hereda el color de texto de la barra de navegación */
-    transition: color 0.3s ease; /* Agrega una transición suave al color de texto */
+.menu-toggle {
+    display: none;
 }
 
-.navbar a:hover {
-    color: lighten($color-texto, 10%); /* Cambia el color del texto al pasar el mouse */
+.navbar .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.navbar .hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 4px 0;
+}
+
+/* Estilos para la versión móvil */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        background-color: #333;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .navbar .nav-links li {
+        width: 100%;
+        margin: 0;
+    }
+
+    .navbar .hamburger {
+        display: flex;
+    }
+
+    .menu-toggle:checked + .hamburger + .nav-links {
+        max-height: 500px; /* Ajusta este valor según sea necesario */
+    }
+}
+
+/* Estilos para el contenido principal */
+.content {
+    padding: 20px;
 }

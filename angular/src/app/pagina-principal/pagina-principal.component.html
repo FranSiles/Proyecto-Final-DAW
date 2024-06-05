@@ -7,48 +7,33 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item" *ngIf="usuario">
-                <a [routerLink]="['/registrojuego']" class="nav-link">Registrar juego</a>
-              </li>
-              <li class="nav-item" *ngIf="usuario">
-                <a [routerLink]="['/paginaprincipal']" class="nav-link" (click)="enviarIdperfil()">perfil</a>
-              </li>
-              <li class="nav-item" *ngIf="usuario">
-                <a [routerLink]="['/paginaprincipal']" class="nav-link" (click)="logout()">Cerrar Sesion</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+    <div class="container-fluid">
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Inicio Sesion </a>
+          </li>
+          <a class="navbar-brand d-none d-md-block">
+            <img src="../../assets/img/logocontrol.svg" alt="">
+          </a>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Desconectar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
       <!-- <div class="col">
       <div class="row row-cols-1 row-cols-md-3 g-4" >
     <div *ngFor="let juego of juegos;" id="cartas" class="card">
@@ -61,20 +46,25 @@
       </div>
       </div>
     </div> -->
-    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100">
-      <div class="row">
-        <div *ngFor="let juego of juegos" style="width: 20rem;" class="col-md-4 mb-4">
-          <div class="card h-100">
-            <img [src]="'http://127.0.0.1:8000' + juego.imagen" id="imagenes" class="card-img-top" alt="{{juego.nombre}}">
-            <div class="card-body">
+    <div class="container mt-4">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" *ngFor="let juego of juegos">
+          <div class="card h-100 shadow">
+<!--             <img [src]="'http://127.0.0.1:8000' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}">
+ -->            
+              <img src="../../assets/img/valo.png" alt="">
+              <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
-              <h6 class="card-title">desarrollador:{{juego.desarrollador}}</h6>
-              <p class="card-text">{{juego.descripcion}}</p>
-              <button (click)="enviarId(juego.codJuego!)"  class="btn btn-primary">ver más</button>
+              <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
+              <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
+              <button (click)="enviarId(juego.codJuego!)">Comentar</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    
+    
+    
 </body>
 </html>
