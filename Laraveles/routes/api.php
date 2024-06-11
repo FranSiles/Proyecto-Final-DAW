@@ -46,3 +46,6 @@ Route::post('/subirvaloraciones', [ValoracionesController::class, 'store']);
 Route::get('/valoraciones/{id}', [ValoracionesController::class, 'getValoraciones']);
 Route::get('/valoracionesgrafica', [ValoracionesController::class, 'obtenerValoracionesJuego']);
 Route::get('/comentariosyvaloracines',[UsuariosController::class,'obtenerComentariosYValoraciones']);
+Route::get('/mediaValoracionesJuego/{codJuego}', [ValoracionesController::class, 'mediaValoracionesJuego']);
+/* Route::match(['get', 'post'], '/likearComentario/{comentarioId}', [ComentariosController::class, 'toggleLike']);
+ */
