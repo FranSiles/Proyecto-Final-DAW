@@ -30,6 +30,7 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   public valoracion: Valoracion = { puntuacion: 0, codUsuario: 0, codJuego: 0 }
   private suscripcion: Subscription | null = null;
   public safeTrailerUrl: SafeResourceUrl | null = null;
+  
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.drawChart();
@@ -37,10 +38,11 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   comments: any[] = [];
   ratings: any[] = [];
 
+  mediaValoracion: number = 0;
 
   stars = [1, 2, 3, 4, 5];
   reversedStars: number[] = [];
-
+  
   successMessage: string = '';
   errorMessage: string = '';
 
@@ -84,6 +86,19 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
         this.juegos = juegosNuevos;
       });
       console.log("mis juegos aleatorios",this.juegos);
+       if (this.juego && this.juego.codJuego) {
+      this.paginaservice.obtenerMedia(this.juego.codJuego).subscribe(
+        media => {
+          this.mediaValoracion = media;
+        },
+        error => {
+          console.error('Error al obtener la media de valoraciones:', error);
+          this.mediaValoracion = 0; // Valor por defecto en caso de error
+        }
+      );
+    }
+  
+      
   }
 
   ngOnDestroy() {
@@ -128,25 +143,25 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
 
   drawChart() {
     const data = google.visualization.arrayToDataTable([
-      ['Stars', 'Number of Ratings'],
-      ['1 Star', this.ratings.filter(rating => rating.puntuacion === 1).length],
-      ['2 Stars', this.ratings.filter(rating => rating.puntuacion === 2).length],
-      ['3 Stars', this.ratings.filter(rating => rating.puntuacion === 3).length],
-      ['4 Stars', this.ratings.filter(rating => rating.puntuacion === 4).length],
-      ['5 Stars', this.ratings.filter(rating => rating.puntuacion === 5).length]
+      ['Stars', 'Cantidad de estrellas'],
+      ['1 estrella', this.ratings.filter(rating => rating.puntuacion === 1).length],
+      ['2 estrellas', this.ratings.filter(rating => rating.puntuacion === 2).length],
+      ['3 estrellas', this.ratings.filter(rating => rating.puntuacion === 3).length],
+      ['4 estrellas', this.ratings.filter(rating => rating.puntuacion === 4).length],
+      ['5 estrellas', this.ratings.filter(rating => rating.puntuacion === 5).length]
     ]);
 
     const options = {
-      title: 'Rating Distribution',
+      title: '',
       hAxis: {
-        title: 'Stars',
+        title: '',
         minValue: 0,
         gridlines: {
           count: 5
         }
       },
       vAxis: {
-        title: 'Number of Ratings',
+        title: 'Cantidad de estrellas',
         minValue: 0
       }
     };
@@ -162,17 +177,43 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
 
   enviarComentario(): void {
     const usuario = localStorage.getItem('usuario');
-    const usuariorespuesta = JSON.parse(usuario || "");
+    const usuarioRespuesta = JSON.parse(usuario || "");
     console.log('mi usuario', usuario);
-    console.log('ID del usuario guardado en el localstorage es: ', usuariorespuesta.data.codUsuario);
-    this.comentarios.codUsuario = usuariorespuesta.data.codUsuario;
+    console.log('ID del usuario guardado en el localstorage es: ', usuarioRespuesta.data.codUsuario);
+  
+    this.comentarios.codUsuario = usuarioRespuesta.data.codUsuario;
     this.comentarios.codJuego = this.juego.codJuego || 0;
     this.valoracion.codJuego = this.juego.codJuego || 0;
-    this.valoracion.codUsuario = usuariorespuesta.data.codUsuario;
-    console.log("Aqui esta mi objeto comentario: ", this.comentarios);
-    console.log("aqui esta mi objeto puntuacion: ", this.valoracion);
-    this.paginaservice.anadircomentario(this.comentarios, this.valoracion);
+    this.valoracion.codUsuario = usuarioRespuesta.data.codUsuario;
+  
+    // Validaciones
+    if (this.comentarios.texto.trim() === '' || this.valoracion.puntuacion === 0) {
+      this.errorMessage = 'Debe proporcionar una valoración y un comentario.';
+      return;
+    }
+  
+    this.errorMessage = '';
+  
+    const conComentario = this.comentarios.texto.trim() !== '';
+  
+    this.paginaservice.anadirComentario(
+      conComentario,
+      this.comentarios,
+      this.valoracion,
+      () => {
+        this.successMessage = 'Comentario y valoración enviados correctamente.';
+        this.errorMessage = '';
+      },
+      (error: any) => {
+        if (error.status === 400 && error.error && error.error.error) {
+          this.errorMessage = error.error.error;
+        } else {
+          this.errorMessage = 'Error al enviar el comentario y la valoración.';
+        }
+      }
+    );
   }
+  
   enviarId(codJuego:number){
     console.log("recibo el codJuego numero: ", codJuego)
     this.paginaservice.obtenerJuego(codJuego);
@@ -185,4 +226,11 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     console.log("recibo el id de mi usuario: ",usuario.data.codUsuario);
     this.paginaservice.cargarusuario(usuario.data.codUsuario);
   }
+  /* Like(codComentario: number): void {
+    console.log('El código del comentario seleccionado es:', codComentario);
+    const usuario=JSON.parse(this.usuario||"");
+
+    // Llama a la función del servicio Laravel que quieras utilizar
+    this.paginaservice.subirLike(codComentario,usuario.data.codUsuario);
+  } */
 }

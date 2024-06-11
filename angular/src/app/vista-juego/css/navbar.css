@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #12214A;
 }
 
 .navbar .logo {
@@ -28,6 +28,7 @@
   color: white;
   text-decoration: none;
   padding: 10px 15px;
+  font-size: 1.1em;
 }
 
 .menu-toggle {
@@ -47,13 +48,17 @@
   margin: 4px 0;
 }
 
+.logo img {
+  width: 60px;
+}
+
 /* Estilos para la versión móvil */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
   }
-  .navbar .logo {
+  .logo img {
     display: none;
   }
   .navbar .nav-links {
@@ -62,7 +67,7 @@
     align-items: center;
     width: 100%;
     text-align: center;
-    background-color: #333;
+    background-color: #12214A;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;

@@ -36,8 +36,8 @@
             <h2 *ngIf="!juego.generoSecundario">Genero:{{juego.generoPrincipal}}</h2>
             <h2 *ngIf="juego.generoSecundario">Genero:{{juego.generoPrincipal}},{{juego.generoSecundario}}</h2>
             <div class="rating">
-                <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>4,2
-            </div>
+              <span class="stars">&#9733;</span> {{ mediaValoracion | number: '1.1-1' }}
+          </div>
             <h2>Publicado por: {{nomusuario}}</h2>
             <div class="pegi">
             <img *ngIf="juego.pegi==3" [src]="rutaImagen1" alt="PEGI" width="100px">
@@ -50,7 +50,7 @@
     </div>
     <div class="right-column">
             <div class="trailer">
-                <img *ngIf="!safeTrailerUrl" [src]="'http://localhost:80/' + juego.imagen" width="560" height="315">
+                <img *ngIf="!safeTrailerUrl" [src]="'http://127.0.0.1:8000' + juego.imagen" width="560" height="315">
                 <iframe *ngIf="safeTrailerUrl" width="560" height="315" [src]="safeTrailerUrl" frameborder="0" allowfullscreen></iframe>
             </div>
             <!-- Descripción del juego -->
@@ -63,17 +63,19 @@
 <div id="chart_div"  class="chart-container"></div>
 
 <div class="comment-textarea">
-    <textarea placeholder="Deja tu comentario aquí" [(ngModel)]="comentarios.texto"></textarea>
-    <div class="star-wrapper">
-      <a [routerLink]="['/juego']" routerLinkActive="router-link-active"
-         class="fas fa-star"
-         *ngFor="let star of reversedStars; let i = index"
-         [class.selected]="valoracion.puntuacion > (stars.length - 1 - i)"
-         (click)="selectRating(stars.length - i)">
-      </a>
-    </div>
-    <button type="submit" (click)="enviarComentario()">Enviar</button>
+  <textarea placeholder="Deja tu comentario aquí" [(ngModel)]="comentarios.texto"></textarea>
+  <div class="star-wrapper">
+    <a [routerLink]="['/juego']" routerLinkActive="router-link-active"
+       class="fas fa-star"
+       *ngFor="let star of reversedStars; let i = index"
+       [class.selected]="valoracion.puntuacion > (stars.length - 1 - i)"
+       (click)="selectRating(stars.length - i)">
+    </a>
   </div>
+  <button type="submit" (click)="enviarComentario()">Enviar</button>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+</div>
   
 
   <section class="comentarios" id="comentarios">
@@ -81,7 +83,7 @@
     <div class="caja-contenedor-comentarios">
       <div *ngFor="let comment of comments" class="caja">
         <div class="usuario">
-          <img [src]="'http://localhost:80/' + comment.usuario.foto" alt="">
+          <img [src]="'http://127.0.0.1:8000' + comment.usuario.foto" alt="">
           <div class="info-usuario">
             <p>{{ comment.usuario.nomUsuario }}</p>
             <div class="valoracion">
@@ -92,12 +94,18 @@
         <div class="comentario">
           <p>{{ comment.texto }}</p>
         </div>
-        <button class="like-button"> <!-- aquí manda la función -->
-          <i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
-        </button>
+        <div class="like-container">
+          <!-- <div class="likes">
+            <p>Likes: {{ comment.likes }}</p>
+          </div> -->
+          <!-- <button class="like-button" type="submit" (click)="Like(comment.codComentario)">
+            <i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
+          </button> -->
+        </div>
       </div>
     </div>
   </section>
+  
 <section class="carrousel" id="carousel-section">
     <h1 class="heading-pasarela">JUEGOS EN TENDENCIA</h1>
 <div class="caja-carrousel">
@@ -108,7 +116,7 @@
 <input type="radio" name="position" class="control-carrousel">
     <main id="carousel">
         <div *ngFor="let juego of juegos" class="item">
-            <img [src]="'http://localhost:80/'+juego.imagen" alt="Videojuego 1" (click)="enviarId(juego.codJuego!)">
+            <img [src]="'http://127.0.0.1:8000'+juego.imagen" alt="Videojuego 1" (click)="enviarId(juego.codJuego!)">
             <h2>{{juego.nombre}}</h2>
             <p *ngIf="!juego.generoSecundario">{{juego.generoPrincipal}}</p>
             <p *ngIf="juego.generoSecundario">{{juego.generoPrincipal}},{{juego.generoSecundario}}</p>

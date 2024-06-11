@@ -1,0 +1,33 @@
+@import 'variables';
+
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: $color-fondo;
+    color: $color-texto;
+    text-align: center; /* Centra los enlaces de la barra de navegación */
+    padding: 5px 0; /* Añade espacio alrededor de la barra de navegación */
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.navbar li:last-child {
+    margin-right: 0;
+}
+
+.navbar a {
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    color: inherit; /* Hereda el color de texto de la barra de navegación */
+    transition: color 0.3s ease; /* Agrega una transición suave al color de texto */
+}
+
+.navbar a:hover {
+    color: lighten($color-texto, 10%); /* Cambia el color del texto al pasar el mouse */
+}

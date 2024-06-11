@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+  <nav class="navbar navbar-expand-md navbar-dark">
     <div class="container-fluid">
       
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
             <a class="nav-link"*ngIf="usuario" [routerLink]="['/paginaprincipal']" (click)="logout()">Desconectar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/paginaprincipal']" (click)="enviarIdperfil()">Perfil</a>
+            <a class="nav-link" [routerLink]="['/perfil']" (click)="enviarIdperfil()">Perfil</a>
           </li>
         </ul>
       </div>
@@ -38,7 +38,7 @@
       <!-- <div class="col">
       <div class="row row-cols-1 row-cols-md-3 g-4" >
     <div *ngFor="let juego of juegos;" id="cartas" class="card">
-        <img [src]="'http://localhost:80/'+juego.imagen" id="imagenes" class="card-img-top">
+        <img [src]="'http://127.0.0.1:8000'+juego.imagen" id="imagenes" class="card-img-top">
         <div class="card-body">
           <h5 class="card-title">{{juego.nombre}}</h5>
           <p class="card-text">{{juego.descripcion}}</p>
@@ -51,7 +51,12 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor="let juego of juegos">
           <div class="card h-100 shadow">
-              <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">           
+<!--               <img [src]="'http://127.0.0.1:8000' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">         
+ -->                              
+ <div class="card-img-container">
+                  <img src="../../assets/img/AssassinsCreedValhalla.png" class="card-img-top card-img-responsive" alt="">
+  </div>
+
               <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>

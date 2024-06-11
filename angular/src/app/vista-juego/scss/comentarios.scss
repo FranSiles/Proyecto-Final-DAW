@@ -9,7 +9,8 @@
 }
 
 .comentarios .caja-contenedor-comentarios .caja {
-  background: rgba(18, 33, 74, 1);
+  position: relative; /* Necesario para posicionar elementos absolutamente dentro de la caja */
+  background: #12214a;
   padding: 20px;
   border-radius: 10px;
   border: .1rem solid rgb(0, 191, 255);
@@ -53,8 +54,20 @@
   color: #ffffff;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button {
-  align-self: flex-end; /* Alinea el botón de "Me gusta" al final del comentario */
+.comentarios .caja-contenedor-comentarios .caja .like-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .like-container .likes {
+  margin-right: 10px; /* Espaciado entre el texto de likes y el botón */
+  color: #ffffff;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button {
   padding: 10px;
   border: none;
   background-color: #3498db;
@@ -69,11 +82,11 @@
   transition: background-color 0.3s;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button:hover {
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button:hover {
   background-color: #2980b9;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button i {
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button i {
   margin: 0;
 }
 

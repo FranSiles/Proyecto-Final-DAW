@@ -4,109 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>perfil</title>
+    <title>Perfil</title> 
+    <style>
+        body {
+            background: #384B7D;
+        }
+        .emp-profile {
+            padding: 3%;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            background: #fff;
+        }
+        .profile-img {
+            text-align: center;
+        }
+        .profile-img img {
+            width: 50%;
+            height: auto;
+        }
+        .profile-img .file {
+            position: relative;
+            overflow: hidden;
+            margin-top: -25%;
+            width: 55%;
+            border: none;
+            border-radius: 0;
+            font-size: 15px;
+            background: #212529b8;
+            color: white;
+        }
+        .profile-img .file input {
+            position: absolute;
+            opacity: 0;
+            right: 0;
+            top: 0;
+        }
+        .profile-head h5 {
+            color: #333;
+        }
+        .profile-head .nav-tabs {
+            margin-bottom: 5%;
+        }
+        .profile-head .nav-tabs .nav-link {
+            font-weight: 600;
+            border: none;
+        }
+        .profile-head .nav-tabs .nav-link.active {
+            border-bottom: 2px solid #0062cc;
+        }
+        .profile-edit-btn {
+            border: none;
+            width: 48%;
+            padding: 2%;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+        }
+        .profile-edit-btn.btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .profile-tab label {
+            font-weight: 600;
+        }
+        .profile-tab p {
+            font-weight: 600;
+            color: #0062cc;
+        }
+        .navbar-brand img {
+            width: 60px;
+        }
+        .navbar-nav {
+            align-items: center;
+            
+        }
+        .navbar {
+            background-color: #12214A;
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: #fff;
+            font-size: 1.1em;
+            padding: 0.5em 1em;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        
-    <section id="seccion">
-            <button type="button" (click)="volver()" class="btn btn-primary">
-                <i class="fa-solid fa-arrow-left"></i>
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../../assets/img/logocontrol.svg" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-        <div class="container py-5">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a [routerLink]="['/registrojuego']" class="nav-link" *ngIf="usuario">Registrar juego</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" *ngIf="!usuario" [routerLink]="['/iniciosesion']">Inicio Sesion</a>
+                        <a class="nav-link" *ngIf="usuario" [routerLink]="['/paginaprincipal']" (click)="logout()">Desconectar</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container emp-profile">
+        <form method="post">
             <div class="row">
-                <div class="col-lg-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <img [src]="'http://localhost:80/' + usuario.foto" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                        <h5 class="my-3">{{usuario.nomUsuario!}}</h5>
-                        <hr>
-                        <h5>subir nueva imagen</h5>
-                        <form (ngSubmit)="cambiarfoto()" method="POST" enctype="multipart/form-data">
-                            <div data-mdb-input-init class="form-control-sm">
-                                <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/>
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <img src="../../assets/img/AssassinsCreedValhalla.png" class="card-img-top card-img-responsive" alt="avatar">
+                        <div class="file btn btn-lg btn-primary">
+                            Change Photo
+                            <form (ngSubmit)="cambiarfoto()" method="POST" enctype="multipart/form-data">
+                                <div data-mdb-input-init class="form-control-sm">
+                                    <input type="file" name="foto" accept="image/*" class="form-control" (change)="onFileSelected($event)"/>
+                                </div>
+                                <input class="btn btn-primary mt-2" type="submit" value="Subir">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="profile-head">
+                        <h5>{{usuario.nomUsuario!}}</h5>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Sobre ti</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    {{usuario.nomUsuario!}}
+                                </div>
                             </div>
-                            <input class="btn btn-primary" type="submit" value="subir">
-                        </form>
-                    </div>
-                </div>
-                </div>
-            <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                    <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">Email</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{usuario.email!}}</p>
-                    </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">Nombre usuario</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{usuario.nomUsuario!}}</p>
-                    </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Eliminar usuario</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email:</label>
+                                </div>
+                                <div class="col-md-6">
+                                    {{usuario.email!}}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-9">
-                            <button  class="btn btn-danger" (click)="eliminarId(usuario.codUsuario!)">Eliminar usuario</button>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <button class="profile-edit-btn" [routerLink]="['/modificarusuario']">Editar</button>
                         </div>
+                        <div class="col-md-6">
+                            <button class="profile-edit-btn btn-danger" (click)="eliminarId(usuario.codUsuario!)">Borrar</button>
                         </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">modificar usuario</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <button  class="btn btn-primary" [routerLink]="['/modificarusuario']">modificar usuario</button>
-                        </div>
-                        </div>
-                </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
-        </section>
-        <section>
-            <h1 class="text-center">Tus comentarios</h1>
-            <div class="d-flex align-items-center justify-content-center">
-                <div class="card w-50 mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                </div>
-        </div>
-        </section>
-        <section>
-            <h1 class="text-center">Tus juegos</h1>
-            <!-- <div class="container mt-4">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                  <div class="col" *ngFor="let juego of juegos">
-                    <div class="card h-100 shadow">
-                        <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">           
+            <section>
+                <h1 class="text-center">Tus comentarios</h1>
+                <div class="d-flex align-items-center justify-content-center">
+                    <div class="card w-50 mb-3">
                         <div class="card-body">
-                        <h5 class="card-title">{{juego.nombre}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
-                        <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
-                        <button class="btn btn-primary" (click)="enviarId(juego.codJuego!)">ver más</button>
-                    </div>
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        </div>
                     </div>
                 </div>
-                </div>
-            </div> -->
-        </section>
-        <footer id="pie_de_pagina" style="background-color: aqua; text-align: center;">
-            <p>pie de pagina</p>
-        </footer>
+            </section>
+            <section>
+                <h1 class="text-center">Tus juegos</h1>
+                <!-- <div class="container mt-4">
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        <div class="col" *ngFor="let juego of juegos">
+                            <div class="card h-100 shadow">
+                                <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{juego.nombre}}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
+                                    <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
+                                    <button class="btn btn-primary" (click)="enviarId(juego.codJuego!)">Ver más</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+            </section>
+        </form>           
     </div>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

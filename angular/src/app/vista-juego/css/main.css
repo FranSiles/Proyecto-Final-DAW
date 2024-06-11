@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #12214A;
 }
 
 .navbar .logo {
@@ -29,6 +29,7 @@
   color: white;
   text-decoration: none;
   padding: 10px 15px;
+  font-size: 1.1em;
 }
 
 .menu-toggle {
@@ -48,13 +49,17 @@
   margin: 4px 0;
 }
 
+.logo img {
+  width: 60px;
+}
+
 /* Estilos para la versión móvil */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
   }
-  .navbar .logo {
+  .logo img {
     display: none;
   }
   .navbar .nav-links {
@@ -63,7 +68,7 @@
     align-items: center;
     width: 100%;
     text-align: center;
-    background-color: #333;
+    background-color: #12214A;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
@@ -85,8 +90,12 @@
 }
 
 @font-face {
-  font-family: Source Sans3;
+  font-family: Source Sans3 italic;
   src: url(../SourceSans3-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: Source Sans3;
+  src: url(../SourceSans3-VariableFont_wght.ttf);
 }
 body {
   font-family: "Source Sans3";
@@ -94,7 +103,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Source Sans3 italic";
 }
 
 .main-content {
@@ -244,6 +253,11 @@ h1, h2, h3 {
   height: 400px; /* Ajusta la altura según tus necesidades */
 }
 
+.comment-textarea .error-message {
+  color: red;
+  margin-top: 10px;
+}
+
 .comentarios h1 {
   text-align: center;
 }
@@ -255,7 +269,8 @@ h1, h2, h3 {
 }
 
 .comentarios .caja-contenedor-comentarios .caja {
-  background: rgb(18, 33, 74);
+  position: relative; /* Necesario para posicionar elementos absolutamente dentro de la caja */
+  background: #12214a;
   padding: 20px;
   border-radius: 10px;
   border: 0.1rem solid rgb(0, 191, 255);
@@ -299,8 +314,20 @@ h1, h2, h3 {
   color: #ffffff;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button {
-  align-self: flex-end; /* Alinea el botón de "Me gusta" al final del comentario */
+.comentarios .caja-contenedor-comentarios .caja .like-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .like-container .likes {
+  margin-right: 10px; /* Espaciado entre el texto de likes y el botón */
+  color: #ffffff;
+}
+
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button {
   padding: 10px;
   border: none;
   background-color: #3498db;
@@ -315,11 +342,11 @@ h1, h2, h3 {
   transition: background-color 0.3s;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button:hover {
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button:hover {
   background-color: #2980b9;
 }
 
-.comentarios .caja-contenedor-comentarios .caja .like-button i {
+.comentarios .caja-contenedor-comentarios .caja .like-container .like-button i {
   margin: 0;
 }
 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre del Juego</title>
+    
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>    
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Juegos</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <div class="left-column">
+
+        <!-- Información del juego -->
+        <div class="game-info"> 
+            <h1 style="display: block; text-align: left;">{{ juego.nombre }}</h1>
+            <h2>Desarrollador: {{juego.desarrollador}}</h2>
+            <h2 *ngIf="!juego.generoSecundario">Genero:{{juego.generoPrincipal}}</h2>
+            <h2 *ngIf="juego.generoSecundario">Genero:{{juego.generoPrincipal}},{{juego.generoSecundario}}</h2>
+            <div class="rating">
+                <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>4,2
+            </div>
+            <div class="pegi">
+            <img [src]="rutaImagen" alt="PEGI" width="100px">
+            </div>
+        </div>
+    </div>
+    <div class="right-column">
+            <div class="trailer">
+                <img *ngIf="!safeTrailerUrl" [src]="'http://localhost:80/' + juego.imagen" width="560" height="315">
+                <iframe *ngIf="safeTrailerUrl" width="560" height="315" [src]="safeTrailerUrl" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <!-- Descripción del juego -->
+            <div class="description">
+                <h2>Descripción del Juego</h2>
+                <p>{{juego.descripcion}}</p>
+            </div>
+    </div>  
+</div>
+
+<!-- Antes de la sección de comentarios -->
+<div class="comment-textarea">
+    <textarea placeholder="Deja tu comentario aquí"></textarea>
+    <button type="submit">Enviar</button>
+</div>
+
+<section class="comentarios" id="comentarios">
+    <h1 class="heading-comentarios">COMENTARIOS</h1>
+    <div class="caja-contenedor-comentarios">
+        <div class="caja">
+            <div class="usuario">
+                <img [src]="rutaPerfil" alt="">
+                <div class="info-usuario">
+                    <p>Pedro</p>
+                    <div class="stars">
+                        4,3 <div class="fas fa-star"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="comentario">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
+            </div>
+        </div>
+        <div class="caja">
+            <div class="usuario">
+                <img src="./img/omen.jpg" alt="">
+                <div class="info-usuario">
+                    <p>Pedro</p>
+                    <div class="stars">
+                        4,3 <div class="fas fa-star"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="comentario">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptates optio culpa. Maiores voluptate vel, amet doloribus veritatis dolore enim voluptas aliquid nihil hic debitis, atque repudiandae illo vero ea! Aliquid id, oabo suscipit aliquid, voluptatum, ducimus nisi assumenda temporibus rerum, ea perferendis! Nemo esse, impedit voluptatem laboriosam sed beatae vero illum nam iste. Enim possimus dolores fugit. Animi?</p>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<section class="carrousel" id="carousel-section">
+    <h1 class="heading-pasarela">JUEGOS EN TENDENCIA</h1>
+<div class="caja-carrousel">
+    <input type="radio" name="position" class="control-carrousel" checked>
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
+<input type="radio" name="position" class="control-carrousel">
+    <main id="carousel">
+        <div class="item">
+            <img src="./img/valo.png" alt="Videojuego 1">
+            <h2>VALORANT</h2>
+            <p>ACCION,SHOOTER</p>
+        </div>
+        <div class="item">
+            <img src="./img/valo.png" alt="Videojuego 2">
+            <h2>VALORANT</h2>
+            <p>ACCION,SHOOTER</p>
+        </div>
+        <div class="item">
+            <img src="./img/valo.png" alt="Videojuego 1">
+            <h2>VALORANT</h2>
+            <p>ACCION,SHOOTER</p>
+        </div>
+        <div class="item">
+            <img src="./img/valo.png" alt="Videojuego 2">
+            <h2>VALORANT</h2>
+            <p>ACCION,SHOOTER</p>
+        </div>
+        <div class="item">
+            <img src="./img/valo.png" alt="Videojuego 2">
+            <h2>VALORANT</h2>
+            <p>ACCION,SHOOTER</p>
+        </div>
+    </main>
+</div>
+</section>
+<footer class="footer">
+    <div class="waves">
+    <div class="wave" id="wave1"></div>
+    <div class="wave" id="wave2"></div>
+    <div class="wave" id="wave3"></div>
+    <div class="wave" id="wave4"></div>
+    </div>
+    <!--<ul class="social-icon">
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-facebook"></ion-icon>
+        </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-twitter"></ion-icon>
+        </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-linkedin"></ion-icon>
+        </a></li>
+    <li class="social-icon__item"><a class="social-icon__link" href="#">
+        <ion-icon name="logo-instagram"></ion-icon>
+        </a></li>
+    </ul>-->
+    <ul class="menu">
+    <li class="menu__item"><a class="menu__link" href="#">Home</a></li>
+    <li class="menu__item"><a class="menu__link" href="#">About</a></li>
+    <li class="menu__item"><a class="menu__link" href="#">Services</a></li>
+    <li class="menu__item"><a class="menu__link" href="#">Team</a></li>
+    <li class="menu__item"><a class="menu__link" href="#">Contact</a></li>
+
+    </ul>
+</footer>
+<!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
+
+</body>
+</html>

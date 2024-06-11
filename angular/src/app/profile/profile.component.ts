@@ -51,6 +51,9 @@ export class ProfileComponent {
   eliminarId(codUsuario:number){
     this.paginaservice.eliminarUsuario(codUsuario);
   }
+  logout():void{
+    this.paginaservice.logout();
+}
 
 }
 
