@@ -67,13 +67,23 @@ class UsuariosController extends Controller
     $email=$request->input('email');
     $nomUsuario=$request->input('nomUsuario');
     $password=$request->input('password');
-    User::where('codUsuario' , $codUsuario)->update(['email'=>$email,
+    $request->validate([
+        'email' => 'required|string|email',
+        'password' => 'required|string',
+        'nomUsuario'=>'required|string',
+    ]);
+    $nombre=User::where('nomUsuario',$nomUsuario)->first();
+    if(!$nombre){
+        User::where('codUsuario' , $codUsuario)->update(['email'=>$email,
                                                         'nomUsuario'=>$nomUsuario,
                                                         'password'=>Hash::make($password)]);
-    // Retornar una respuesta de éxito
-    $usuarioeliminotoken = $request->user();
-    $usuarioeliminotoken->currentAccessToken()->delete();
-    return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
+        // Retornar una respuesta de éxito
+        $usuarioeliminotoken = $request->user();
+        $usuarioeliminotoken->currentAccessToken()->delete();
+        return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
+    }else{
+        return response()->json(["status" => "error","message" => "El nombre del usuario ya existe"], 422);
+    }
 }
     public function destroy($id,Request $request){
         $usuario = User::where('codUsuario', $id)->first();
@@ -87,44 +97,118 @@ class UsuariosController extends Controller
         $password=$request->input('password');
         $nomUsuario=$request->input('nombre');
         $foto=$request->file('foto');
-        if($foto){
-            $imagen = $foto;
-            $ruta=$imagen->store('public');
-            $ruta = 'storage/' . str_replace('public/', '', $ruta);
-            User::create([
-                'nomUsuario' => $nomUsuario,
-                'email' => $email,
-                'password' => Hash::make($password),
-                'foto' => $ruta 
-            ]);
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'nombre'=>'required|string',
+            'foto'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+        $usuario=User::where('email',$email)->first();
+        $nombre=User::where('nomUsuario',$nomUsuario)->first();
+        if(!$usuario && !$nombre){
+            if($foto){
+                $imagen = $foto;
+                $ruta=$imagen->store('public');
+                $ruta = 'storage/' . str_replace('public/', '', $ruta);
+                User::create([
+                    'nomUsuario' => $nomUsuario,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                    'foto' => $ruta,
+                    'administrador'=>"no"
+                ]);
+            }else{
+                $ruta="storage/fotoperfil.webp";
+                User::create([
+                    'nomUsuario' => $nomUsuario,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                    'foto'=> $ruta,
+                    'administrador'=>"no"]);
+            }
         }else{
-            $ruta="storage/fotoperfil.webp";
-            User::create([
-                'nomUsuario' => $nomUsuario,
-                'email' => $email,
-                'password' => Hash::make($password),
-                'foto'=> $ruta]);
+            return response()->json(["status" => "error","message" => "Este usuario ya existe"], 422);
         }
-        
     }
     public function cambiarfoto(Request $request){
+        $request->validate([
+            'foto'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
         $foto=$request->file('foto');
         $ruta=$foto->store('public');
         $ruta = 'storage/' . str_replace('public/', '', $ruta);
         User::where('codUsuario',Auth::user()->codUsuario)->update(['foto'=>$ruta]);
         return response()->json(['message' => 'Foto de usuario actualizada correctamente'], 200);
     }
-    public function obtenerComentariosYValoraciones()
+    public function obtenerComentariosYValoraciones($codUsuario)
     {
-        $codUsuario=12;
-        $usuario = User::with(['comentarios', 'valoraciones'])->find($codUsuario);
-        
-        $comentariosYValoraciones = $usuario->comentarios->merge($usuario->valoraciones);
-        dd($comentariosYValoraciones);
         // Ordenar por fecha o cualquier otro criterio si es necesario
-        $comentariosYValoraciones = $comentariosYValoraciones->sortByDesc('created_at');
-        
-        /* return response()->json($comentariosYValoraciones); */
+        $usuario = User::find($codUsuario);
+
+        // Obtén los comentarios y valoraciones del usuario, o colecciones vacías si el usuario no existe
+        $comentarios =$usuario->comentarios;
+        $valoraciones =$usuario->valoraciones;
+        $resultados = [];
+
+        foreach ($comentarios as $comentario) {
+            $resultados[] = [
+                'codJuego' => $comentario->codJuego,
+                'comentario' => $comentario->texto,
+                'valoracion' => null
+            ];
+        }
+    
+        foreach ($valoraciones as $valoracion) {
+            $index = array_search($valoracion->codJuego, array_column($resultados, 'codJuego'));
+    
+            if ($index !== false) {
+                $resultados[$index]['valoracion'] = $valoracion->puntuacion;
+            } else {
+                $resultados[] = [
+                    'codJuego' => $valoracion->codJuego,
+                    'comentario' => null,
+                    'valoracion' => $valoracion->textoValoracion
+                ];
+            }
+        }
+        /* dd($resultados); */
+        return response()->json($resultados,200);
+    }
+    public function login(Request $request){
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+        if (Auth::attempt($request->only("email","password"))):
+            if(Auth::user()->administrador=="si"){
+                $request->session()->regenerate();
+                return redirect(route('dashboard'));
+            }
+            return redirect()->back()->withErrors(['error' => 'Este usuario no es administrador']);
+            return redirect(route('welcome'));
+        else:
+            return redirect()->back()->withErrors(['error' => 'Este usuario no existe']);
+        endif ;
+    }
+    public function mostrarusuarios(){
+        $usuarios=User::all();
+        return view('dashboard',['usuarios'=>$usuarios]);
+    }
+    public function nuevoadmin($id){
+        User::where('codUsuario',$id)->update(['administrador'=>"si"]);
+        return redirect(route('dashboard'));
+    }
+    public function borrarusuario($id){
+        User::where('codUsuario',$id)->delete();
+        return redirect(route('dashboard'));
+    }
+    public function logout(Request $request){
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect(route('welcome'));
     }
 
 }

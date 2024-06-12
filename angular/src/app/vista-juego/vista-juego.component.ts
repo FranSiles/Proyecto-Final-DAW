@@ -27,6 +27,7 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   public nomusuario: Usuario={nomUsuario:''};
   public juego: Juego = { nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: '' };
   public comentarios: Comentarios = { texto: '', codUsuario: 0, codJuego: 0 }
+  public comentariousuario:Comentarios={texto: '', codUsuario: 0, codJuego: 0}
   public valoracion: Valoracion = { puntuacion: 0, codUsuario: 0, codJuego: 0 }
   private suscripcion: Subscription | null = null;
   public safeTrailerUrl: SafeResourceUrl | null = null;
@@ -35,16 +36,18 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
   onResize(event: any) {
     this.drawChart();
   }
-  comments: any[] = [];
-  ratings: any[] = [];
+  public comments: any[] = [];
+  public ratings: any[] = [];
 
-  mediaValoracion: number = 0;
+  public mediaValoracion: number = 0;
 
-  stars = [1, 2, 3, 4, 5];
-  reversedStars: number[] = [];
+  public stars = [1, 2, 3, 4, 5];
+  public reversedStars: number[] = [];
   
-  successMessage: string = '';
-  errorMessage: string = '';
+  public successMessage: string = '';
+  public errorMessage: string = '';
+  public nocomentarios: string='';
+
 
   constructor(private paginaservice: PaginaService, private sanitizer: DomSanitizer, private router: Router, private googleChartsService: GoogleChartsService) {
     this.suscripcion = this.paginaservice.juego$.subscribe(juego => {
@@ -57,15 +60,24 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     if (!localStorage.getItem('juego')) {
       this.router.navigate(['/pagina-principal']); /* Ahi hay que volver cuando se cierre sesion para eliminar todas las claves de localstorage*/
     }
+    if(this.usuario){
+      const usuarioprueba=JSON.parse(this.usuario || "");
+      const juego = localStorage.getItem('juego');
+      const array= JSON.parse(juego || "");
+      console.log(array.juego.codJuego);
+      this.paginaservice.conseguircomentario(usuarioprueba.data.codUsuario,array.juego.codJuego)
+    }
   }
 
   ngOnInit() {
     this.reversedStars = this.stars.slice().reverse();
     const juego = localStorage.getItem('juego');
     const array= JSON.parse(juego || "");
+    console.log("juego:",juego);
     this.juego=array.juego;
     this.nomusuario=array.usuario
     console.log("nombre:",this.nomusuario);
+    console.log("usuario",this.usuario);
     console.log('ID del juego guardado en localStorage: ', localStorage.getItem('juego'));
     if (this.juego.trailer) {
       this.safeTrailerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.juego.trailer || '');
@@ -86,7 +98,7 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
         this.juegos = juegosNuevos;
       });
       console.log("mis juegos aleatorios",this.juegos);
-       if (this.juego && this.juego.codJuego) {
+      if (this.juego && this.juego.codJuego) {
       this.paginaservice.obtenerMedia(this.juego.codJuego).subscribe(
         media => {
           this.mediaValoracion = media;
@@ -97,8 +109,14 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
         }
       );
     }
-  
-      
+    if(this.usuario){
+      this.suscripcion = this.paginaservice.comentario$.subscribe((Comentario: Comentarios) => {
+        this.comentarios = Comentario;
+        console.log("texto recibido",this.comentarios.texto);
+        console.log('comentario recibido', this.comentarios);
+      });
+    }
+
   }
 
   ngOnDestroy() {
@@ -130,7 +148,7 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
       },
       error => {
         console.error('Error al obtener comentarios y valoraciones:', error);
-        this.errorMessage = 'Error al obtener comentarios y valoraciones. Por favor, inténtelo de nuevo más tarde.';
+        this.nocomentarios = 'Todavia no hay comentarios realizados en este juego';
       }
     );
   }
@@ -226,11 +244,4 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     console.log("recibo el id de mi usuario: ",usuario.data.codUsuario);
     this.paginaservice.cargarusuario(usuario.data.codUsuario);
   }
-  /* Like(codComentario: number): void {
-    console.log('El código del comentario seleccionado es:', codComentario);
-    const usuario=JSON.parse(this.usuario||"");
-
-    // Llama a la función del servicio Laravel que quieras utilizar
-    this.paginaservice.subirLike(codComentario,usuario.data.codUsuario);
-  } */
 }

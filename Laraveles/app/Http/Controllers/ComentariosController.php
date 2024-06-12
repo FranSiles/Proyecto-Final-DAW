@@ -41,12 +41,7 @@ class ComentariosController extends Controller
 
         return response()->json(['message' => 'Comentario creado exitosamente'], 201);
     }
-
-    public function show(Comentarios $comentario)
-    {
-        return response()->json($comentario);
-    }
-
+    
     public function update(Request $request, Comentarios $comentario)
     {
         $request->validate([
@@ -71,14 +66,29 @@ class ComentariosController extends Controller
     {
         $comentarios = Comentarios::where('codJuego', $id)
             ->with(['usuario' => function ($query) {
-                $query->select('codUsuario', 'foto', 'nomUsuario'); // Asumiendo que 'foto' es el nombre de la columna en la tabla 'usuarios'
+                $query->select('codUsuario', 'foto','nomUsuario'); // Asumiendo que 'fotoPerfil' es el nombre de la columna en la tabla 'usuarios'
             }])
             ->get(['codComentario', 'codUsuario', 'codJuego', 'texto', 'likes']);
-
+    
         if ($comentarios->isEmpty()) {
             return response()->json(['message' => 'No comments found'], 404);
         }
-
+    
         return response()->json($comentarios);
+    }
+    public function conseguircomentario($codUsuario,$codJuego){
+        $comentario=Comentarios::where('codUsuario',$codUsuario)->where('codJuego',$codJuego)->get();
+        if($comentario){
+            $comentariosJson = $comentario->toJson();
+            return response()->json($comentariosJson);
+        }
+    }
+    public function mostrarcomentarios(){
+        $comentarios=Comentarios::with('juego','usuario')->get();
+        return view('listacomentarios',['comentarios'=>$comentarios]);
+    }
+    public function borrarcomentarios($id){
+        Comentarios::where('codComentario',$id)->delete();
+        return redirect(route('listacomentarios'));
     }
 }

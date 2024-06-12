@@ -21,6 +21,7 @@ class UsuariosTableSeeder extends Seeder
             'nomUsuario' => 'Usuario1',
             'email' => 'usuario1@example.com',
             'password' => bcrypt('password123'),// Asegúrate de cifrar la contraseña
+            'administrador'=>'no',
             'foto'=>'storage/fotoperfil.webp'
             // Agrega otros campos según tu tabla
         ]);
@@ -28,9 +29,17 @@ class UsuariosTableSeeder extends Seeder
         User::create([
             'nomUsuario' => 'Usuario2',
             'email' => 'usuario2@example.com',
+            'administrador'=>'no',
             'password' => bcrypt('password123'),
             'foto'=>'storage/fotoperfil.webp'
             // Agrega otros campos según tu tabla
+        ]);
+        User::create([
+            'nomUsuario'=>'admin',
+            'email'=>'administrador@gmail.com',
+            'administrador'=>'si',
+            'password'=>bcrypt('admin'),
+            'foto'=>'storage/fotoperfil.webp'
         ]);
 
         // Puedes crear más usuarios aquí según sea necesario

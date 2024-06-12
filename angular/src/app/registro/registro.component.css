@@ -1,51 +1,45 @@
-.background-radial-gradient {
-    background-color: hsl(218, 41%, 15%);
-    background-image: radial-gradient(650px circle at 0% 0%,
-        hsl(218, 41%, 35%) 15%,
-        hsl(218, 41%, 30%) 35%,
-        hsl(218, 41%, 20%) 75%,
-        hsl(218, 41%, 19%) 80%,
-        transparent 100%),
-      radial-gradient(1250px circle at 100% 100%,
-        hsl(218, 41%, 45%) 15%,
-        hsl(218, 41%, 30%) 35%,
-        hsl(218, 41%, 20%) 75%,
-        hsl(218, 41%, 19%) 80%,
-        transparent 100%);
+html,body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #384B7D;
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  flex-direction: column; /* Asegura que el contenido dentro del body sea una columna */
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el body tenga al menos la altura de la ventana */
+  box-sizing: border-box;
+}
+
+.bg-glass {
+  background-color: hsla(0, 0%, 100%, 0.9) !important;
+  backdrop-filter: saturate(200%) blur(25px);
+}
+.imagen{
+  width: 50%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
   }
-  
-  #radius-shape-1 {
-    height: 220px;
-    width: 220px;
-    top: -60px;
-    left: -130px;
-    background: radial-gradient(#44006b, #ad1fff);
-    overflow: hidden;
-  }
-  
-  #radius-shape-2 {
-    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-    bottom: -60px;
-    right: -110px;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(#44006b, #ad1fff);
-    overflow: hidden;
-  }
-  
-  .bg-glass {
-    background-color: hsla(0, 0%, 100%, 0.9) !important;
-    backdrop-filter: saturate(200%) blur(25px);
-  }
-  
-  .btn{
-    background-color: purple;
-    color: white;
-  }
-  .btn:hover{
-    background-color: purple;
-    color: white;
-  }
-  section{
-    height: 100vh;
-  }
+.btn{
+  background-color: #7283B0;
+  color: white;
+}
+.btn:hover{
+  background-color: #7283B0;
+  color: white;
+}
+
+.input-error {
+  border-color: red;
+}
+.color-error{
+  color: red;
+}
+.texto-centrado{
+  text-align: center;
+}

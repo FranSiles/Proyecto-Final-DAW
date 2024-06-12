@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class ModificarUsuarioComponent {
   public usuario: Usuario = { email: '',nomUsuario:'',password:''};
+  public errors:any;
   private suscripcion: Subscription | null = null;
   constructor(private paginaservice: PaginaService){}
   ngOnInit() {
@@ -20,11 +21,16 @@ export class ModificarUsuarioComponent {
     console.log("mi usuario en modificar-perfil es: ",this.usuario);
     }
     }
+    this.suscripcion = this.paginaservice.errors$.subscribe((error: any) => {
+      this.errors = error;
+      console.log('Errores recibidos:', this.errors);
+    });
   }
   ngOnDestroy() {
     if (this.suscripcion !== null) {
       this.suscripcion.unsubscribe(); // Evita fugas de memoria al destruir el componente
     }
+    this.paginaservice.limpiarErrores();
   }
   cambiousuario(codUsuario:number){
     console.log("Desde 'mi modificar usuario' envio",this.usuario);

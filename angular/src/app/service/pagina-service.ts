@@ -7,11 +7,10 @@ import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Comentarios } from '../interface/comentario';
 import { Valoracion } from '../interface/valoracion';
+import { Comentariosvaloracion } from '../interface/comentariovaloracion';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Observable, of } from 'rxjs';
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,13 +18,21 @@ export class PaginaService {
     private _juegos: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
     private _juegosaleatorios: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
     private _juegosusuario: BehaviorSubject<Juego[]> = new BehaviorSubject<Juego[]>([]);
+    private _comenatirosvaloraciones: BehaviorSubject<Comentariosvaloracion[]> = new BehaviorSubject<Comentariosvaloracion[]>([]);
     private _juego = new BehaviorSubject<Juego>({nombre: '', descripcion: '', imagen: '', pegi: 0, generoPrincipal: '', generoSecundario: '', trailer: '', desarrollador: ''});
-    private _usuario = new Subject<Usuario>();/*subject funciona perfecto ahi que probar a hacer subject con los juegos*/
+    private _comentario=new BehaviorSubject<Comentarios>({texto: '',codUsuario: 0,codJuego: 0});
+    private _errors= new BehaviorSubject<any>(null);
+    private _usuario = new Subject<Usuario>();
     usuario$=this._usuario.asObservable();
     juegos$ = this._juegos.asObservable();
     juego$=this._juego.asObservable();
     juegosaleatorios$=this._juegosaleatorios.asObservable();
     juegosusuario$=this._juegosusuario.asObservable();
+    comenatirosvaloraciones$=this._comenatirosvaloraciones.asObservable();
+    errors$=this._errors.asObservable();
+    comentario$=this._comentario.asObservable();
+    public totalItems: number = 0;
+    public totalPages: number = 0;
     constructor(private router: Router,private laravelservice:LaravelService){}
     verificarUsuario(usuario:Usuario){
       console.log("hola recibo: ",usuario)
@@ -33,10 +40,12 @@ export class PaginaService {
         next: (usuarioLogueado: Usuario)=>{
           console.log("Usuario logueado:", usuarioLogueado);
           localStorage.setItem('usuario',JSON.stringify(usuarioLogueado));
+          this._errors.next(null);
           this.router.navigate(['/paginaprincipal']);
         },
         error: (error: any) => {
           console.error("Error al registro de usuario:", error);
+          this._errors.next(error);
         }
       })
     }
@@ -48,6 +57,7 @@ export class PaginaService {
         },
         error: (error: any) => {
           console.error("Error al registro de usuario:", error);
+          this._errors.next(error);
         }
       })
     }
@@ -80,6 +90,7 @@ export class PaginaService {
         },
         error: (error: any) => {
           console.error("error registro juego:", error);
+          this._errors.next(error);
         }
       })
     }
@@ -88,7 +99,10 @@ export class PaginaService {
         next: ()=>{
           localStorage.removeItem('usuario');
           localStorage.removeItem('juego');
-          this.router.navigate(['/iniciosesion']);
+          localStorage.removeItem('usuarioperfil');
+          this.router.navigateByUrl('/paginaprincipal').then(() => {
+            window.location.reload();
+          });
         },
         error: (error: any) => {
           console.error("error al cerrar sesion:", error);
@@ -110,10 +124,12 @@ export class PaginaService {
       console.log("El codigo que llega a pagina servcie es: ",codUsuario);
       this.laravelservice.eliminarUsuario(codUsuario).subscribe({
         next:()=>{
-          localStorage.removeItem('usuariorespuesta');
+          localStorage.removeItem('usuario');
           localStorage.removeItem('juego');
-          localStorage.removeItem('usuariorespuesta');
-          this.router.navigate(['/iniciosesion']);
+          localStorage.removeItem('usuarioperfil');
+          this.router.navigateByUrl('/paginaprincipal').then(() => {
+            window.location.reload();
+          });
         },error: (error: any) => {
           console.error("error al cargar usuario:", error);
         }
@@ -126,7 +142,9 @@ export class PaginaService {
             this.laravelservice.submitRating(valoracion).subscribe({
               next: () => {
                 onSuccess();
-                this.router.navigate(['/juego']);
+                this.router.navigateByUrl('/juego').then(() => {
+                  window.location.reload();
+                });
               },
               error: (error: any) => {
                 console.error("Error al registrar la valoración:", error);
@@ -152,32 +170,12 @@ export class PaginaService {
         });
       }
     }
-    
 
-    obtenerComentarios(codJuego: number){
-      return this.laravelservice.obtenerComentarios(codJuego).pipe(
-        catchError(error => {
-          console.error('Error al obtener comentarios:', error);
-          return throwError('Ocurrió un error al obtener comentarios del juego.');
-        })
-      );
+    obtenerComentarios(codJuego:number){//¿Es mejor usar observable?
+      return this.laravelservice.obtenerComentarios(codJuego);
     }
-    obtenerRating(codJuego: number){
-      return this.laravelservice.obtenerValoraciones(codJuego).pipe(
-        catchError(error => {
-          console.error('Error al obtener valoraciones:', error);
-          return throwError('Ocurrió un error al obtener valoraciones del juego.');
-        })
-      );
-    }
-    obtenerMedia(codJuego: number): Observable<number> { //que diferencia hay entre usar aqui observable?
-      return this.laravelservice.obtenerMediaValoraciones(codJuego).pipe(
-        map(response => response.media),
-        catchError(error => {
-          console.error('Error al obtener la media de valoraciones:', error);
-          return of(0);
-        })
-      );
+    obtenerRating(codJuego:number){//¿Es mejor usar observable?
+      return this.laravelservice.obtenerValoraciones(codJuego);
     }
     modificarusuario(usuario:Usuario,codUsuario:number){
       console.log("hola recibo usuario",usuario);
@@ -190,6 +188,7 @@ export class PaginaService {
           this.router.navigate(['/iniciosesion']);
         },error: (error: any) => {
           console.error("error al cargar usuario:", error);
+          this._errors.next(error);
         }
       })
     }
@@ -203,6 +202,7 @@ export class PaginaService {
           this.router.navigate(['/iniciosesion']);
         },error: (error: any)=>{
           console.error("error al subir la foto",error);
+          this._errors.next(error);
         }
       })
     }
@@ -231,8 +231,33 @@ export class PaginaService {
         }
       })
     }
-   /*  //PARA SUBIR 1 LIKE 
-    subirLike(comentarioId: number,reaccion:boolean): void {
-      this.laravelservice.sumarLike(comentarioId,reaccion)
-  } */
-} 
+    cargarcomentariosvaloraciones(codUsuario:number){
+      this.laravelservice.cargarcomentariosvaloraciones(codUsuario).pipe(
+        tap((comentariovaloracion: Comentariosvaloracion[]) => {
+          this._comenatirosvaloraciones.next(comentariovaloracion);
+          console.log("La Consulta a la BD devuelve: ", this._comenatirosvaloraciones);
+        })
+      ).subscribe();
+    }
+    limpiarErrores(): void {
+      this._errors.next(null);
+    }
+    obtenerMedia(codJuego: number) {
+      return this.laravelservice.obtenerMediaValoraciones(codJuego).pipe(
+        map(response => response.media),
+        catchError(error => {
+          console.error('Error al obtener la media de valoraciones:', error);
+          return of(0);
+        })
+      );
+    }
+    conseguircomentario(codUsuario:number,codJuego:number){
+      this.laravelservice.conseguircomentario(codUsuario,codJuego).subscribe({
+        next:(Comentario:Comentarios)=>{
+          this._comentario.next(Comentario);
+        },error: (error:any)=>{
+          console.error("error al borrar el juego",error)
+        }
+      })
+    }
+}

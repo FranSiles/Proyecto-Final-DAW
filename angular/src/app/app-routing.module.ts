@@ -8,7 +8,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { VistaJuegoComponent } from './vista-juego/vista-juego.component';
 import { RegistroJuegoComponent } from './registro-juego/registro-juego.component';
 import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
-import { CambiarContrasenaComponent } from './cambiar-contrasena/cambiar-contrasena.component';
+import { AuthGuard } from './service/Authguard';
 
 const routes: Routes = [
   {
@@ -21,23 +21,20 @@ const routes: Routes = [
     path: 'paginaprincipal', component: PaginaPrincipalComponent
   },
   {
-    path: 'perfil',component: ProfileComponent
+    path: 'perfil',component: ProfileComponent,canActivate: [AuthGuard]
   },
   {
     path: 'juego', component: VistaJuegoComponent
   },
   {
-    path: 'registrojuego', component:RegistroJuegoComponent
+    path: 'registrojuego', component:RegistroJuegoComponent,canActivate: [AuthGuard]
   },
   {
-    path:'modificarusuario',component:ModificarUsuarioComponent
-  },
-  {
-    path:'cambiarcontraseña',component:CambiarContrasenaComponent
+    path:'modificarusuario',component:ModificarUsuarioComponent,canActivate: [AuthGuard]
   },
   {
     path: '',
-    redirectTo: 'iniciosesion',
+    redirectTo: 'paginaprincipal',
     pathMatch: 'full'
   },
   {

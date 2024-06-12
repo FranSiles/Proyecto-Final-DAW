@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('juegos', function (Blueprint $table) {
             $table->increments('codJuego');
             $table->unsignedInteger('codUsuario');
-            $table->string('nombre');
+            $table->string('nombre')->unique();
             $table->text('descripcion');
             $table->string('imagen');
             $table->integer('pegi');

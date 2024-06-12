@@ -26,6 +26,7 @@ class User extends Authenticatable
         'codUsuario',
         'nomUsuario',
         'email',
+        'administrador',
         'password',
         'foto'
     ];
@@ -50,12 +51,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     public function comentarios(){
-        return $this->hasMany(Comentarios::class,"codUsuario")->get();
+        return $this->hasMany(Comentarios::class,"codUsuario");
     }
     public function valoraciones(){
-        return $this->hasOne(valoraciones::class);
+        return $this->hasMany(valoraciones::class,"codUsuario");
     }
     public function juegos(){
-        return $this->hasMany(Juegos::class,"codUsuario")->get();
+        return $this->hasMany(Juegos::class,"codUsuario");
     }
 }

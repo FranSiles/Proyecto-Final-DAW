@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { VistaJuegoComponent } from './vista-juego/vista-juego.component';
 import { RegistroJuegoComponent } from './registro-juego/registro-juego.component';
-import { CambiarContrasenaComponent } from './cambiar-contrasena/cambiar-contrasena.component';
 import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario
     ProfileComponent,
     VistaJuegoComponent,
     RegistroJuegoComponent,
-    CambiarContrasenaComponent,
     ModificarUsuarioComponent
   ],
   imports: [

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\juegos;
+use App\Rules\Video;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class JuegosController extends Controller
@@ -54,6 +56,17 @@ class JuegosController extends Controller
 
         // Retornar una respuesta de éxito
         return response()->json(['message' => 'Juego creado correctamente'], 201); */
+        /* $codUsuario=$request->input('codUsario'); */
+        $request->validate([
+            'nombre' => 'required|string',
+            'descripcion' => 'required|min:100|max:500',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'pegi' => 'required|string',
+            'generoPrincipal' => 'required|string',
+            'generoSecundario' => 'nullable|string',
+            'trailer' => ['nullable','string',new Video],
+            'desarrollador' => 'required|string',
+        ]);
         $nombre=$request->input('nombre');
         $descripcion=$request->input('descripcion');
         $pegi=$request->input('pegi');
@@ -62,20 +75,26 @@ class JuegosController extends Controller
         $generoSecundario=$request->input('generoSecundario');
         $trailer=$request->input('trailer');
         $desarrollador=$request->input('desarrollador');
+        $juego=juegos::where('nombre',$nombre)->first();
+        if(!$juego){
         $ruta=$imagen->store('public');
         $ruta = 'storage/' . str_replace('public/', '', $ruta);
         if($trailer){
             $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
         }
-        juegos::create(['nombre'=>$nombre,
+        juegos::create(['codUsuario' => Auth::user()->codUsuario,
+                        'nombre'=>$nombre,
                         'descripcion'=>$descripcion,
-                        'imagen'=>$ruta,
+                        'imagen'=>$ruta ,
                         'pegi'=>$pegi,
                         'generoPrincipal'=>$generoPrincipal,
                         'generoSecundario'=>$generoSecundario,
                         'trailer'=>$trailer,
                         'desarrollador'=>$desarrollador
         ]);
+    }else{
+        return response()->json(["status" => "error","message" => "Este juego ya existe"], 422);
+    }
     }
 
     public function show($codJuego)
@@ -132,11 +151,9 @@ public function update(Request $request, Juegos $juego)
     return response()->json(['message' => 'Juego actualizado correctamente'], 200);
 }
 
-public function destroy(Juegos $juego)
+public function destroy($codJuego)
 {
-    // Eliminar el juego de la base de datos
-    $juego->delete();
-
+    juegos::where('codJuego',$codJuego)->delete();
     // Retornar una respuesta de éxito
     return response()->json(['message' => 'Juego eliminado correctamente'], 200);
 }
@@ -145,7 +162,8 @@ public function obtenerJuego(Request $request){
     $juego=juegos::find($id);
     return response()->json($juego,200);
 }
-public function anadirJuego(Request $request){
+/* public function anadirJuego(Request $request){
+    
     $nombre=$request->input('nombre');
     $descripcion=$request->input('descripcion');
     $pegi=$request->input('pegi');
@@ -156,7 +174,9 @@ public function anadirJuego(Request $request){
     $desarrollador=$request->input('desarrollador');
     $ruta=$imagen->store('public');
     $ruta = 'storage/' . str_replace('public/', '', $ruta);
-    $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+    if($trailer){
+        $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
+    }
     juegos::create(['nombre'=>$nombre,
                     'descripcion'=>$descripcion,
                     'imagen'=>$ruta,
@@ -167,7 +187,7 @@ public function anadirJuego(Request $request){
                     'desarrollador'=>$desarrollador
     ]);
     /* 'codJuego','nombre','descripcion','imagen','pegi','generoPrincipal','generoSecundario','trailer','desarrollador' */
-}
+/*}*/
 public function juegosaleatorios($codJuego){
     $juegos = juegos::where('codJuego', '!=', $codJuego)->inRandomOrder()->take(5)->get();
     return response()->json($juegos,200);
@@ -175,5 +195,13 @@ public function juegosaleatorios($codJuego){
 public function juegosusuario($codUsuario){
     $juegos= juegos::where('codUsuario',$codUsuario)->get();
     return response()->json($juegos,200);
+}
+public function mostrarjuegos(){
+    $juegos = juegos::with('usuarios')->get();
+    return view('listajuegos',['juegos'=>$juegos]);
+}
+public function borrarjuego($id){
+    juegos::where('codJuego',$id)->delete();
+        return redirect(route('listajuegos'));
 }
 }

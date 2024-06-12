@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Valoraciones;
 use Illuminate\Http\Request;
 
+
 class ValoracionesController extends Controller
 {
     public function index()
@@ -67,37 +68,44 @@ class ValoracionesController extends Controller
     }
 
     public function getValoraciones($id)
-    {
-        $valoraciones = Valoraciones::where('codJuego', $id)
-            ->with(['usuario' => function ($query) {
-                $query->select('codUsuario', 'foto', 'nomUsuario'); // Asumiendo que 'foto' y 'nomUsuario' son nombres de columnas en la tabla 'usuarios'
-            }])
-            ->get(['codValoracion', 'codUsuario', 'codJuego', 'puntuacion']);
+{
+    $valoraciones = Valoraciones::where('codJuego', $id)
+        ->with(['usuario' => function ($query) {
+            $query->select('codUsuario', 'foto', 'nomUsuario'); // Asumiendo que 'foto' y 'nomUsuario' son nombres de columnas en la tabla 'usuarios'
+        }])
+        ->get(['codValoracion', 'codUsuario', 'codJuego', 'puntuacion']);
 
-        if ($valoraciones->isEmpty()) {
-            return response()->json(['message' => 'No ratings found'], 404);
-        }
-
-        return response()->json($valoraciones);
+    if ($valoraciones->isEmpty()) {
+        return response()->json(['message' => 'No ratings found'], 404);
     }
 
-    public function obtenerValoracionesJuego($codJuego)
-    {
-        $valoraciones = Valoraciones::where('codJuego', $codJuego)->get();
+    return response()->json($valoraciones);
+}
 
-        $counts = [0, 0, 0, 0, 0];
-        foreach ($valoraciones as $valoracion) {
-            $counts[$valoracion->puntuacion - 1]++;
-        }
+public function obtenerValoracionesJuego($codJuego)
+{
+    $valoraciones = Valoraciones::where('codJuego', $codJuego)->get();
 
-        return response()->json(['counts' => $counts]);
+    $counts = [0, 0, 0, 0, 0];
+    foreach ($valoraciones as $valoracion) {
+        $counts[$valoracion->puntuacion - 1]++;
     }
 
-    public function mediaValoracionesJuego($codJuego)
-    {
-        $media = Valoraciones::where('codJuego', $codJuego)
-                             ->avg('puntuacion');
+    return response()->json(['counts' => $counts]);
 
-        return response()->json(['media' => $media]);
+}
+public function mediaValoracionesJuego($codJuego)
+    {
+        $media = Valoraciones::where('codJuego', $codJuego)->avg('puntuacion');
+        $mediaRedondeada = round($media, 1);
+        return response()->json(['media' => $mediaRedondeada]);
     }
+public function mostrarvaloraciones(){
+    $valoraciones=Valoraciones::with('juego','usuario')->get();
+    return view('listavaloraciones',['valoraciones'=>$valoraciones]);
+}
+public function borrarvaloraciones($id){
+    Valoraciones::where('codValoracion',$id)->delete();
+        return redirect(route('listavaloraciones'));
+}
 }

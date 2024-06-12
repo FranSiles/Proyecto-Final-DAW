@@ -12,18 +12,23 @@ class ApiAuthenticationController extends Controller
 {
     
     public function login(Request $request){
-        try {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        } catch (ValidationException $e) {
-        return response()->json(['errors' => $e->errors()], 422);
-        }
         $email=$request->input('email');
         $password=$request->input('password');
         if (Auth::attempt(['email' => $email, 'password' => $password])){
             /*dd(Auth::user());*/
+            /* if(Auth::user()->administrador=="si"){
+                return response()->json(["status"  => "success",
+                            "message" => "Login realizado con éxito",
+                            "data"    => [ "administrador" => Auth::user()->administrador,
+                                           "nomUsuario"=>Auth::user()->nomUsuario,
+                                           "foto"=>Auth::user()->foto,
+                                           "codUsuario"=>Auth::user()->codUsuario],
+                            ]);
+            }else{ */
             $token = Auth::user()->createToken($request->fingerprint())->plainTextToken;
             return response()->json(["status"  => "success",
                             "message" => "Login realizado con éxito",
@@ -32,6 +37,7 @@ class ApiAuthenticationController extends Controller
                                            "foto"=>Auth::user()->foto,
                                            "codUsuario"=>Auth::user()->codUsuario],
                             ]);
+            /* } */
         }else{
             return response()->json(["status" => "error","message" => "Credenciales incorrectas"], 422);
         }

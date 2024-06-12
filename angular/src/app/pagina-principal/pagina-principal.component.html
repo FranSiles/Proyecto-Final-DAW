@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" >Home</a>
+            <a class="nav-link active" aria-current="page" [routerLink]="['/paginaprincipal']">Home</a>
           </li>
           <li class="nav-item">
             <a [routerLink]="['/registrojuego']" class="nav-link" *ngIf="usuario">Registrar juego</a>
@@ -29,7 +29,7 @@
             <a class="nav-link"*ngIf="usuario" [routerLink]="['/paginaprincipal']" (click)="logout()">Desconectar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/perfil']" (click)="enviarIdperfil()">Perfil</a>
+            <a class="nav-link" *ngIf="usuario" [routerLink]="['/perfil']" (click)="enviarIdperfil()">Perfil</a>
           </li>
         </ul>
       </div>
@@ -51,12 +51,10 @@
       <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" *ngFor="let juego of juegos">
           <div class="card h-100 shadow">
-<!--               <img [src]="'http://127.0.0.1:8000' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">         
- -->                              
- <div class="card-img-container">
-                  <img src="../../assets/img/AssassinsCreedValhalla.png" class="card-img-top card-img-responsive" alt="">
+<!--               <img [src]="'http://127.0.0.1:8000' + juego.imagen" class="card-img-top"  alt="{{juego.nombre}}">      -->                              
+<div class="card-img-container">
+                  <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top card-img-responsive" alt="">
   </div>
-
               <div class="card-body">
               <h5 class="card-title">{{juego.nombre}}</h5>
               <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>

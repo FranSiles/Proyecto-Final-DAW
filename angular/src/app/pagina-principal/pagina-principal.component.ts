@@ -10,6 +10,9 @@ import { Juego } from '../interface/juego';
 })
 export class PaginaPrincipalComponent {
   public juegos:Juego[]=[];
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  public totalPages: number = 0;
   public usuario: string | null = localStorage.getItem('usuario');
   private suscripcion: Subscription | null = null;
   constructor(private paginaservice: PaginaService){}

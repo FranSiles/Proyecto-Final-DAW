@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./inicio-sesion.component.css']
 })
 export class InicioSesionComponent {
-  public usuario: Usuario = { email: '', password: '' };
+  public usuario: Usuario = { email: '', password: '' };  
+  public errors: any;
   private usuariorespuesta: string | null = localStorage.getItem('usuario');
   private suscripcion: Subscription | null = null;
   constructor(private paginaservice: PaginaService,private router: Router){
@@ -19,9 +20,11 @@ export class InicioSesionComponent {
       this.router.navigate(['/paginaprincipal']);
     }
   }
+  rutaImagen1: string = 'assets/img/logo.png';
   ngOnInit() {
-    this.suscripcion = this.paginaservice.usuario$.subscribe(usuario => {
-      this.usuario = usuario;
+    this.suscripcion = this.paginaservice.errors$.subscribe((error: any) => {
+      this.errors = error;
+      console.log('Errores recibidos:', this.errors);
     });
   }
 
@@ -29,6 +32,7 @@ export class InicioSesionComponent {
     if (this.suscripcion !== null) {
       this.suscripcion.unsubscribe(); // Evita fugas de memoria al destruir el componente
     }
+    this.paginaservice.limpiarErrores();
   }
 
   loginUsuario():void{

@@ -3,6 +3,7 @@ export interface Usuario {
     nomUsuario?: string;
     token?: string;
     email?: string;
+    administrador?:string;
     password?: string;
     foto?: File|null;
 
