@@ -8,14 +8,10 @@ use Illuminate\Http\Request;
 
 class ValoracionesController extends Controller
 {
-    public function index()
-    {
-        $valoraciones = Valoraciones::all();
-        return response()->json($valoraciones);
-    }
-
+    /* Funcionalidades de la api */
     public function store(Request $request)
     {
+        /* Validaciones */
         $request->validate([
             'puntuacion' => 'required|integer|min:1|max:5',
             'codUsuario' => 'required|exists:usuarios,codUsuario',
@@ -40,31 +36,6 @@ class ValoracionesController extends Controller
         $valoracion->save(); // Guarda la valoración en la base de datos
 
         return response()->json(['message' => 'Valoración guardada con éxito'], 201);
-    }
-
-    public function show(Valoraciones $valoracion)
-    {
-        return response()->json($valoracion);
-    }
-
-    public function update(Request $request, Valoraciones $valoracion)
-    {
-        $request->validate([
-            'codUsuario' => 'exists:usuarios,codUsuario',
-            'codJuego' => 'nullable|exists:juegos,codJuego',
-            'puntuacion' => 'integer|min:1|max:5',
-        ]);
-
-        $valoracion->update($request->all());
-
-        return response()->json(['message' => 'Valoración actualizada correctamente'], 200);
-    }
-
-    public function destroy(Valoraciones $valoracion)
-    {
-        $valoracion->delete();
-
-        return response()->json(['message' => 'Valoración eliminada correctamente'], 200);
     }
 
     public function getValoraciones($id)
@@ -100,6 +71,7 @@ public function mediaValoracionesJuego($codJuego)
         $mediaRedondeada = round($media, 1);
         return response()->json(['media' => $mediaRedondeada]);
     }
+    /* Funcionalidades de la web */
 public function mostrarvaloraciones(){
     $valoraciones=Valoraciones::with('juego','usuario')->get();
     return view('listavaloraciones',['valoraciones'=>$valoraciones]);

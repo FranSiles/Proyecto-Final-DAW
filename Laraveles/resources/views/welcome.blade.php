@@ -6,74 +6,50 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <title>Gaming Home</title>
         <style>
-            .background-radial-gradient {
-  background-color: hsl(218, 41%, 15%);
-  background-image: radial-gradient(650px circle at 0% 0%,
-      hsl(218, 41%, 35%) 15%,
-      hsl(218, 41%, 30%) 35%,
-      hsl(218, 41%, 20%) 75%,
-      hsl(218, 41%, 19%) 80%,
-      transparent 100%),
-    radial-gradient(1250px circle at 100% 100%,
-      hsl(218, 41%, 45%) 15%,
-      hsl(218, 41%, 30%) 35%,
-      hsl(218, 41%, 20%) 75%,
-      hsl(218, 41%, 19%) 80%,
-      transparent 100%);
-}
+          html,body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #384B7D;
+            display: flex;
+            justify-content: center; /* Centrar horizontalmente */
+            align-items: center; /* Centrar verticalmente */
+            flex-direction: column; /* Asegura que el contenido dentro del body sea una columna */
+          }
+          body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el body tenga al menos la altura de la ventana */
+            box-sizing: border-box;
+          }
 
-#radius-shape-1 {
-  height: 220px;
-  width: 220px;
-  top: -60px;
-  left: -130px;
-  background: radial-gradient(#44006b, #ad1fff);
-  overflow: hidden;
-}
-
-#radius-shape-2 {
-  border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-  bottom: -60px;
-  right: -110px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(#44006b, #ad1fff);
-  overflow: hidden;
-}
-
-.bg-glass {
-  background-color: hsla(0, 0%, 100%, 0.9) !important;
-  backdrop-filter: saturate(200%) blur(25px);
-}
-
-.btn{
-  background-color: purple;
-  color: white;
-}
-.btn:hover{
-  background-color: purple;
-  color: white;
-}
-section{/*mirar porque no funciona para movil*/
-  height: 100vh;
-}
+          .bg-glass {
+            background-color: hsla(0, 0%, 100%, 0.9) !important;
+            backdrop-filter: saturate(200%) blur(25px);
+          }
+          .btn{
+            background-color: #7283B0;
+            color: white;
+          }
+          .btn:hover{
+            background-color: #7283B0;
+            color: white;
+          }
+          .texto-centrado{
+            text-align: center;
+          }
         </style>
-    </head>
-    <body>
-<section class="background-radial-gradient overflow-hidden">
+        </head>
+        <body>
+<section class="seccion-1">
 <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-    <div class="row gx-lg-5 align-items-center mb-5">
+    <div class="row gx-lg-5 align-items-center mb-5 texto-centrado">
     <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
-            Bienvenido 
-            <br/>
-            <span style="color: hsl(218, 81%, 75%)">A gaming home</span>
+            <h1>
+            <span class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 75%)">GAMING HOME</span>
         </h1>
         <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Temporibus, expedita iusto veniam atque, magni tempora mollitia
-            dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-            ab ipsum nisi dolorem modi. Quos?
+            Bienvenido administrador esta es la parte de administrador de gaming home si no eres administrador te has confundido de pagina dirigete a la siguiente para poder acceder a la experiencia Gaming Home: <a href="http://localhost:4200/iniciosesion">Ir</a>
         </p>
     </div>
 
@@ -87,14 +63,15 @@ section{/*mirar porque no funciona para movil*/
             @csrf
                 <!-- Casilla de email -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                <input type="email" name="email" class="form-control" placeholder="Correo electronico"/>
+                <input type="text" name="email" class="form-control" placeholder="Correo electronico"/>
                 @foreach($errors->get('email') as $error)
                 <p class="text-danger">{{ $error }}</p>
                 @endforeach
                 </div>
+
             <!-- casilla de contraseña -->
             <div data-mdb-input-init class="form-outline mb-4">
-                <input type="password" name="password" class="form-control" placeholder="Contraseña"/>
+                <input type="password" name="password" class="form-control" placeholder="contraseña"/>
                 @foreach($errors->get('password') as $error)
                 <p class="text-danger">{{ $error }}</p>
                 @endforeach
@@ -112,5 +89,6 @@ section{/*mirar porque no funciona para movil*/
     </div>
     </div>
 </div>
+</section>
     </body>
 </html>

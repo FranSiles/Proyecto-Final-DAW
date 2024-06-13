@@ -12,6 +12,7 @@ class Video implements ValidationRule
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
+    /* regla para confirmar que el link que se envia en trailer es un link que aceptamos */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (strpos($value, 'https://www.youtube.com/watch?v=') !== 0) {

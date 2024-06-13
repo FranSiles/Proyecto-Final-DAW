@@ -12,51 +12,17 @@ class JuegosController extends Controller
     /**
      * Display a listing of the resource.
      */
+    /* Funcionalidades de mi api con juegos */
     public function index()
     {
+        /* Obtencion de todos los juegos */
         $juegos = Juegos::all();
         return response()->json($juegos,200);
     }
 
     public function store(Request $request)
     {
-        /* // Validar los datos del formulario
-        $request->validate([
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'pegi' => 'required|integer',
-            'generoPrincipal' => 'nullable|string',
-            'generoSecundario' => 'nullable|string',
-            'trailer' => 'nullable|string',
-            'desarrollador' => 'required|string',
-        ]);
-
-        // Procesar la imagen si se ha cargado
-        if ($request->hasFile('imagen')) {
-            $image = $request->file('imagen');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-        }
-
-        // Crear un nuevo objeto Juegos con los datos del formulario
-        $juego = new Juegos([
-            'nombre' => $request->input('nombre'),
-            'descripcion' => $request->input('descripcion'),
-            'imagen' => $imageName, // Nombre de la imagen guardada
-            'pegi' => $request->input('pegi'),
-            'generoPrincipal' => $request->input('generoPrincipal'),
-            'generoSecundario' => $request->input('generoSecundario'),
-            'trailer' => $request->input('trailer'),
-            'desarrollador' => $request->input('desarrollador'),
-        ]);
-
-        // Guardar el juego en la base de datos
-        $juego->save();
-
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Juego creado correctamente'], 201); */
-        /* $codUsuario=$request->input('codUsario'); */
+        /* Validacion del registro */
         $request->validate([
             'nombre' => 'required|string',
             'descripcion' => 'required|min:100|max:500',
@@ -67,6 +33,7 @@ class JuegosController extends Controller
             'trailer' => ['nullable','string',new Video],
             'desarrollador' => 'required|string',
         ]);
+        /* Obtencion de valores de mi peticon a la api */
         $nombre=$request->input('nombre');
         $descripcion=$request->input('descripcion');
         $pegi=$request->input('pegi');
@@ -76,9 +43,11 @@ class JuegosController extends Controller
         $trailer=$request->input('trailer');
         $desarrollador=$request->input('desarrollador');
         $juego=juegos::where('nombre',$nombre)->first();
+        /* comporbacion de que el juego existe */
         if(!$juego){
         $ruta=$imagen->store('public');
         $ruta = 'storage/' . str_replace('public/', '', $ruta);
+        /* Comprobacion de que se a enviado un trailer */
         if($trailer){
             $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
         }
@@ -99,6 +68,7 @@ class JuegosController extends Controller
 
     public function show($codJuego)
 {
+    /* Mostrar los datos de un juego especifico */
     $juego=juegos::find($codJuego); 
     $juegousuario = juegos::where('codJuego', $codJuego)->with('usuarios')->first(); 
     return response()->json([
@@ -108,99 +78,32 @@ class JuegosController extends Controller
     /* return response()->json($juego,200); */
 }
 
-public function edit(Juegos $juego)
-{
-    // Retorna la vista para editar un juego (si es una aplicación web)
-}
-
-public function update(Request $request, Juegos $juego)
-{
-    // Validar los datos del formulario
-    $request->validate([
-        'nombre' => 'required',
-        'descripcion' => 'required',
-        'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        'pegi' => 'required|integer',
-        'generoPrincipal' => 'nullable|string',
-        'generoSecundario' => 'nullable|string',
-        'trailer' => 'nullable|string',
-        'desarrollador' => 'required|string',
-    ]);
-
-    // Actualizar los datos del juego con los datos del formulario
-    $juego->update([
-        'nombre' => $request->input('nombre'),
-        'descripcion' => $request->input('descripcion'),
-        'pegi' => $request->input('pegi'),
-        'generoPrincipal' => $request->input('generoPrincipal'),
-        'generoSecundario' => $request->input('generoSecundario'),
-        'trailer' => $request->input('trailer'),
-        'desarrollador' => $request->input('desarrollador'),
-    ]);
-
-    // Procesar la imagen si se ha cargado
-    if ($request->hasFile('imagen')) {
-        $image = $request->file('imagen');
-        $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
-        $juego->imagen = $imageName;
-        $juego->save();
-    }
-
-    // Retornar una respuesta de éxito
-    return response()->json(['message' => 'Juego actualizado correctamente'], 200);
-}
-
 public function destroy($codJuego)
 {
+    /* Eliminar un juego en especifico */
     juegos::where('codJuego',$codJuego)->delete();
     // Retornar una respuesta de éxito
     return response()->json(['message' => 'Juego eliminado correctamente'], 200);
 }
-public function obtenerJuego(Request $request){
-    $id=$request->input("codJuego");
-    $juego=juegos::find($id);
-    return response()->json($juego,200);
-}
-/* public function anadirJuego(Request $request){
-    
-    $nombre=$request->input('nombre');
-    $descripcion=$request->input('descripcion');
-    $pegi=$request->input('pegi');
-    $imagen=$request->file('imagen');
-    $generoPrincipal=$request->input('generoPrincipal');
-    $generoSecundario=$request->input('generoSecundario');
-    $trailer=$request->input('trailer');
-    $desarrollador=$request->input('desarrollador');
-    $ruta=$imagen->store('public');
-    $ruta = 'storage/' . str_replace('public/', '', $ruta);
-    if($trailer){
-        $trailer = 'https://www.youtube.com/embed/' . str_replace('https://www.youtube.com/watch?v=', '', $trailer);
-    }
-    juegos::create(['nombre'=>$nombre,
-                    'descripcion'=>$descripcion,
-                    'imagen'=>$ruta,
-                    'pegi'=>$pegi,
-                    'generoPrincipal'=>$generoPrincipal,
-                    'generoSecundario'=>$generoSecundario,
-                    'trailer'=>$trailer,
-                    'desarrollador'=>$desarrollador
-    ]);
-    /* 'codJuego','nombre','descripcion','imagen','pegi','generoPrincipal','generoSecundario','trailer','desarrollador' */
-/*}*/
+
 public function juegosaleatorios($codJuego){
+    /* Mostrar juegos que estan almacenados en mi base de datos salvo el que se envia */
     $juegos = juegos::where('codJuego', '!=', $codJuego)->inRandomOrder()->take(5)->get();
     return response()->json($juegos,200);
 }
 public function juegosusuario($codUsuario){
+    /* Mostrar los juegos de los usuarios */
     $juegos= juegos::where('codUsuario',$codUsuario)->get();
     return response()->json($juegos,200);
 }
+/* funicones para el administrador  */
 public function mostrarjuegos(){
+    /* Mostrar todos los juegos al administrador */
     $juegos = juegos::with('usuarios')->get();
     return view('listajuegos',['juegos'=>$juegos]);
 }
 public function borrarjuego($id){
+    /* Borrrar los juegos para el administrador */
     juegos::where('codJuego',$id)->delete();
         return redirect(route('listajuegos'));
 }

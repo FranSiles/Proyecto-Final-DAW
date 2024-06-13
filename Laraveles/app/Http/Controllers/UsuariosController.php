@@ -9,75 +9,31 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
-   
-    public function index()
-    {
-        $usuarios = User::all();
-        return response()->json($usuarios);
-    }
-    public function create()
-    {
-        //
-    }
-    public function store(Request $request)
-    {
-        // Validar los datos del formulario
-        $rules = [
-            'codUsuario' => 'required',
-            'nomUsuario' => 'required',
-            'correo' => 'required|email|unique:usuarios',
-            'contraseña' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Ejemplo de validación para una imagen
-        ];
-
-        $request->validate($rules);
-    
-        // Crear un nuevo objeto Usuarios con los datos del formulario
-        $usuario = new User([
-            'codUsuario' => $request->input('codUsuario'),
-            'nomUsuario' => $request->input('nomUsuario'),
-            'correo' => $request->input('correo'),
-            'contraseña' => bcrypt($request->input('contraseña')), // Hashear la contraseña antes de guardarla
-        ]);
-    
-        // Procesar la imagen si se ha cargado
-        if ($request->hasFile('foto')) {
-            $image = $request->file('foto');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $imageName);
-            $usuario->foto = $imageName;
-        }
-    
-        // Guardar el usuario en la base de datos
-        $usuario->save();
-    
-        // Retornar una respuesta de éxito
-        return response()->json(['message' => 'Usuario creado correctamente'], 201);
-    }
+    /* Funcionalidades de mi usuario en mi api */
     public function show($codUsuario)
     {
+        /* Mostrar datos de un usuario especifico */
         $usuario=User::find($codUsuario);
         return response()->json($usuario);
-    }  
-    public function edit(User $usuarios)
-    {
-        //// Retorna la vista para editar un usuario (si es una aplicación web)
     }
     public function update(Request $request, $codUsuario){
+        /* REcogida de datos del usuario */
     $email=$request->input('email');
     $nomUsuario=$request->input('nomUsuario');
     $password=$request->input('password');
+    /* validaciones  */
     $request->validate([
         'email' => 'required|string|email',
         'password' => 'required|string',
         'nomUsuario'=>'required|string',
     ]);
+    /* Confirmacion de que el nombre de usuario no exista ya */
     $nombre=User::where('nomUsuario',$nomUsuario)->first();
     if(!$nombre){
         User::where('codUsuario' , $codUsuario)->update(['email'=>$email,
                                                         'nomUsuario'=>$nomUsuario,
                                                         'password'=>Hash::make($password)]);
-        // Retornar una respuesta de éxito
+        // Cerramos las sesion del usuario
         $usuarioeliminotoken = $request->user();
         $usuarioeliminotoken->currentAccessToken()->delete();
         return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
@@ -86,6 +42,7 @@ class UsuariosController extends Controller
     }
 }
     public function destroy($id,Request $request){
+        /* Elimina el usuario y consigo sus juegos y valoraciones */
         $usuario = User::where('codUsuario', $id)->first();
         $usuarioeliminotoken = $request->user();
         $usuarioeliminotoken->currentAccessToken()->delete();
@@ -93,10 +50,12 @@ class UsuariosController extends Controller
         /* return response()->json(['message' => 'Usuario eliminado correctamente'], 200); */
     }
     public function registro(Request $request){
+        /* Recogida de datos del formulario */
         $email=$request->input('email');
         $password=$request->input('password');
         $nomUsuario=$request->input('nombre');
         $foto=$request->file('foto');
+        /* Validaciones */
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -105,7 +64,9 @@ class UsuariosController extends Controller
         ]);
         $usuario=User::where('email',$email)->first();
         $nombre=User::where('nomUsuario',$nomUsuario)->first();
+        /* Comprobacion de que el usuario que se crea no este repetido el correo o el nombre en la base de datos */
         if(!$usuario && !$nombre){
+            /* Comprobacion de si ha subido foto si es asi se le pondra la foto que ha subido sino se le pondra una foto preestablecida */
             if($foto){
                 $imagen = $foto;
                 $ruta=$imagen->store('public');
@@ -131,9 +92,11 @@ class UsuariosController extends Controller
         }
     }
     public function cambiarfoto(Request $request){
+        /* Validacion de cambiar la foto */
         $request->validate([
             'foto'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+        /* Hacer un update para cambiar la foto */
         $foto=$request->file('foto');
         $ruta=$foto->store('public');
         $ruta = 'storage/' . str_replace('public/', '', $ruta);
@@ -142,14 +105,15 @@ class UsuariosController extends Controller
     }
     public function obtenerComentariosYValoraciones($codUsuario)
     {
-        // Ordenar por fecha o cualquier otro criterio si es necesario
+        //encontrar el usuario
         $usuario = User::find($codUsuario);
 
-        // Obtén los comentarios y valoraciones del usuario, o colecciones vacías si el usuario no existe
+        // Obtén los comentarios y valoraciones del usuario
         $comentarios =$usuario->comentarios;
         $valoraciones =$usuario->valoraciones;
         $resultados = [];
 
+        /* Ordenacion de los comentarios y valoraciones en un array */
         foreach ($comentarios as $comentario) {
             $resultados[] = [
                 'codJuego' => $comentario->codJuego,
@@ -171,14 +135,16 @@ class UsuariosController extends Controller
                 ];
             }
         }
-        /* dd($resultados); */
         return response()->json($resultados,200);
     }
+    /* Funcionalidades de la web */
     public function login(Request $request){
+        /* Validaciones */
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string'
         ]);
+        /* Comprobacion de un usuario si existe y es administrador sino este usuario no existe  */
         if (Auth::attempt($request->only("email","password"))):
             if(Auth::user()->administrador=="si"){
                 $request->session()->regenerate();
@@ -191,18 +157,22 @@ class UsuariosController extends Controller
         endif ;
     }
     public function mostrarusuarios(){
+        /* PAra mostrar todos los usuarios */
         $usuarios=User::all();
         return view('dashboard',['usuarios'=>$usuarios]);
     }
     public function nuevoadmin($id){
+        /* Convertir un usuario en nuevo admin */
         User::where('codUsuario',$id)->update(['administrador'=>"si"]);
         return redirect(route('dashboard'));
     }
     public function borrarusuario($id){
+        /* Borrar un usuario */
         User::where('codUsuario',$id)->delete();
         return redirect(route('dashboard'));
     }
     public function logout(Request $request){
+        /* Cerrar sesion de mi administrador */
         Auth::logout();
 
         $request->session()->invalidate();

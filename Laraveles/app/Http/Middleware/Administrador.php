@@ -14,6 +14,7 @@ class Administrador
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+    /* Middleware de seguridad para confirmar que es un administrador el que inicia sesion en la parte de laravel */
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::user()->administrador=="no"){

@@ -7,12 +7,7 @@ use Illuminate\Http\Request;
 
 class ComentariosController extends Controller
 {
-    public function index()
-    {
-        $comentarios = Comentarios::all();
-        return response()->json($comentarios);
-    }
-
+    /* Funcionalidades de la api */
     public function store(Request $request)
     {
         // Validar los datos de entrada si es necesario
@@ -42,26 +37,6 @@ class ComentariosController extends Controller
         return response()->json(['message' => 'Comentario creado exitosamente'], 201);
     }
     
-    public function update(Request $request, Comentarios $comentario)
-    {
-        $request->validate([
-            'codUsuario' => 'exists:usuarios,codUsuario',
-            'codJuego' => 'nullable|exists:juegos,codJuego',
-            'likes' => 'nullable|integer',
-        ]);
-
-        $comentario->update($request->all());
-
-        return response()->json(['message' => 'Comentario actualizado correctamente'], 200);
-    }
-
-    public function destroy(Comentarios $comentario)
-    {
-        $comentario->delete();
-
-        return response()->json(['message' => 'Comentario eliminado correctamente'], 200);
-    }
-
     public function getComentarios($id)
     {
         $comentarios = Comentarios::where('codJuego', $id)
@@ -76,18 +51,14 @@ class ComentariosController extends Controller
     
         return response()->json($comentarios);
     }
-    public function conseguircomentario($codUsuario,$codJuego){
-        $comentario=Comentarios::where('codUsuario',$codUsuario)->where('codJuego',$codJuego)->get();
-        if($comentario){
-            $comentariosJson = $comentario->toJson();
-            return response()->json($comentariosJson);
-        }
-    }
+    /* Funcionalidades de la web */
     public function mostrarcomentarios(){
+        /* Mostrar los comentarios */
         $comentarios=Comentarios::with('juego','usuario')->get();
         return view('listacomentarios',['comentarios'=>$comentarios]);
     }
     public function borrarcomentarios($id){
+        /* Borrar los comentarios */
         Comentarios::where('codComentario',$id)->delete();
         return redirect(route('listacomentarios'));
     }
