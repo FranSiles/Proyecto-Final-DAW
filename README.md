@@ -4,6 +4,8 @@ VIDEO(Checkpoint): https://youtu.be/o1VbQCQ3O5U
 
 Interfaz de usuario:https://gaming-home.netlify.app/paginaprincipal
 
+URL landing page(Esta es la url de la landing pero se recomienda entrar a la pagina web principal y cargar desde hay para que se vea bien):https://gaming-home.netlify.app/juego
+
 Interfaz de administrador:https://gaminghome.duckdns.org/
 
 URL de diseño(Figma):https://www.figma.com/design/AUhpXrE1ji0CNxv44kSPBn/Untitled?node-id=0-1&t=s3kqj73ohsS7Q12Z-1
