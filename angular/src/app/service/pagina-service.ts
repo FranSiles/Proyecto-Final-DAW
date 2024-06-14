@@ -100,9 +100,7 @@ export class PaginaService {
           localStorage.removeItem('usuario');
           localStorage.removeItem('juego');
           localStorage.removeItem('usuarioperfil');
-          this.router.navigateByUrl('/paginaprincipal').then(() => {
-            window.location.reload();
-          });
+          this.router.navigate(['/iniciosesion']);
         },
         error: (error: any) => {
           console.error("error al cerrar sesion:", error);
@@ -113,7 +111,7 @@ export class PaginaService {
       this.laravelservice.obtenerusuario(codUsuario).subscribe({
         next:(usuario:Usuario)=>{
           localStorage.setItem('usuarioperfil',JSON.stringify(usuario));
-          this.router.navigate(['/perfil']);
+            this.router.navigate(['/perfil']);
         },
         error: (error: any) => {
           console.error("error al cargar usuario:", error);
@@ -127,9 +125,7 @@ export class PaginaService {
           localStorage.removeItem('usuario');
           localStorage.removeItem('juego');
           localStorage.removeItem('usuarioperfil');
-          this.router.navigateByUrl('/paginaprincipal').then(() => {
-            window.location.reload();
-          });
+          this.router.navigate(['/iniciosesion']);
         },error: (error: any) => {
           console.error("error al cargar usuario:", error);
         }
@@ -142,9 +138,7 @@ export class PaginaService {
             this.laravelservice.submitRating(valoracion).subscribe({
               next: () => {
                 onSuccess();
-                this.router.navigateByUrl('/juego').then(() => {
-                  window.location.reload();
-                });
+                this.router.navigate(['/paginaprincipal']);
               },
               error: (error: any) => {
                 console.error("Error al registrar la valoración:", error);
@@ -250,14 +244,5 @@ export class PaginaService {
           return of(0);
         })
       );
-    }
-    conseguircomentario(codUsuario:number,codJuego:number){
-      this.laravelservice.conseguircomentario(codUsuario,codJuego).subscribe({
-        next:(Comentario:Comentarios)=>{
-          this._comentario.next(Comentario);
-        },error: (error:any)=>{
-          console.error("error al borrar el juego",error)
-        }
-      })
     }
 }

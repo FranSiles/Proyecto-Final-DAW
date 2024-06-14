@@ -4,6 +4,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #384B7D;
 }
 .form-container {
     border: 1px solid #ccc;

@@ -60,13 +60,6 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
     if (!localStorage.getItem('juego')) {
       this.router.navigate(['/pagina-principal']); /* Ahi hay que volver cuando se cierre sesion para eliminar todas las claves de localstorage*/
     }
-    if(this.usuario){
-      const usuarioprueba=JSON.parse(this.usuario || "");
-      const juego = localStorage.getItem('juego');
-      const array= JSON.parse(juego || "");
-      console.log(array.juego.codJuego);
-      this.paginaservice.conseguircomentario(usuarioprueba.data.codUsuario,array.juego.codJuego)
-    }
   }
 
   ngOnInit() {
@@ -109,14 +102,6 @@ export class VistaJuegoComponent implements OnInit, OnDestroy {
         }
       );
     }
-    if(this.usuario){
-      this.suscripcion = this.paginaservice.comentario$.subscribe((Comentario: Comentarios) => {
-        this.comentarios = Comentario;
-        console.log("texto recibido",this.comentarios.texto);
-        console.log('comentario recibido', this.comentarios);
-      });
-    }
-
   }
 
   ngOnDestroy() {

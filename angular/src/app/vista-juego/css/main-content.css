@@ -21,7 +21,7 @@ h1, h2, h3 {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../fondo.jpg");
   background-size: cover;
   color: #000000;
-  padding: 37px;
+  padding: 17px;
 }
 
 .game-info h1 {
@@ -41,12 +41,12 @@ h1, h2, h3 {
 }
 
 .pegi {
-  margin-top: 170px;
+  margin-top: 40px;
 }
 
 .trailer {
-  margin-top: auto;
-  max-width: 100%; /* Establece un ancho máximo */
+  margin-top: 60px;
+  max-width: 80%; /* Establece un ancho máximo */
 }
 
 .description {
@@ -86,6 +86,7 @@ h1, h2, h3 {
   .right-column {
     flex: 1; /* Ambas columnas ocuparán el 100% del ancho */
     padding: 0; /* Elimina el relleno entre columnas */
+    text-align: center;
   }
   .right-column .trailer iframe {
     width: 100%; /* Asegura que el iframe del trailer ocupe todo el ancho disponible */
@@ -95,7 +96,8 @@ h1, h2, h3 {
     text-align: center; /* Centra horizontalmente el contenido de la game-info */
   }
   .game-info h1 {
-    font-size: 60px; /* Centra horizontalmente el contenido de la game-info */
+    font-size: 60px;
+    margin: 0 auto; /* Centra horizontalmente el h1 */
   }
   .game-info .pegi {
     margin-top: 20px; /* Ajusta el margen superior del PEGI */
@@ -163,9 +165,10 @@ h1, h2, h3 {
   height: 400px; /* Ajusta la altura según tus necesidades */
 }
 
-.comment-textarea .error-message {
+.comment-textarea h3 {
   color: red;
   margin-top: 10px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=main-content.css.map */

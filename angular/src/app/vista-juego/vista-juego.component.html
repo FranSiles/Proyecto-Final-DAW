@@ -21,8 +21,9 @@
         <ul class="nav-links">
             <li><a [routerLink]="['/paginaprincipal']">Home</a></li>
             <!-- <li><a href="#">Enlace 2</a></li> -->
-            <li><a *ngIf="usuario" [routerLink]="['/juego']" (click)="logout()">Desconectar</a></li>
-            <li><a *ngIf="usuario" [routerLink]="['/juego']" (click)="enviarIdperfil()">Perfil</a></li>
+            <li *ngIf="usuario"><a [routerLink]="['/juego']" (click)="logout()">Desconectar</a></li>
+            <li *ngIf="usuario"><a  [routerLink]="['/juego']" (click)="enviarIdperfil()">Perfil</a></li>
+            <li><a [routerLink]="['/iniciosesion']">Iniciar sesion</a></li>
         </ul>
     </nav>
     <!-- Contenido principal -->
@@ -30,7 +31,7 @@
         <div class="left-column">
         <!-- Información del juego -->
         <div class="game-info"> 
-            <h1 style="display: block; text-align: left;">{{ juego.nombre }}</h1>
+            <h1>{{ juego.nombre }}</h1>
             <h2>Desarrollador: {{juego.desarrollador}}</h2>
             <h2 *ngIf="!juego.generoSecundario">Genero:{{juego.generoPrincipal}}</h2>
             <h2 *ngIf="juego.generoSecundario">Genero:{{juego.generoPrincipal}},{{juego.generoSecundario}}</h2>
@@ -50,7 +51,7 @@
     </div>
     <div class="right-column">
             <div class="trailer">
-                <img *ngIf="!safeTrailerUrl" [src]="'http://localhost:80/' + juego.imagen" width="560" height="315">
+                <img *ngIf="!safeTrailerUrl" [src]="'https://gaminghome.duckdns.org/' + juego.imagen" width="560" height="315">
                 <iframe *ngIf="safeTrailerUrl" width="560" height="315" [src]="safeTrailerUrl" frameborder="0" allowfullscreen></iframe>
             </div>
             <!-- Descripción del juego -->
@@ -83,7 +84,7 @@
       <h2  *ngIf="nocomentarios">{{nocomentarios}}</h2>
       <div *ngFor="let comment of comments" class="caja">
         <div class="usuario">
-          <img [src]="'http://localhost:80/' + comment.usuario.foto" alt="">
+          <img [src]="'https://gaminghome.duckdns.org/' + comment.usuario.foto" alt="">
           <div class="info-usuario">
             <p>{{ comment.usuario.nomUsuario }}</p>
             <div class="valoracion">
@@ -107,7 +108,7 @@
 <input type="radio" name="position" class="control-carrousel">
     <main id="carousel">
         <div *ngFor="let juego of juegos" class="item">
-            <img [src]="'http://localhost:80/'+juego.imagen" alt="Videojuego 1" (click)="enviarId(juego.codJuego!)">
+            <img [src]="'https://gaminghome.duckdns.org/'+juego.imagen" alt="Videojuego 1" (click)="enviarId(juego.codJuego!)">
             <h2>{{juego.nombre}}</h2>
             <p *ngIf="!juego.generoSecundario">{{juego.generoPrincipal}}</p>
             <p *ngIf="juego.generoSecundario">{{juego.generoPrincipal}},{{juego.generoSecundario}}</p>
@@ -122,20 +123,6 @@
     <div class="wave" id="wave3"></div>
     <div class="wave" id="wave4"></div>
     </div>
-    <!--<ul class="social-icon">
-    <li class="social-icon__item"><a class="social-icon__link" href="#">
-        <ion-icon name="logo-facebook"></ion-icon>
-        </a></li>
-    <li class="social-icon__item"><a class="social-icon__link" href="#">
-        <ion-icon name="logo-twitter"></ion-icon>
-        </a></li>
-    <li class="social-icon__item"><a class="social-icon__link" href="#">
-        <ion-icon name="logo-linkedin"></ion-icon>
-        </a></li>
-    <li class="social-icon__item"><a class="social-icon__link" href="#">
-        <ion-icon name="logo-instagram"></ion-icon>
-        </a></li>
-    </ul>-->
     <ul>
       GAMING HOME
     </ul>
@@ -149,10 +136,6 @@
       Francisco Siles España y Jeramy Bósquez Domínguez
     </ul>
 </footer>
-
-<!-- <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> -->
-
 </body>
 <script src="https://kit.fontawesome.com/5ea815c1d0.js"></script>
       <div class="wraper">

@@ -13,9 +13,31 @@ import { Comentariosvaloracion } from '../interface/comentariovaloracion';
   providedIn: 'root'
 })
 export class LaravelService {
-  private url= "http://localhost:80/api"
+  private url= "https://gaminghome.duckdns.org/api"
   constructor(private http: HttpClient) { }
-
+  /* Esta funcion se llamaria cuando debiera obtner el token de autentificacion */
+  private obtenerToken(): string | null {
+    const usuariopagina = localStorage.getItem('usuario');
+    console.log("mi usuario en mi localstorage: ", usuariopagina);
+    if (usuariopagina) {
+      const usuariorespuesta = JSON.parse(usuariopagina);
+      const token = usuariorespuesta.data.token;
+      const caracter = token.indexOf('|');
+      const tokenSinId = token.substring(caracter + 1);
+      console.log("desde mi función obtenerToken - Token desde localStorage:", token);
+      console.log("desde mi función obtenerToken - mi token sin el id es: ", tokenSinId);
+      return tokenSinId;
+    }
+    return null;
+  }
+  /* Esta funcion llama a la funcion de obtener token y la utilizare para crear los headers */
+  private configurarHeaders(): HttpHeaders {
+    const token = this.obtenerToken();
+    if (token) {
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    }
+    return new HttpHeaders();
+  }
   login(usuario:Usuario):Observable<Usuario>{
     return this.http.post<Usuario>(`${this.url}/login`, usuario);
   }
@@ -36,16 +58,7 @@ export class LaravelService {
     return this.http.get<Juego>(`${this.url}/juegos/${codJuego}`);
   }
   anadirJuego(juego:Juego):Observable<void>{
-    console.log("mi juego que enivo: ",juego);
-    const usuariorespuesta = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariorespuesta);
-    const usuario = JSON.parse(usuariorespuesta || "");
-    const token = usuario.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     const formData = new FormData();
     formData.append('nombre', juego.nombre);
     formData.append('descripcion', juego.descripcion);
@@ -59,7 +72,7 @@ export class LaravelService {
     return this.http.post<void>(`${this.url}/juegos`,formData,{ headers });
   }
   logout(): Observable<void>{
-    const usuariorespuesta = localStorage.getItem('usuario');
+    /* const usuariorespuesta = localStorage.getItem('usuario');
     console.log("mi usuario en mi localstorage: ", usuariorespuesta);
     const usuario = JSON.parse(usuariorespuesta || "");
     const token = usuario.data.token;
@@ -67,32 +80,16 @@ export class LaravelService {
     const tokenSinId=token.substring(caracter + 1);
     console.log("desde mi laravel service Token desde localStorage:", token);
     console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`); */
+    const headers = this.configurarHeaders();
     return this.http.post<void>(`${this.url}/logout`, null, { headers });
   }
   obtenerusuario(codUsuario:number):Observable<Usuario>{
-    const usuariorespuesta = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariorespuesta);
-    const usuario = JSON.parse(usuariorespuesta || "");
-    const token = usuario.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     return this.http.get<Usuario>(`${this.url}/usuarios/${codUsuario}`,{ headers });
   }
   eliminarUsuario(codUsuario:number):Observable<any>{
-    const usuariorespuesta = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariorespuesta);
-    const usuario = JSON.parse(usuariorespuesta || "");
-    const token = usuario.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
-    console.log("mi id es: ",codUsuario);
+    const headers = this.configurarHeaders();
     return this.http.delete(`${this.url}/usuarios/${codUsuario}`,{ headers });
   }
   submitComment(comentario:Comentarios): Observable<any> {
@@ -121,74 +118,31 @@ export class LaravelService {
     return this.http.get<Valoracion[]>(`${this.url}/valoracionesgrafica`);
   }
   cambiarusuario(usuario:Usuario,codUsuario:number):Observable<any>{
-    const usuariopagina = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariopagina);
-    const usuariorespuesta = JSON.parse(usuariopagina || "");
-    const token = usuariorespuesta.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     return this.http.put<any>(`${this.url}/usuarios/${codUsuario}`, usuario, { headers });
   }
   cambiarfoto(foto:File):Observable<any>{
-    const usuariopagina = localStorage.getItem('usuario');
-    const usuariorespuesta = JSON.parse(usuariopagina || "");
-    const token = usuariorespuesta.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    console.log("esta es mi foto antes de pasarla",foto);
+    const headers = this.configurarHeaders();
     const formData = new FormData();
     formData.append('foto', foto || '');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
     return this.http.post<any>(`${this.url}/usuarios`, formData, { headers });
   }
   cargarJuegosAleatorios(codJuego:number): Observable<Juego[]>{
     return this.http.get<Juego[]>(`${this.url}/juegosaleatorios/${codJuego}`);
   }
   cargarJuegosusuario(codUsuario:number): Observable<Juego[]>{
-    const usuariopagina = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariopagina);
-    const usuariorespuesta = JSON.parse(usuariopagina || "");
-    const token = usuariorespuesta.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     return this.http.get<Juego[]>(`${this.url}/juegosusuario/${codUsuario}`,{headers});
   }
   eliminarjuego(codJuego:number):Observable<any>{
-    const usuariopagina = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariopagina);
-    const usuariorespuesta = JSON.parse(usuariopagina || "");
-    const token = usuariorespuesta.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     return this.http.delete<any>(`${this.url}/juegos/${codJuego}`,{ headers });
   }
   cargarcomentariosvaloraciones(codUsuario:number):Observable<Comentariosvaloracion[]>{
-    const usuariopagina = localStorage.getItem('usuario');
-    console.log("mi usuario en mi localstorage: ", usuariopagina);
-    const usuariorespuesta = JSON.parse(usuariopagina || "");
-    const token = usuariorespuesta.data.token;
-    const caracter = token.indexOf('|');
-    const tokenSinId=token.substring(caracter + 1);
-    console.log("desde mi laravel service Token desde localStorage:", token);
-    console.log("desde mi laravel service mi token sin el id es: ",tokenSinId);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${tokenSinId}`);
+    const headers = this.configurarHeaders();
     return this.http.get<any>(`${this.url}/comentariosyvaloracines/${codUsuario}`,{ headers });
   }
   obtenerMediaValoraciones(codJuego: number): Observable<{ media: number }> {
     return this.http.get<any>(`${this.url}/mediaValoracionesJuego/${codJuego}`);
-  }
-  conseguircomentario(codUsuario:number,codJuego:number): Observable<Comentarios>{
-    return this.http.get<Comentarios>(`${this.url}/vercomentario/${codUsuario}/${codJuego}`)
   }
 }

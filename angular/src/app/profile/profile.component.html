@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" [routerLink]="['/paginaprincipal']">Home</a>
                     </li>
                     <li class="nav-item">
                         <a [routerLink]="['/registrojuego']" class="nav-link" *ngIf="usuario">Registrar juego</a>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img [src]="'http://localhost:80/'+ usuario.foto" class="card-img-top card-img-responsive" alt="avatar">
+                        <img [src]="'https://gaminghome.duckdns.org/'+ usuario.foto" class="card-img-top card-img-responsive" alt="avatar">
                         <div class="file btn btn-lg btn-primary">
                             Change Photo
                             <!-- Corrigiendo la estructura de form -->
@@ -93,11 +93,12 @@
         </form>
         <section>
             <h1 class="text-center">Tus comentarios</h1>
+            <h2 *ngIf="!comenatirosvaloraciones">Estamos esperando que comentes en nuestra web</h2>
             <div class="d-flex align-items-center justify-content-center" *ngFor="let comenatirosvaloracione of comenatirosvaloraciones">
                 <div class="card w-50 mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Valoracion: {{comenatirosvaloracione.valoracion}}</h5>
-                        <p class="card-text">Comentario: {{comenatirosvaloracione.comentario}}</p>
+                        <h5 class="card-title">Comentario: {{comenatirosvaloracione.comentario}}</h5>
+                        <p class="card-text">Valoracion: {{comenatirosvaloracione.valoracion}}</p>
                         <button class="btn btn-primary" (click)="enviarId(comenatirosvaloracione.codJuego!)">Ver</button>
                     </div>
                 </div>
@@ -107,18 +108,20 @@
             <h1 class="text-center">Tus juegos</h1>
             <div class="container mt-4">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col" *ngFor="let juego of juegos">
-                        <div class="card h-100 shadow">
-                            <img [src]="'http://localhost:80/' + juego.imagen" class="card-img-top" alt="{{juego.nombre}}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{juego.nombre}}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
-                                <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
-                                <button class="btn btn-primary" (click)="enviarId(juego.codJuego!)">Ver más</button>
-                                <button class="btn btn-danger" (click)="eliminarjuego(juego.codJuego!)">Eliminar</button>
-                            </div>
+                  <div class="col" *ngFor="let juego of juegos">
+                    <div class="card h-100 shadow">                         
+                        <div class="card-img-container">
+                            <img [src]="'https://gaminghome.duckdns.org/' + juego.imagen" class="card-img-top card-img-responsive" alt="">
                         </div>
+                        <div class="card-body">
+                        <h5 class="card-title">{{juego.nombre}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Desarrollador: {{juego.desarrollador}}</h6>
+                        <p class="card-text" style="height: 100px; overflow: hidden;">{{ juego.descripcion.slice(0, 150) }}{{ juego.descripcion.length > 150 ? '...' : '' }}</p>
+                        <button class="btn btn-primary" (click)="enviarId(juego.codJuego!)">ver más</button>
+                        <button class="btn btn-danger" (click)="eliminarjuego(juego.codJuego!)">Eliminar</button>
                     </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </section>
