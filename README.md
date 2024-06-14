@@ -14,3 +14,6 @@ Video pagina web:https://www.youtube.com/watch?v=Kd9Y3hJBLaE
 
 Presentacion: https://view.genially.com/666c6ac9d4a6d30014fb061d/dossier-dossier-data
 
+Documentacion de la api: [Documentación de api.pdf](https://github.com/user-attachments/files/15841845/Documentacion.de.api.pdf)
+
+
