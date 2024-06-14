@@ -10,3 +10,5 @@ Interfaz de administrador:https://gaminghome.duckdns.org/
 
 URL de diseño(Figma):https://www.figma.com/design/AUhpXrE1ji0CNxv44kSPBn/Untitled?node-id=0-1&t=s3kqj73ohsS7Q12Z-1
 
+Video pagina web:https://www.youtube.com/watch?v=Kd9Y3hJBLaE
+
