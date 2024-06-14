@@ -60,7 +60,7 @@
         <div class="card bg-glass">
             <div class="card-body px-4 py-5 px-md-5">
             <form action="{{ route('iniciar-sesion') }}" method="post">
-            @csrf
+                @csrf
                 <!-- Casilla de email -->
                 <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" name="email" class="form-control" placeholder="Correo electronico"/>

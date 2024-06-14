@@ -23,7 +23,7 @@
             <!-- <li><a href="#">Enlace 2</a></li> -->
             <li *ngIf="usuario"><a [routerLink]="['/juego']" (click)="logout()">Desconectar</a></li>
             <li *ngIf="usuario"><a  [routerLink]="['/juego']" (click)="enviarIdperfil()">Perfil</a></li>
-            <li><a [routerLink]="['/iniciosesion']">Iniciar sesion</a></li>
+            <li *ngIf="!usuario"><a [routerLink]="['/iniciosesion']">Iniciar sesion</a></li>
         </ul>
     </nav>
     <!-- Contenido principal -->
