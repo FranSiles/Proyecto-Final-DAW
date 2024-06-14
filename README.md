@@ -16,4 +16,7 @@ Presentacion: https://view.genially.com/666c6ac9d4a6d30014fb061d/dossier-dossier
 
 Documentacion de la api: [Documentación de api.pdf](https://github.com/user-attachments/files/15841845/Documentacion.de.api.pdf)
 
+Explicacion del diseño:[DISEÑO DE INTERFACES.pdf](https://github.com/user-attachments/files/15842110/DISENO.DE.INTERFACES.pdf)
+
+
 
